@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "lesbos",
+  "version": "${version}",
+  "name": "Lesbos",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/lesbos/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "morgan.lesbos.client.LesbosClient"
+    ],
+    "main": [
+      "morgan.lesbos.Lesbos"
+    ]
+  },
+  "mixins": [
+    "lesbos.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "fabric": "*",
+    "minecraft": "1.21.7"
+  }
+}
