@@ -4,6 +4,7 @@
   "package": "morgan.lesbos.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "entity.player.MinecraftServerMixin",
     "entity.player.PlayerInventoryMixin",
     "entity.player.EntityEquipmentMixin",
     "entity.player.PlayerEquipmentMixin"

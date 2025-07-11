@@ -16,11 +16,10 @@ public class Lesbos implements ModInitializer {
     // That way, it's clear which mod wrote info, warnings, and errors.
     public static final String MOD_ID = "Lesbos";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static DefaultedList<ItemStack> globalInventoryMain = DefaultedList.ofSize(36, ItemStack.EMPTY);
-    public static EnumMap<EquipmentSlot, ItemStack> globalInventoryMap = new EnumMap<EquipmentSlot, ItemStack>(EquipmentSlot.class);
+    public static DefaultedList<ItemStack> globalInventoryMain;
+    public static EnumMap<EquipmentSlot, ItemStack> globalInventoryMap;
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Mod initialised");
     }
 }
