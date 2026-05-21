@@ -1,0 +1,10 @@
+{
+  "powers": [
+    "lesbos:test_double_jump"
+  ],
+  "icon": "minecraft:poisonous_potato",
+  "name": "Test",
+  "description": "Testing",
+  "order": 1,
+  "impact": 1
+}

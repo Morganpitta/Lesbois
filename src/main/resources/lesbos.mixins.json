@@ -4,6 +4,7 @@
   "package": "morgan.lesbos.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "entity.LivingEntityMixin"
   ],
   "client": [
   ],

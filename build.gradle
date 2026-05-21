@@ -36,6 +36,9 @@ repositories {
     maven {
         url "https://maven.terraformersmc.com/"
     }
+    maven {
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 loom {
@@ -57,6 +60,9 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "com.github.apace100:origins-fabric:${project.origins_version}"
+    modImplementation "io.github.apace100:apoli:${project.apoli_version}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.2"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.2.2"
 }
 
 // Shows version from fabric.mod.json
