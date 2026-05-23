@@ -16,6 +16,6 @@ public class LesbosComponents implements EntityComponentInitializer {
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-        registry.registerFor(LivingEntity.class ,DOUBLE_JUMP, entity -> new DoubleJumpComponent());
+        registry.registerFor(LivingEntity.class, DOUBLE_JUMP, entity -> new DoubleJumpComponent());
     }
 }

@@ -1,5 +1,6 @@
 package morgan.lesbos;
 
+import morgan.lesbos.network.packet.LesbosC2SPackets;
 import morgan.lesbos.powers.LesbosPowerTypes;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -17,6 +18,7 @@ public class Lesbos implements ModInitializer {
     @Override
     public void onInitialize() {
         LesbosPowerTypes.register();
+        LesbosC2SPackets.register();
 
         LOGGER.info("Lesbos initialised!!!!!");
     }

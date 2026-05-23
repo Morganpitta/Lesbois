@@ -1,10 +1,15 @@
 package morgan.lesbos.mixin.entity;
 
+import morgan.lesbos.Lesbos;
 import morgan.lesbos.components.LesbosComponents;
+import morgan.lesbos.interfaces.DoubleJumpInterface;
+import morgan.lesbos.network.packet.DoubleJumpC2SPacket;
 import morgan.lesbos.powers.DoubleJumpPowerType;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -17,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity {
+public abstract class LivingEntityMixin extends Entity implements DoubleJumpInterface {
     @Shadow
     public float sidewaysSpeed;
 
@@ -44,27 +49,28 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    public int getMaxDoubleJumps(){
+    public int lesbos$getMaxDoubleJumps(){
         return DoubleJumpPowerType.getMaxDoubleJumps((LivingEntity) (Object) this);
     }
 
     @Unique
-    public int getDoubleJumps(){
+    public int lesbos$getDoubleJumps(){
         return LesbosComponents.DOUBLE_JUMP.get(this).getDoubleJumps();
     }
 
     @Unique
-    public void setDoubleJumps(int doubleJumps){
-        LesbosComponents.DOUBLE_JUMP.get(this).setDoubleJumps(doubleJumps);
+    public void lesbos$setDoubleJumps(int doubleJumps){
+        if ( lesbos$getDoubleJumps() != doubleJumps )
+            LesbosComponents.DOUBLE_JUMP.get(this).setDoubleJumps(doubleJumps);
     }
 
     @Unique
-    public boolean canDoubleJump(){
-        return (DoubleJumpPowerType.canDoubleJump((LivingEntity) (Object)this) && getDoubleJumps() > 0 && !this.isOnGround());
+    public boolean lesbos$canDoubleJump(){
+        return (DoubleJumpPowerType.canDoubleJump((LivingEntity) (Object)this) && lesbos$getDoubleJumps() > 0 && !this.isOnGround());
     }
 
     @Unique
-    protected void doubleJump() {
+    public void lesbos$doubleJump() {
         Vec3d vec3d = this.getVelocity();
         float yaw = this.getYaw() * ((float)Math.PI / 180F);
         double horizontalSpeed = vec3d.horizontalLength();
@@ -91,23 +97,29 @@ public abstract class LivingEntityMixin extends Entity {
         this.velocityDirty = true;
     }
 
-    @Inject(method = "tickMovement",at = @At(value = "INVOKE",target = "Lnet/minecraft/entity/LivingEntity;shouldSwimInFluids()Z",shift = At.Shift.BEFORE))
+    @Inject(
+            method = "tickMovement",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V",
+                    args = "ldc=jump",
+                    shift = At.Shift.AFTER
+            )
+    )
     public void tickMovementDoubleJump(CallbackInfo ci) {
-        if (this.isOnGround() && getDoubleJumps() < getMaxDoubleJumps()) {
-            this.setDoubleJumps(getMaxDoubleJumps());
-        } else if (this.isTouchingWater() && getDoubleJumps() <= getMaxDoubleJumps()) {
-            this.setDoubleJumps(getMaxDoubleJumps() + 1);
+        if ( !((LivingEntity)(Object)this instanceof PlayerEntity) ) return;
+
+        if (this.isOnGround() && lesbos$getDoubleJumps() < lesbos$getMaxDoubleJumps()) {
+            this.lesbos$setDoubleJumps(lesbos$getMaxDoubleJumps());
+        } else if ((this.isInLava() || this.isTouchingWater()) && lesbos$getDoubleJumps() <= lesbos$getMaxDoubleJumps()) {
+            this.lesbos$setDoubleJumps(lesbos$getMaxDoubleJumps() + 1);
         }
 
-        if (this.jumping && this.shouldSwimInFluids()) {
-            double k = this.isInLava() ? this.getFluidHeight(FluidTags.LAVA) : this.getFluidHeight(FluidTags.WATER);
-            boolean bl = this.isTouchingWater() && k > 0.0;
-            double l = this.getSwimHeight();
-            if (!(this.isInLava() && (!this.isOnGround() || k > l)) && !(bl && (!this.isOnGround() || k > l)) && ((canDoubleJump()) && this.jumpingCooldown == 0)) {
-                this.doubleJump();
-                this.setDoubleJumps(getDoubleJumps() - 1);
-                this.jumpingCooldown = 5;
-            }
+        if (this.jumping && !(this.isInLava() || this.isTouchingWater()) && lesbos$canDoubleJump() && this.jumpingCooldown == 0) {
+            this.lesbos$doubleJump();
+            this.lesbos$setDoubleJumps(lesbos$getDoubleJumps() - 1);
+            ClientPlayNetworking.send(new DoubleJumpC2SPacket());
+            this.jumpingCooldown = 10;
         }
     }
 }
