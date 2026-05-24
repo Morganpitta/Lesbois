@@ -38,6 +38,9 @@ public abstract class LivingEntityMixin extends Entity implements DoubleJumpInte
     @Shadow
     private int jumpingCooldown;
 
+    @Unique
+    private boolean wasJumping = false;
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -106,11 +109,14 @@ public abstract class LivingEntityMixin extends Entity implements DoubleJumpInte
             this.lesbos$setDoubleJumps(lesbos$getMaxDoubleJumps() + 1);
         }
 
-        if (this.jumping && !(this.isInLava() || this.isTouchingWater()) && lesbos$canDoubleJump() && this.jumpingCooldown == 0) {
-            this.lesbos$doubleJump();
-            this.lesbos$setDoubleJumps(lesbos$getDoubleJumps() - 1);
-            ClientPlayNetworking.send(new DoubleJumpC2SPacket());
-            this.jumpingCooldown = 10;
+        if (this.jumping && !wasJumping) {
+            if ( lesbos$canDoubleJump() && !(this.isInLava() || this.isTouchingWater()) ) {
+                this.lesbos$doubleJump();
+                this.lesbos$setDoubleJumps(lesbos$getDoubleJumps() - 1);
+                ClientPlayNetworking.send(new DoubleJumpC2SPacket());
+            }
         }
+
+        wasJumping = this.jumping;
     }
 }
