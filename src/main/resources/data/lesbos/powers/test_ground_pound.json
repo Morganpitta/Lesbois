@@ -1,0 +1,26 @@
+{
+  "type": "origins:active_self",
+  "condition": {
+    "type": "lesbos:ground_pound_height",
+    "distance": 10
+  },
+  "key": {
+    "key": "key.origins.primary_active"
+  },
+  "entity_action": {
+    "type": "origins:and",
+    "actions": [
+      {
+        "type": "origins:add_velocity",
+        "y": -5,
+        "space": "world",
+        "set": true
+      },
+      {
+          "type": "origins:change_resource",
+          "resource": "lesbos:test_gp_resource",
+          "change": 1
+        }
+    ]
+  }
+}

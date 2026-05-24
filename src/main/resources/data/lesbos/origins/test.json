@@ -2,7 +2,10 @@
   "powers": [
     "lesbos:test_double_jump",
     "lesbos:test_faya",
-    "origins:climbing"
+    "lesbos:test_ground_pound",
+    "lesbos:test_gp_land",
+    "lesbos:test_gp_resource",
+    "lesbos:test_gp_fall"
   ],
   "icon": {
     "id": "minecraft:poisonous_potato"
