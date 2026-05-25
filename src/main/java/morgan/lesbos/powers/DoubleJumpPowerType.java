@@ -15,7 +15,7 @@ import java.util.Optional;
 public class DoubleJumpPowerType extends PowerType {
     private final int doubleJumps;
 
-    public static final TypedDataObjectFactory<DoubleJumpPowerType> DOUBLE_JUMP =
+    public static final TypedDataObjectFactory<DoubleJumpPowerType> DATA_FACTORY =
             PowerType.createConditionedDataFactory(
                     new SerializableData().add("double_jumps", SerializableDataTypes.INT, 1),
                     (data, condition) -> new DoubleJumpPowerType(
@@ -45,7 +45,7 @@ public class DoubleJumpPowerType extends PowerType {
 
         if ( component == null ) return false;
 
-        return component.getPowers(true).stream().anyMatch(power -> power.getType() instanceof DoubleJumpPowerType);
+        return component.getPowers(true).stream().anyMatch(power -> (power.getType() instanceof DoubleJumpPowerType && power.isActive(entity)));
     }
 
     public static int getMaxDoubleJumps(LivingEntity entity) {

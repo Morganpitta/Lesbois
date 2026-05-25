@@ -37,28 +37,36 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GrappleI
 
     @Unique
     @Nullable
-    public GrappleHookEntity lesbos$grapple(double maxDistance) {
+    public GrappleHookEntity lesbos$grapple(double maxDistance, double unhookDistance, double speed) {
         if (this.grappleHook != null) {
             this.grappleHook.discard();
             this.grappleHook = null;
         }
 
         RaycastContext raycastContext = new RaycastContext(
-            this.getEyePos(),
-            this.getEyePos().add(this.getRotationVec(1.0F).multiply(maxDistance)),
-            RaycastContext.ShapeType.OUTLINE,
-            RaycastContext.FluidHandling.NONE,
-            this
+                this.getEyePos(),
+                this.getEyePos().add(this.getRotationVec(1.0F).multiply(maxDistance)),
+                RaycastContext.ShapeType.OUTLINE,
+                RaycastContext.FluidHandling.NONE,
+                this
         );
 
         BlockHitResult hit = this.getWorld().raycast(raycastContext);
 
         if (hit.getType() == HitResult.Type.MISS) return null;
 
-        GrappleHookEntity hook = new GrappleHookEntity(this.getWorld(), (PlayerEntity) (Object) this, hit.getPos());
+        GrappleHookEntity hook = new GrappleHookEntity(this.getWorld(), (PlayerEntity) (Object) this, hit.getPos(), 2, 1);
         this.getWorld().spawnEntity(hook);
         this.grappleHook = hook;
 
         return hook;
+    }
+
+    @Unique
+    public void lesbos$unGrapple() {
+        if (this.grappleHook != null) {
+            this.grappleHook.discard();
+            this.grappleHook = null;
+        }
     }
 }
