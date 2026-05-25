@@ -1,8 +1,16 @@
 {
   "type": "origins:active_self",
   "condition": {
-    "type": "lesbos:ground_pound_height",
-    "distance": 10
+    "type": "origins:raycast",
+    "block_distance": 10,
+    "direction": {
+      "y": -1
+    },
+    "block": true,
+    "entity": false,
+    "shape_type": "collider",
+    "fluid_handling": "any",
+    "inverted": true
   },
   "key": {
     "key": "key.origins.primary_active"

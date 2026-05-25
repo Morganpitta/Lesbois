@@ -1,7 +1,9 @@
 package morgan.lesbos;
 
+import morgan.lesbos.command.LesbosCommands;
+import morgan.lesbos.entity.LesbosEntities;
 import morgan.lesbos.network.packet.LesbosC2SPackets;
-import morgan.lesbos.powers.LesbosConditions;
+import morgan.lesbos.conditions.LesbosEntityConditionTypes;
 import morgan.lesbos.powers.LesbosPowerTypes;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -18,10 +20,14 @@ public class Lesbos implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LesbosPowerTypes.register();
+        // Minecraft registries
         LesbosC2SPackets.register();
+        LesbosEntities.register();
+        LesbosCommands.register();
 
-        LesbosConditions.register();
+        // Apoli registries
+        LesbosPowerTypes.register();
+        LesbosEntityConditionTypes.register();
 
         LOGGER.info("Lesbos initialised!!!!!");
     }

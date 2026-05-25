@@ -13,6 +13,9 @@
     "main": [
       "morgan.lesbos.Lesbos"
     ],
+    "client": [
+      "morgan.lesbos.client.LesbosClient"
+    ],
     "cardinal-components": [
       "morgan.lesbos.components.LesbosComponents"
     ]
