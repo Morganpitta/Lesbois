@@ -7,5 +7,5 @@ public interface GrappleInterface {
     public GrappleHookEntity lesbos$getGrappleHook();
     public void lesbos$setGrappleHook(@Nullable GrappleHookEntity hook);
     public GrappleHookEntity lesbos$grapple(double maxDistance, double unhookDistance, double speed);
-    public void lesbos$unGrapple();
+    public boolean lesbos$unGrapple();
 }

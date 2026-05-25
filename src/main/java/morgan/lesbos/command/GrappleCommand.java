@@ -20,6 +20,7 @@ import java.util.Collection;
 
 public class GrappleCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        // TODO: Add more config properties?
         dispatcher.register(
                 CommandManager.literal("grapple")
                         .requires(source -> source.hasPermissionLevel(2))
