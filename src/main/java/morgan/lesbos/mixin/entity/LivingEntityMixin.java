@@ -77,7 +77,7 @@ public abstract class LivingEntityMixin extends Entity implements DoubleJumpInte
         float yaw = this.getYaw() * ((float)Math.PI / 180F);
         double horizontalSpeed = vec3d.horizontalLength();
 
-        this.setVelocity(vec3d.x, Math.max(this.getJumpVelocity(), this.getJumpVelocity() + vec3d.y), vec3d.z);
+        this.setVelocity(vec3d.x, Math.max(this.getJumpVelocity(), vec3d.y), vec3d.z);
 
         Vec3d directionNormalised = new Vec3d(
                 (-MathHelper.sin(yaw) * this.forwardSpeed) + (MathHelper.cos(yaw) * this.sidewaysSpeed),

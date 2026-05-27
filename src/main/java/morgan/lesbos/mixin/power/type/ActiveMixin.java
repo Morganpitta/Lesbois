@@ -13,6 +13,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +28,14 @@ import java.util.Map;
 @Mixin(Active.class)
 public interface ActiveMixin {
         @Environment(EnvType.CLIENT)
-        @Inject(method = "integrateCallback", at=@At("HEAD"))
+        @Inject(
+                method = "integrateCallback",
+                at = @At(
+                        value = "INVOKE",
+                        target = "Ljava/util/Map;putAll(Ljava/util/Map;)V",
+                        shift = At.Shift.BEFORE
+                )
+        )
         private static void integrateCallback(MinecraftClient client, CallbackInfo ci) {
             if (client.player == null) {
                 return;
@@ -45,11 +53,11 @@ public interface ActiveMixin {
 
                 KeyBindingReference keyBindingReference = keyReleasePowerType.getKey();
                 TriState keyPressed = keyBindingReference.asKeyBinding()
-                        .map((key)->!key.isPressed())
+                        .map(KeyBinding::isPressed)
                         .map(TriState::of)
                         .orElse(TriState.DEFAULT);
 
-                if (currentKeybindingStates.computeIfAbsent(keyBindingReference.id(), k -> keyPressed.get()) && ApoliClient.lastKeyBindingStates.getOrDefault(keyBindingReference.id(), false)) {
+                if (!currentKeybindingStates.computeIfAbsent(keyBindingReference.id(), k -> keyPressed.get()) && ApoliClient.lastKeyBindingStates.getOrDefault(keyBindingReference.id(), false)) {
                     triggeredPowerTypes.add(keyReleasePowerType);
                 }
 
