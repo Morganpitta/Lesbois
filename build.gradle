@@ -66,6 +66,8 @@ dependencies {
 
     modImplementation "maven.modrinth:origins:${project.origins_version}"
     modImplementation "io.github.apace100:apoli:${project.apoli_version}"
+    modImplementation "io.github.apace100:apoli:${project.apoli_version}"
+    modImplementation "maven.modrinth:origins-extra-keybinds-fabric:${project.extra_keybinds_version}"
 }
 
 // Shows version from fabric.mod.json
