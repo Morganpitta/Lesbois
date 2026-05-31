@@ -12,6 +12,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -152,9 +153,9 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(
             method = "damage",
             at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/damage/DamageSource;isIn(Lnet/minecraft/registry/tag/TagKey;)Z",
-                    ordinal = 1
+                    value = "FIELD",
+                    target = "Lnet/minecraft/entity/LivingEntity;limbAnimator:Lnet/minecraft/entity/LimbAnimator;",
+                    opcode = Opcodes.GETFIELD
             ),
             cancellable = true
     )
