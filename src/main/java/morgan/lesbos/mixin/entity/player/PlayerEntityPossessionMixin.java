@@ -1,25 +1,34 @@
 package morgan.lesbos.mixin.entity.player;
 
+import morgan.lesbos.Lesbos;
 import morgan.lesbos.components.LesbosComponents;
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityPossessionMixin extends LivingEntity implements PossessionInterface {
+    @Unique
+    public boolean wasPossessing;
+
     protected PlayerEntityPossessionMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
+
+
 
     public boolean lesbos$isPossessing() {
         return LesbosComponents.POSSESSION.get(this).isPossessing();
@@ -34,6 +43,8 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
         LesbosComponents.POSSESSION.get(this).setPossessedEntity(entity);
     }
 
+
+
     public void lesbos$possess(MobEntity entity) {
         if ( this.lesbos$getPossessedEntity() != null )
             this.lesbos$unPossess();
@@ -42,33 +53,47 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
         ((PossessorInterface) entity).lesbos$setPossessor((PlayerEntity) (Object) this);
 
         if (entity instanceof MobEntity mobEntity) {
-            mobEntity.setAiDisabled(true);
+//            mobEntity.setAiDisabled(true);
+                entity.setNoGravity(true);
         }
 
         this.setInvisible(true);
-        this.noClip = true;
+
+        this.calculateDimensions();
     }
 
     public void lesbos$unPossess() {
         MobEntity entity = this.lesbos$getPossessedEntity();
 
-        if (entity != null ) {
-            entity.setAiDisabled(false);
+        if (entity != null) {
+//            entity.setAiDisabled(false);
+            entity.setNoGravity(false);
 
             ((PossessorInterface) entity).lesbos$setPossessor(null);
         }
 
         this.setInvisible(false);
-        this.noClip = false;
 
         this.lesbos$setPossessedEntity(null);
+
+        this.calculateDimensions();
     }
+
+
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
-        MobEntity entity = lesbos$getPossessedEntity();
+        MobEntity entity = this.lesbos$getPossessedEntity();
 
-        if (entity == null) return;
+        if (entity == null) {
+            if ( wasPossessing ) {
+                this.calculateDimensions();
+                wasPossessing = false;
+            }
+            return;
+        }
+
+        wasPossessing = true;
 
         if (entity.isDead() || entity.isRemoved()) {
             this.lesbos$unPossess();
@@ -78,7 +103,24 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
         if (((PossessorInterface) entity).lesbos$getPossessor() != (PlayerEntity) (Object) this) {
             ((PossessorInterface) entity).lesbos$setPossessor((PlayerEntity) (Object) this);
         }
+
+        Box entityBoundingBox = entity.getBoundingBox();
+        Box playerBoundingBox = this.getBoundingBox();
+
+        if ( entityBoundingBox.getLengthX() != playerBoundingBox.getLengthX() ||
+             entityBoundingBox.getLengthY() != playerBoundingBox.getLengthY() ||
+             entityBoundingBox.getLengthZ() != playerBoundingBox.getLengthZ() ) {
+
+            this.calculateDimensions();
+        }
     }
+
+//    @Inject(method = "damage", at= @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), cancellable = true)
+//    public void redirectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+//        MobEntity entity = lesbos$getPossessedEntity();
+//
+//        if (entity != null) cir.setReturnValue(entity.damage(source, amount));
+//    }
 
 
     // Health, hasStatusEffect, attributes

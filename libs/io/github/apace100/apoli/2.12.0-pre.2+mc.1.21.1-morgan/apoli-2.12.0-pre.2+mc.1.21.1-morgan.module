@@ -1,0 +1,239 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.apace100",
+    "module": "apoli",
+    "version": "2.12.0-pre.2+mc.1.21.1-morgan",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.ladysnake.cardinal-components-api",
+          "module": "cardinal-components-base",
+          "version": {
+            "requires": "6.1.0"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.ladysnake.cardinal-components-api",
+          "module": "cardinal-components-entity",
+          "version": {
+            "requires": "6.1.0"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "io.github.ladysnake",
+          "module": "PlayerAbilityLib",
+          "version": {
+            "requires": "1.10.0"
+          }
+        },
+        {
+          "group": "io.github.apace100",
+          "module": "calio",
+          "version": {
+            "requires": "1.14.0+mc.1.21.x"
+          }
+        },
+        {
+          "group": "me.shedaniel.cloth",
+          "module": "cloth-config-fabric",
+          "version": {
+            "requires": "15.0.127"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "maven.modrinth",
+          "module": "additionalentityattributes",
+          "version": {
+            "requires": "1.8.0+1.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "apoli-2.12.0-pre.2+mc.1.21.1-morgan.jar",
+          "url": "apoli-2.12.0-pre.2+mc.1.21.1-morgan.jar",
+          "size": 4309797,
+          "sha512": "d478902986d6845c536bd1a4534bcdf8842649fae41f9a5898af35f4f8e0de3a9ae096b2964ee998dbd5ec7c6734b7f4a6be7135a232fd06c87fc26e4c494ac9",
+          "sha256": "4c38900c79e6d1f602675265219904de4252bbcc4dcd198573b9a20ffe49d12d",
+          "sha1": "91f7490c305936b91595e3fcbe04c1afe8d75cc0",
+          "md5": "a2ac7a9dd4ac0de3753ad7b6a7b050a6"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.demonwav.mcdev",
+          "module": "annotations",
+          "version": {
+            "requires": "1.0"
+          }
+        },
+        {
+          "group": "io.github.llamalad7",
+          "module": "mixinextras-fabric",
+          "version": {
+            "requires": "0.4.0"
+          }
+        },
+        {
+          "group": "org.ladysnake.cardinal-components-api",
+          "module": "cardinal-components-base",
+          "version": {
+            "requires": "6.1.0"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.ladysnake.cardinal-components-api",
+          "module": "cardinal-components-entity",
+          "version": {
+            "requires": "6.1.0"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "io.github.ladysnake",
+          "module": "PlayerAbilityLib",
+          "version": {
+            "requires": "1.10.0"
+          }
+        },
+        {
+          "group": "io.github.apace100",
+          "module": "calio",
+          "version": {
+            "requires": "1.14.0+mc.1.21.x"
+          }
+        },
+        {
+          "group": "me.shedaniel.cloth",
+          "module": "cloth-config-fabric",
+          "version": {
+            "requires": "15.0.127"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "maven.modrinth",
+          "module": "additionalentityattributes",
+          "version": {
+            "requires": "1.8.0+1.21"
+          }
+        },
+        {
+          "group": "net.fabricmc",
+          "module": "fabric-loader",
+          "version": {
+            "requires": "0.18.4"
+          }
+        },
+        {
+          "group": "net.fabricmc.fabric-api",
+          "module": "fabric-api",
+          "version": {
+            "requires": "0.116.5+1.21.1"
+          }
+        },
+        {
+          "group": "com.terraformersmc",
+          "module": "modmenu",
+          "version": {
+            "requires": "11.0.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "apoli-2.12.0-pre.2+mc.1.21.1-morgan.jar",
+          "url": "apoli-2.12.0-pre.2+mc.1.21.1-morgan.jar",
+          "size": 4309797,
+          "sha512": "d478902986d6845c536bd1a4534bcdf8842649fae41f9a5898af35f4f8e0de3a9ae096b2964ee998dbd5ec7c6734b7f4a6be7135a232fd06c87fc26e4c494ac9",
+          "sha256": "4c38900c79e6d1f602675265219904de4252bbcc4dcd198573b9a20ffe49d12d",
+          "sha1": "91f7490c305936b91595e3fcbe04c1afe8d75cc0",
+          "md5": "a2ac7a9dd4ac0de3753ad7b6a7b050a6"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "apoli-2.12.0-pre.2+mc.1.21.1-morgan-sources.jar",
+          "url": "apoli-2.12.0-pre.2+mc.1.21.1-morgan-sources.jar",
+          "size": 822399,
+          "sha512": "a5a3ee124aceab7e5a27f8d17b208ed33f16295781e8ec714f413068ef505d7acbc3d4d2db7547489b66d8577dae3fe5507235997914faa442c3ca1872e49195",
+          "sha256": "e580148b49ad5c6bd6c812b8ca5d601dacdd477d497fb892be0febfed00f973a",
+          "sha1": "01420acc74cfb8d8d467fab5cb056e056f04b3d3",
+          "md5": "bf417145930f5288fb8ac3711b9677a6"
+        }
+      ]
+    }
+  ]
+}

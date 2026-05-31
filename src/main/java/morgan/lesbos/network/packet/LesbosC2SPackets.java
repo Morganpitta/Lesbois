@@ -8,12 +8,10 @@ public class LesbosC2SPackets {
         // Payload registry
         PayloadTypeRegistry.playC2S().register(DoubleJumpC2SPacket.ID, DoubleJumpC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(UseKeyReleasePowerTypesC2SPacket.ID, UseKeyReleasePowerTypesC2SPacket.CODEC);
-        PayloadTypeRegistry.playC2S().register(PossessionMoveC2SPacket.ID, PossessionMoveC2SPacket.CODEC);
 
 
         // Handler registry
         ServerPlayNetworking.registerGlobalReceiver(DoubleJumpC2SPacket.ID, DoubleJumpC2SPacket::handle);
         ServerPlayNetworking.registerGlobalReceiver(UseKeyReleasePowerTypesC2SPacket.ID, UseKeyReleasePowerTypesC2SPacket::handle);
-        ServerPlayNetworking.registerGlobalReceiver(PossessionMoveC2SPacket.ID, PossessionMoveC2SPacket::handle);
     }
 }

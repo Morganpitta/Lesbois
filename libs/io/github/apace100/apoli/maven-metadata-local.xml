@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>io.github.apace100</groupId>
+  <artifactId>apoli</artifactId>
+  <versioning>
+    <latest>2.12.0-pre.2+mc.1.21.1-morgan</latest>
+    <release>2.12.0-pre.2+mc.1.21.1-morgan</release>
+    <versions>
+      <version>2.12.0-pre.2+mc.1.21.1-test</version>
+      <version>2.12.0-pre.2+mc.1.21.1-morgan</version>
+    </versions>
+    <lastUpdated>20260531143121</lastUpdated>
+  </versioning>
+</metadata>

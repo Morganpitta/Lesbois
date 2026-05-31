@@ -66,6 +66,9 @@ public class PossessionComponent implements AutoSyncedComponent {
         if (tag.containsUuid("lesbos:possession")) {
             this.possessedEntityUuid = tag.getUuid("lesbos:possession");
         }
+        else {
+            this.possessedEntityUuid = null;
+        }
     }
 
     @Override

@@ -6,6 +6,8 @@ import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
 import morgan.lesbos.powers.DragModifierPowerType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -58,15 +60,6 @@ public abstract class EntityMixin {
         return this.isOnGround() || DragModifierPowerType.hasSlideMode((LivingEntity) entity);
     }
 
-    @Inject(method = "isLogicalSideForUpdatingMovement", at = @At("HEAD"), cancellable = true)
-    public void lesbos$isLogicalSideForUpdatingMovement(CallbackInfoReturnable<Boolean> cir) {
-        if ((Entity) (Object) this instanceof MobEntity mobEntity) {
-            if (((PossessorInterface) mobEntity).lesbos$getPossessor() != null) {
-                cir.setReturnValue(true);
-            }
-        }
-    }
-
     @Inject(method = "isConnectedThroughVehicle", at = @At("HEAD"), cancellable = true)
     public void isConnectedThroughVehiclePossession(Entity other, CallbackInfoReturnable<Boolean> cir) {
         if ( (Object) this instanceof PlayerEntity playerEntity ) {
@@ -76,6 +69,21 @@ public abstract class EntityMixin {
         else if ( (Object) this instanceof MobEntity mobEntity ) {
             if (((PossessorInterface) mobEntity).lesbos$getPossessor() == other)
                 cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "getEyeHeight", at = @At("HEAD"), cancellable = true)
+    private void redirectEyeHeight(EntityPose pose, CallbackInfoReturnable<Float> cir) {
+        if ((Entity) (Object) this instanceof PlayerEntity player) {
+            PossessionInterface possession = (PossessionInterface) player;
+
+            if (possession.lesbos$isPossessing()) {
+                MobEntity puppet = possession.lesbos$getPossessedEntity();
+
+                if (puppet != null) {
+                    cir.setReturnValue(puppet.getEyeHeight(puppet.getPose()));
+                }
+            }
         }
     }
 }

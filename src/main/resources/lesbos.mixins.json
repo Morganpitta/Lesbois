@@ -11,14 +11,13 @@
     "entity.mob.MobEntityMixin",
     "entity.player.PlayerEntityGrappleMixin",
     "entity.player.PlayerEntityPossessionMixin",
-    "power.type.ActiveMixin",
-    "server.network.EntityTrackerEntryMixin"
+    "power.type.ActiveMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "client.network.ClientPlayerEntityMixin",
+    "client.render.WorldRendererMixin",
     "client.world.ClientWorldAccessor"
   ]
 }

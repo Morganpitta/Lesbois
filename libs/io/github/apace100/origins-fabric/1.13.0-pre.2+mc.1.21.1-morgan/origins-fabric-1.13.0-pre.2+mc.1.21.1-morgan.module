@@ -1,0 +1,145 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.apace100",
+    "module": "origins-fabric",
+    "version": "1.13.0-pre.2+mc.1.21.1-morgan",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.8"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.apace100",
+          "module": "apoli",
+          "version": {
+            "requires": "2.12.0-pre.2+mc.1.21.1-morgan"
+          }
+        },
+        {
+          "group": "me.shedaniel.cloth",
+          "module": "cloth-config-fabric",
+          "version": {
+            "requires": "13.0.121"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "origins-fabric-1.13.0-pre.2+mc.1.21.1-morgan.jar",
+          "url": "origins-fabric-1.13.0-pre.2+mc.1.21.1-morgan.jar",
+          "size": 4671106,
+          "sha512": "9f0e76ebdb8607748896826045379524c676693d59240b34242246ee2a09fc66c9dda90a819d5844d425aeb080c4ff56ed1f5775ca41559be244973f7b8543f0",
+          "sha256": "661ac0d71ebd37063bb3d19705d64ddabb0de3a9d1227d99c8e586b5ad3a48f2",
+          "sha1": "0957d078f1a02a3ef4acd39bd994b4a168766f8e",
+          "md5": "4c19abc6ec291ff2c45892c62cb8ab09"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.apace100",
+          "module": "apoli",
+          "version": {
+            "requires": "2.12.0-pre.2+mc.1.21.1-morgan"
+          }
+        },
+        {
+          "group": "me.shedaniel.cloth",
+          "module": "cloth-config-fabric",
+          "version": {
+            "requires": "13.0.121"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "net.fabricmc",
+          "module": "fabric-loader",
+          "version": {
+            "requires": "0.16.5"
+          }
+        },
+        {
+          "group": "net.fabricmc.fabric-api",
+          "module": "fabric-api",
+          "version": {
+            "requires": "0.105.0+1.21.1"
+          }
+        },
+        {
+          "group": "com.terraformersmc",
+          "module": "modmenu",
+          "version": {
+            "requires": "9.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "origins-fabric-1.13.0-pre.2+mc.1.21.1-morgan.jar",
+          "url": "origins-fabric-1.13.0-pre.2+mc.1.21.1-morgan.jar",
+          "size": 4671106,
+          "sha512": "9f0e76ebdb8607748896826045379524c676693d59240b34242246ee2a09fc66c9dda90a819d5844d425aeb080c4ff56ed1f5775ca41559be244973f7b8543f0",
+          "sha256": "661ac0d71ebd37063bb3d19705d64ddabb0de3a9d1227d99c8e586b5ad3a48f2",
+          "sha1": "0957d078f1a02a3ef4acd39bd994b4a168766f8e",
+          "md5": "4c19abc6ec291ff2c45892c62cb8ab09"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "origins-fabric-1.13.0-pre.2+mc.1.21.1-morgan-sources.jar",
+          "url": "origins-fabric-1.13.0-pre.2+mc.1.21.1-morgan-sources.jar",
+          "size": 429988,
+          "sha512": "81288186c2c3c7cc0a079879664858e4c00c3e7423fa76c37f06bfce1b6a634a6d08c27666b6df2f12d2269ac52d7a8a1d4242b73c13b80298853107f114d712",
+          "sha256": "c9a43ee3e0ab001f9023c7399e7a9e42263463c7918468f40bdec3f2e219bead",
+          "sha1": "d4d6a525d5837bfdb6f8575f78824c6bf9394286",
+          "md5": "215f32fcb283a7dde2416fbbdd6d1247"
+        }
+      ]
+    }
+  ]
+}

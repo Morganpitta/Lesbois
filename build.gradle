@@ -11,6 +11,14 @@ base {
 }
 
 repositories {
+    mavenLocal()
+    mavenCentral()
+
+    // Use my custom compiled versions of origins and apoli
+    maven {
+        url = layout.projectDirectory.dir('libs')
+    }
+
     maven {
         name = "Ladysnake Libs"
         url = 'https://maven.ladysnake.org/releases'
@@ -63,10 +71,10 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
+//    modImplementation "maven.modrinth:origins:${project.origins_version}"  Try using this if your not using my custom sources
+    modImplementation "io.github.apace100:origins-fabric:${project.origins_version}"
+    modImplementation "io.github.apace100:apoli:${project.apoli_version}"
 
-    modImplementation "maven.modrinth:origins:${project.origins_version}"
-    modImplementation "io.github.apace100:apoli:${project.apoli_version}"
-    modImplementation "io.github.apace100:apoli:${project.apoli_version}"
     modImplementation "maven.modrinth:origins-extra-keybinds-fabric:${project.extra_keybinds_version}"
 }
 
