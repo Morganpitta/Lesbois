@@ -46,16 +46,16 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
 
 
     public void lesbos$possess(MobEntity entity) {
+        if (((PossessorInterface) entity).lesbos$getPossessor() != null) return;
+
         if ( this.lesbos$getPossessedEntity() != null )
             this.lesbos$unPossess();
 
         this.lesbos$setPossessedEntity(entity);
         ((PossessorInterface) entity).lesbos$setPossessor((PlayerEntity) (Object) this);
 
-        if (entity instanceof MobEntity mobEntity) {
-//            mobEntity.setAiDisabled(true);
-                entity.setNoGravity(true);
-        }
+        entity.setNoGravity(true);
+        ((PossessorInterface) entity).lesbos$stopTargetSelectorGoals();
 
         this.setInvisible(true);
 
@@ -114,14 +114,5 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
             this.calculateDimensions();
         }
     }
-
-//    @Inject(method = "damage", at= @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), cancellable = true)
-//    public void redirectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-//        MobEntity entity = lesbos$getPossessedEntity();
-//
-//        if (entity != null) cir.setReturnValue(entity.damage(source, amount));
-//    }
-
-
     // Health, hasStatusEffect, attributes
 }

@@ -8,6 +8,7 @@
     "entity.LivingEntityAccessor",
     "entity.LivingEntityDoubleJumpMixin",
     "entity.LivingEntityMixin",
+    "entity.mob.MobEntityAccessor",
     "entity.mob.MobEntityMixin",
     "entity.player.PlayerEntityGrappleMixin",
     "entity.player.PlayerEntityPossessionMixin",
