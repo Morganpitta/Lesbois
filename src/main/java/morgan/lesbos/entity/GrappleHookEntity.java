@@ -1,6 +1,7 @@
 package morgan.lesbos.entity;
 
 import morgan.lesbos.interfaces.GrappleInterface;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Ownable;
@@ -80,10 +81,15 @@ public class GrappleHookEntity extends Entity implements Ownable {
 
                 if ( distanceSq  < (minDistance * minDistance) ) pullSpeed *= (distanceSq/(minDistance*minDistance));
 
+                Vec3d inputDirection = new Vec3d(Math.max(0, owner.forwardSpeed), 0, owner.horizontalSpeed).normalize();
+
+                float yaw = (float) Math.atan2(playerDirection.z, playerDirection.x);
+                float pitch = (float) Math.atan2(playerDirection.y, Math.sqrt(playerDirection.x * playerDirection.x + playerDirection.z * playerDirection.z));
+
                 serverPlayer.setVelocity(
-                        velocity.x * (1-Math.clamp(this.damping, 0, 1)) + direction.x * pullFactorModifier * pullSpeed + playerDirection.x * lookAssistModifier * this.lookAssist,
-                        velocity.y * (1-Math.clamp(this.damping, 0, 1)) + direction.y * pullFactorModifier * pullSpeed + playerDirection.y * lookAssistModifier * this.lookAssist,
-                        velocity.z * (1-Math.clamp(this.damping, 0, 1)) + direction.z * pullFactorModifier * pullSpeed + playerDirection.z * lookAssistModifier * this.lookAssist
+                        velocity.multiply(1-Math.clamp(this.damping, 0, 1))
+                            .add(direction.multiply(pullFactorModifier * pullSpeed))
+                            .add(inputDirection.rotateY(-yaw).rotateX(-pitch).multiply(lookAssistModifier * this.lookAssist))
                 );
 
                 serverPlayer.velocityDirty = true;
