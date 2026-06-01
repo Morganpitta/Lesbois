@@ -4,7 +4,7 @@
     "id": "lesbos:test_safe_fall",
     "name": "Safe fall increase",
     "attribute": "minecraft:generic.safe_fall_distance",
-    "amount": 4,
+    "amount": 9,
     "operation": "ADD_VALUE"
   }
 }
