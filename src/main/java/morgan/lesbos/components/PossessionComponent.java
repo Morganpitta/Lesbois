@@ -1,8 +1,6 @@
 package morgan.lesbos.components;
 
-import morgan.lesbos.Lesbos;
-import morgan.lesbos.interfaces.PossessorInterface;
-import morgan.lesbos.mixin.client.world.ClientWorldAccessor;
+import morgan.lesbos.mixin.common.client.world.ClientWorldAccessor;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;

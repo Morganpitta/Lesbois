@@ -1,9 +1,7 @@
-package morgan.lesbos.mixin.entity;
+package morgan.lesbos.mixin.possession.entity;
 
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
-import morgan.lesbos.powers.DragModifierPowerType;
-import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -36,33 +34,6 @@ public abstract class LivingEntityMixin extends Entity {
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
-
-    @Redirect(method = "travel", at= @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getSlipperiness()F"))
-    public float travelIgnoreBlockFriction(Block instance) {
-        boolean ignoreBlockFriction = DragModifierPowerType.shouldIgnoreBlockFriction((LivingEntity) (Object) this);
-
-        if (ignoreBlockFriction)
-            return 1;
-
-        return instance.getSlipperiness();
-    }
-
-    @ModifyConstant(
-            method = "travel",
-            constant = @Constant(floatValue = 0.91F, ordinal = 0)
-    )
-    public float travelModifyFriction(float constant) {
-        return DragModifierPowerType.getAirDrag((LivingEntity) (Object) this);
-    }
-
-    @ModifyConstant(
-            method = "travel",
-            constant = @Constant(floatValue = 0.91F, ordinal = 1)
-    )
-    public float travelModifyAirDrag(float constant) {
-        return DragModifierPowerType.getAirDrag((LivingEntity) (Object) this);
-    }
-
 
     @Inject(method = "tick",at = @At("TAIL"))
     public void tick(CallbackInfo ci) {

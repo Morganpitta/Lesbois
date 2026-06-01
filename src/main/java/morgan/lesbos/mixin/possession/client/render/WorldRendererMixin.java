@@ -1,4 +1,4 @@
-package morgan.lesbos.mixin.client.render;
+package morgan.lesbos.mixin.possession.client.render;
 
 import morgan.lesbos.interfaces.PossessionInterface;
 import net.minecraft.client.render.*;

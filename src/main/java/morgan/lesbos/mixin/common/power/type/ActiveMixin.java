@@ -1,4 +1,4 @@
-package morgan.lesbos.mixin.power.type;
+package morgan.lesbos.mixin.common.power.type;
 
 import io.github.apace100.apoli.ApoliClient;
 import io.github.apace100.apoli.component.PowerHolderComponent;

@@ -1,4 +1,4 @@
-package morgan.lesbos.mixin.entity.mob;
+package morgan.lesbos.mixin.common.entity.mob;
 
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.mob.MobEntity;

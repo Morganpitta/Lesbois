@@ -1,4 +1,4 @@
-package morgan.lesbos.mixin.entity;
+package morgan.lesbos.mixin.double_jump.entity;
 
 import morgan.lesbos.components.LesbosComponents;
 import morgan.lesbos.interfaces.DoubleJumpInterface;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityDoubleJumpMixin extends Entity implements DoubleJumpInterface {
+public abstract class LivingEntityMixin extends Entity implements DoubleJumpInterface {
     @Shadow
     public float sidewaysSpeed;
 
@@ -39,7 +39,7 @@ public abstract class LivingEntityDoubleJumpMixin extends Entity implements Doub
     @Unique
     private boolean wasJumping = false;
 
-    public LivingEntityDoubleJumpMixin(EntityType<?> type, World world) {
+    public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
 

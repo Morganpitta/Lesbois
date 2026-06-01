@@ -1,4 +1,4 @@
-package morgan.lesbos.mixin.client.world;
+package morgan.lesbos.mixin.common.client.world;
 
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;

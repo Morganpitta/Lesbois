@@ -1,12 +1,10 @@
-package morgan.lesbos.mixin.entity.player;
+package morgan.lesbos.mixin.possession.entity.player;
 
-import morgan.lesbos.Lesbos;
 import morgan.lesbos.components.LesbosComponents;
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
@@ -17,14 +15,13 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityPossessionMixin extends LivingEntity implements PossessionInterface {
+public abstract class PlayerEntityMixin extends LivingEntity implements PossessionInterface {
     @Unique
     public boolean wasPossessing;
 
-    protected PlayerEntityPossessionMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 

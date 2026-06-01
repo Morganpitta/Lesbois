@@ -4,21 +4,24 @@
   "package": "morgan.lesbos.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "entity.EntityMixin",
-    "entity.LivingEntityAccessor",
-    "entity.LivingEntityDoubleJumpMixin",
-    "entity.LivingEntityMixin",
-    "entity.mob.MobEntityAccessor",
-    "entity.mob.MobEntityMixin",
-    "entity.player.PlayerEntityGrappleMixin",
-    "entity.player.PlayerEntityPossessionMixin",
-    "power.type.ActiveMixin"
+    "common.entity.EntityMixin",
+    "common.entity.LivingEntityAccessor",
+    "common.entity.LivingEntityMixin",
+    "common.entity.mob.MobEntityAccessor",
+    "grapple.entity.player.PlayerEntityMixin",
+    "common.power.type.ActiveMixin",
+    "double_jump.entity.EntityMixin",
+    "double_jump.entity.LivingEntityMixin",
+    "possession.entity.EntityMixin",
+    "possession.entity.LivingEntityMixin",
+    "possession.entity.mob.MobEntityMixin",
+    "possession.entity.player.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "client.render.WorldRendererMixin",
-    "client.world.ClientWorldAccessor"
+    "common.client.world.ClientWorldAccessor",
+    "possession.client.render.WorldRendererMixin"
   ]
 }

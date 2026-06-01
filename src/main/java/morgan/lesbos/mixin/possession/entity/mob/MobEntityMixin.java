@@ -1,7 +1,8 @@
-package morgan.lesbos.mixin.entity.mob;
+package morgan.lesbos.mixin.possession.entity.mob;
 
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
+import morgan.lesbos.mixin.common.entity.mob.MobEntityAccessor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +15,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
@@ -46,12 +46,7 @@ public abstract class MobEntityMixin extends LivingEntity implements PossessorIn
 
     @Shadow
     private ItemStack bodyArmor;
-    @Shadow
-    @Final
-    private DefaultedList<ItemStack> handItems;
-    @Shadow
-    @Final
-    private DefaultedList<ItemStack> armorItems;
+
     @Unique
     private static final TrackedData<Integer> POSSESSOR_ID = DataTracker.registerData(
             MobEntity.class, TrackedDataHandlerRegistry.INTEGER
