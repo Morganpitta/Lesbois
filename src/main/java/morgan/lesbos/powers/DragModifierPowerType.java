@@ -73,7 +73,7 @@ public class DragModifierPowerType extends PowerType {
         if (component == null) return 0.91F;
 
         return (float) component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType)
+                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
                 .mapToDouble(power -> ((DragModifierPowerType) power.getType()).getAirDrag()).max()
                 .orElse(0.91);
     }
@@ -84,7 +84,7 @@ public class DragModifierPowerType extends PowerType {
         if (component == null) return 0.91F;
 
         return (float) component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType)
+                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
                 .mapToDouble(power -> ((DragModifierPowerType) power.getType()).getFriction()).max()
                 .orElse(0.91);
     }
@@ -95,7 +95,7 @@ public class DragModifierPowerType extends PowerType {
         if (component == null) return false;
 
         return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType)
+                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
                 .anyMatch(power -> ((DragModifierPowerType) power.getType()).getSlideMode());
     }
 
@@ -105,7 +105,7 @@ public class DragModifierPowerType extends PowerType {
         if (component == null) return false;
 
         return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType)
+                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
                 .anyMatch(power -> ((DragModifierPowerType) power.getType()).shouldIgnoreBlockFriction());
     }
 }

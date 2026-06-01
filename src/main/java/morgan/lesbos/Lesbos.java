@@ -4,7 +4,7 @@ import morgan.lesbos.actions.LesbosEntityActionTypes;
 import morgan.lesbos.command.LesbosCommands;
 import morgan.lesbos.entity.LesbosEntities;
 import morgan.lesbos.network.packet.LesbosC2SPackets;
-import morgan.lesbos.conditions.LesbosEntityConditionTypes;
+import morgan.lesbos.conditions.entity.LesbosEntityConditionTypes;
 import morgan.lesbos.powers.LesbosPowerTypes;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;

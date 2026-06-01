@@ -4,4 +4,7 @@
   "friction": 1,
   "ignore_block_friction": true,
   "slide_mode": true,
+  "condition": {
+    "type": "lesbos:grappling"
+  }
 }
