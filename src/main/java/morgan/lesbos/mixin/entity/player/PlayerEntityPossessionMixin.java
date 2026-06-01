@@ -57,8 +57,6 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
         entity.setNoGravity(true);
         ((PossessorInterface) entity).lesbos$stopTargetSelectorGoals();
 
-        this.setInvisible(true);
-
         this.calculateDimensions();
     }
 
@@ -66,13 +64,10 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
         MobEntity entity = this.lesbos$getPossessedEntity();
 
         if (entity != null) {
-//            entity.setAiDisabled(false);
             entity.setNoGravity(false);
 
             ((PossessorInterface) entity).lesbos$setPossessor(null);
         }
-
-        this.setInvisible(false);
 
         this.lesbos$setPossessedEntity(null);
 
@@ -87,7 +82,7 @@ public abstract class PlayerEntityPossessionMixin extends LivingEntity implement
 
         if (entity == null) {
             if ( wasPossessing ) {
-                this.calculateDimensions();
+                this.lesbos$unPossess();
                 wasPossessing = false;
             }
             return;
