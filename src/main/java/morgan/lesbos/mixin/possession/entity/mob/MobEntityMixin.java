@@ -1,11 +1,13 @@
 package morgan.lesbos.mixin.possession.entity.mob;
 
+import morgan.lesbos.Lesbos;
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
 import morgan.lesbos.mixin.common.entity.mob.MobEntityAccessor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -39,13 +41,21 @@ public abstract class MobEntityMixin extends LivingEntity implements PossessorIn
     protected GoalSelector targetSelector;
 
     @Shadow
-    public abstract void setTarget(@Nullable LivingEntity target);
-
-    @Shadow
     public abstract EntityNavigation getNavigation();
 
     @Shadow
     private ItemStack bodyArmor;
+
+    @Shadow
+    @Final
+    protected GoalSelector goalSelector;
+
+    @Shadow
+    @Nullable
+    public abstract LivingEntity getTarget();
+
+    @Shadow
+    public abstract void setTarget(@Nullable LivingEntity target);
 
     @Unique
     private static final TrackedData<Integer> POSSESSOR_ID = DataTracker.registerData(
@@ -92,7 +102,20 @@ public abstract class MobEntityMixin extends LivingEntity implements PossessorIn
             }
         }
 
+        for (PrioritizedGoal goal : this.goalSelector.getGoals()) {
+            if (goal.isRunning()) {
+                goal.stop();
+            }
+        }
+
+        Lesbos.LOGGER.info("{} {}", this, this.getTarget());
+
         this.setTarget(null);
+        this.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
+        this.getBrain().forget(MemoryModuleType.ANGRY_AT);
+        this.getBrain().forget(MemoryModuleType.UNIVERSAL_ANGER);
+
+        Lesbos.LOGGER.info("{} {}", this, this.getTarget());
 
         if (this.getNavigation() != null) {
             this.getNavigation().stop();
@@ -108,7 +131,7 @@ public abstract class MobEntityMixin extends LivingEntity implements PossessorIn
             cancellable = true
     )
     private void possessedCancelSetTarget(LivingEntity target, CallbackInfo ci) {
-        if (this.lesbos$getPossessor() != null) {
+        if (this.lesbos$getPossessor() != null && target != null) {
             ci.cancel();
         }
     }

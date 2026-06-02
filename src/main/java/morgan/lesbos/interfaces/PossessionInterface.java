@@ -10,6 +10,7 @@ public interface PossessionInterface {
     public @Nullable MobEntity lesbos$getPossessedEntity();
     public void lesbos$setPossessedEntity(@Nullable MobEntity entity);
 
-    public void lesbos$possess(MobEntity entity);
+    public boolean lesbos$canPossess(MobEntity entity);
+    public boolean lesbos$possess(MobEntity entity);
     public void lesbos$unPossess();
 }

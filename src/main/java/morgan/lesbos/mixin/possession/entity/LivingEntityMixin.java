@@ -72,13 +72,10 @@ public abstract class LivingEntityMixin extends Entity {
     private void redirectHealth(CallbackInfoReturnable<Float> cir) {
         if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
             PossessionInterface possession = (PossessionInterface) player;
+            MobEntity entity = possession.lesbos$getPossessedEntity();
 
-            if (possession.lesbos$isPossessing()) {
-                MobEntity entity = possession.lesbos$getPossessedEntity();
-
-                if (entity != null && entity.getHealth() > 0) {
-                    cir.setReturnValue(entity.getHealth());
-                }
+            if (entity != null && entity.getHealth() > 0) {
+                cir.setReturnValue(entity.getHealth());
             }
         }
     }
@@ -87,13 +84,10 @@ public abstract class LivingEntityMixin extends Entity {
     private void redirectAttributes(RegistryEntry<EntityAttribute> attribute, CallbackInfoReturnable<Double> cir) {
         if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
             PossessionInterface possession = (PossessionInterface) player;
+            MobEntity entity = possession.lesbos$getPossessedEntity();
 
-            if (possession.lesbos$isPossessing()) {
-                MobEntity entity = possession.lesbos$getPossessedEntity();
-
-                if (entity != null && entity.getAttributes().hasAttribute(attribute)) {
-                    cir.setReturnValue(entity.getAttributeValue(attribute));
-                }
+            if (entity != null && entity.getAttributes().hasAttribute(attribute)) {
+                cir.setReturnValue(entity.getAttributeValue(attribute));
             }
         }
     }
@@ -102,13 +96,10 @@ public abstract class LivingEntityMixin extends Entity {
     private void redirectDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
             PossessionInterface possession = (PossessionInterface) player;
+            MobEntity entity = possession.lesbos$getPossessedEntity();
 
-            if (possession.lesbos$isPossessing()) {
-                MobEntity entity = possession.lesbos$getPossessedEntity();
-
-                if (entity != null) {
-                    cir.setReturnValue(entity.getDimensions(entity.getPose()));
-                }
+            if (entity != null) {
+                cir.setReturnValue(entity.getDimensions(entity.getPose()));
             }
         }
     }
@@ -117,13 +108,10 @@ public abstract class LivingEntityMixin extends Entity {
     public void canHit(CallbackInfoReturnable<Boolean> cir) {
         if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
             PossessionInterface possession = (PossessionInterface) player;
+            MobEntity entity = possession.lesbos$getPossessedEntity();
 
-            if (possession.lesbos$isPossessing()) {
-                MobEntity entity = possession.lesbos$getPossessedEntity();
-
-                if (entity != null) {
-                    cir.setReturnValue(false);
-                }
+            if (entity != null) {
+                cir.setReturnValue(false);
             }
         }
         else if (this.getWorld().isClient() && (LivingEntity) (Object) this instanceof MobEntity entity) {
@@ -148,15 +136,12 @@ public abstract class LivingEntityMixin extends Entity {
     public void redirectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
             PossessionInterface possession = (PossessionInterface) player;
+            MobEntity entity = possession.lesbos$getPossessedEntity();
 
-            if (possession.lesbos$isPossessing()) {
-                MobEntity entity = possession.lesbos$getPossessedEntity();
-
-                if ( entity != null ) {
-                    boolean damaged = entity.damage(source, amount);
-                    if (!damaged)
-                        cir.setReturnValue(false);
-                }
+            if ( entity != null ) {
+                boolean damaged = entity.damage(source, amount);
+                if (!damaged)
+                    cir.setReturnValue(false);
             }
         }
     }
@@ -165,13 +150,33 @@ public abstract class LivingEntityMixin extends Entity {
     public void redirectApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
         if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
             PossessionInterface possession = (PossessionInterface) player;
+            MobEntity entity = possession.lesbos$getPossessedEntity();
 
-            if (possession.lesbos$isPossessing()) {
-                MobEntity entity = possession.lesbos$getPossessedEntity();
+            if ( entity != null ) {
+                ci.cancel();
+            }
+        }
+    }
 
-                if ( entity != null ) {
-                    ci.cancel();
-                }
+    @Inject(method = "isUsingItem", at = @At("HEAD"), cancellable = true)
+    public void redirectIsUsingItem(CallbackInfoReturnable<Boolean> cir) {
+        if ((LivingEntity) (Object) this instanceof MobEntity) {
+            PlayerEntity player = ((PossessorInterface) this).lesbos$getPossessor();
+
+            if ( player != null ) {
+                cir.setReturnValue(player.isUsingItem());
+            }
+        }
+    }
+
+
+    @Inject(method = "getItemUseTime", at = @At("HEAD"), cancellable = true)
+    public void redirectGetItemUseTime(CallbackInfoReturnable<Integer> cir) {
+        if ((LivingEntity) (Object) this instanceof MobEntity) {
+            PlayerEntity player = ((PossessorInterface) this).lesbos$getPossessor();
+
+            if ( player != null ) {
+                cir.setReturnValue(player.getItemUseTime());
             }
         }
     }

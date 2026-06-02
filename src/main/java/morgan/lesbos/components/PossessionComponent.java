@@ -33,8 +33,11 @@ public class PossessionComponent implements AutoSyncedComponent {
         return this.possessedEntityUuid;
     }
 
+    @Nullable
     private static MobEntity findEntityByUuid(World world, UUID uuid) {
         Entity possessedEntity = null;
+
+        if (uuid==null) return null;
 
         if ( world instanceof ServerWorld serverWorld ) {
             possessedEntity = serverWorld.getEntity(uuid);

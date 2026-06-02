@@ -9,6 +9,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
 
 public class PossessCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -32,7 +33,10 @@ public class PossessCommand {
                 player.getBoundingBox().expand(16)
         );
 
-        ((PossessionInterface) player).lesbos$possess(entity);
+        if ( entity != null && ((PossessionInterface) player).lesbos$possess(entity) )
+            source.sendFeedback(()->Text.literal("Possessed " + entity.getType() + "!"), false);
+        else
+            source.sendFeedback(()->Text.literal("Couldn't possess!"), false);
 
         return 1;
     }

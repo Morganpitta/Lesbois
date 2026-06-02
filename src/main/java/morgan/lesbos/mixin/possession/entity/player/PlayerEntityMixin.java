@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Set;
+
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements PossessionInterface {
     @Unique
@@ -40,12 +42,27 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
         LesbosComponents.POSSESSION.get(this).setPossessedEntity(entity);
     }
 
+    private static final Set<EntityType<?>> UNPOSSESSABLE_TYPES = Set.of(
+            EntityType.ENDER_DRAGON,
+            EntityType.WITHER,
+            EntityType.WARDEN
+    );
 
+    public boolean lesbos$canPossess(MobEntity entity) {
+        PlayerEntity possessor = ((PossessorInterface) entity).lesbos$getPossessor();
+        if (possessor != null && possessor != (PlayerEntity) (Object) this)
+            return false;
 
-    public void lesbos$possess(MobEntity entity) {
-        if (((PossessorInterface) entity).lesbos$getPossessor() != null) return;
+        if (UNPOSSESSABLE_TYPES.contains(entity.getType()))
+            return false;
 
-        if ( this.lesbos$getPossessedEntity() != null )
+        return true;
+    }
+
+    public boolean lesbos$possess(MobEntity entity) {
+        if (!lesbos$canPossess(entity)) return false;
+
+        if ( this.lesbos$getPossessedEntity() != null && this.lesbos$getPossessedEntity() != entity )
             this.lesbos$unPossess();
 
         this.lesbos$setPossessedEntity(entity);
@@ -55,6 +72,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
         ((PossessorInterface) entity).lesbos$stopTargetSelectorGoals();
 
         this.calculateDimensions();
+
+        return true;
     }
 
     public void lesbos$unPossess() {
@@ -84,8 +103,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
             }
             return;
         }
-
-        wasPossessing = true;
+        else if ( !wasPossessing ) {
+            this.lesbos$possess(entity);
+            wasPossessing = true;
+        }
 
         if (entity.isDead() || entity.isRemoved()) {
             this.lesbos$unPossess();
