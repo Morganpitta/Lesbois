@@ -108,14 +108,10 @@ public abstract class MobEntityMixin extends LivingEntity implements PossessorIn
             }
         }
 
-        Lesbos.LOGGER.info("{} {}", this, this.getTarget());
-
         this.setTarget(null);
         this.getBrain().forget(MemoryModuleType.ATTACK_TARGET);
         this.getBrain().forget(MemoryModuleType.ANGRY_AT);
         this.getBrain().forget(MemoryModuleType.UNIVERSAL_ANGER);
-
-        Lesbos.LOGGER.info("{} {}", this, this.getTarget());
 
         if (this.getNavigation() != null) {
             this.getNavigation().stop();

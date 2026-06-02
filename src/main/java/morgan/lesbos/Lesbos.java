@@ -3,7 +3,7 @@ package morgan.lesbos;
 import morgan.lesbos.actions.LesbosEntityActionTypes;
 import morgan.lesbos.command.LesbosCommands;
 import morgan.lesbos.entity.LesbosEntities;
-import morgan.lesbos.network.packet.LesbosC2SPackets;
+import morgan.lesbos.network.packet.LesbosPackets;
 import morgan.lesbos.conditions.entity.LesbosEntityConditionTypes;
 import morgan.lesbos.powers.LesbosPowerTypes;
 import net.fabricmc.api.ModInitializer;
@@ -22,7 +22,7 @@ public class Lesbos implements ModInitializer {
     @Override
     public void onInitialize() {
         // Minecraft registries
-        LesbosC2SPackets.register();
+        LesbosPackets.register();
         LesbosEntities.register();
         LesbosCommands.register();
 

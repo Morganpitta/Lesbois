@@ -8,20 +8,22 @@
     "common.entity.LivingEntityAccessor",
     "common.entity.LivingEntityMixin",
     "common.entity.mob.MobEntityAccessor",
-    "grapple.entity.player.PlayerEntityMixin",
     "common.power.type.ActiveMixin",
     "double_jump.entity.EntityMixin",
     "double_jump.entity.LivingEntityMixin",
+    "grapple.entity.player.PlayerEntityMixin",
     "possession.entity.EntityMixin",
     "possession.entity.LivingEntityMixin",
     "possession.entity.mob.MobEntityMixin",
-    "possession.entity.player.PlayerEntityMixin"
+    "possession.entity.player.PlayerEntityMixin",
+    "possession.server.network.ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
     "common.client.world.ClientWorldAccessor",
+    "possession.client.network.OtherClientPlayerEntityMixin",
     "possession.client.render.WorldRendererMixin"
   ]
 }

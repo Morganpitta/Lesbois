@@ -1,9 +1,9 @@
 package morgan.lesbos.components;
 
+import morgan.lesbos.Lesbos;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
-import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 public class DoubleJumpComponent implements AutoSyncedComponent {
@@ -21,7 +21,7 @@ public class DoubleJumpComponent implements AutoSyncedComponent {
     public void setDoubleJumps(int doubleJumps) {
         if (this.doubleJumps != doubleJumps) {
             this.doubleJumps = doubleJumps;
-            LesbosComponents.DOUBLE_JUMP.sync(this.livingEntity);
+            LesbosEntityComponents.DOUBLE_JUMP.sync(this.livingEntity);
         }
     }
 

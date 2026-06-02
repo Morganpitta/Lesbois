@@ -29,29 +29,4 @@ public record UseKeyReleasePowerTypesC2SPacket(List<Identifier> powerIds) implem
     public Id<? extends CustomPayload> getId() {
         return ID;
     }
-
-    public static void handle(UseKeyReleasePowerTypesC2SPacket payload, ServerPlayNetworking.Context context) {
-        ServerPlayerEntity player = context.player();
-        PowerHolderComponent component = PowerHolderComponent.KEY.get(player);
-
-        for (Identifier powerId : payload.powerIds()) {
-            PowerType powerType = PowerManager.getOptional(powerId)
-                    .map(component::getPowerType)
-                    .orElse(null);
-
-            if (powerType instanceof ActionOnKeyReleasePowerType keyReleasePowerType) {
-
-                if (keyReleasePowerType.isActive()) {
-                    keyReleasePowerType.onUse();
-                }
-
-            }
-            else if (powerType != null) {
-                Lesbos.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a key release power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
-            }
-            else {
-                Lesbos.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering key release power types of player {}!", powerId, player.getName().getString());
-            }
-        }
-    }
 }

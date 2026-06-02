@@ -9,7 +9,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 
-public class LesbosComponents implements EntityComponentInitializer {
+public class LesbosEntityComponents implements EntityComponentInitializer {
     public static final ComponentKey<DoubleJumpComponent> DOUBLE_JUMP = getOrCreate("double_jumps", DoubleJumpComponent.class);
     public static final ComponentKey<PossessionComponent> POSSESSION = getOrCreate("possession", PossessionComponent.class);
 

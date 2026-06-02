@@ -15,19 +15,4 @@ public record DoubleJumpC2SPacket() implements CustomPayload {
 
     @Override
     public Id<? extends CustomPayload> getId() { return ID; }
-
-    public static void handle(DoubleJumpC2SPacket payload, ServerPlayNetworking.Context context) {
-        MinecraftServer server = context.player().getServer();
-
-        if ( server == null ) return;
-
-        server.execute(() -> {
-            ServerPlayerEntity player = context.player();
-            DoubleJumpInterface playerCasted = (DoubleJumpInterface) (Object) player;
-
-            if (playerCasted.lesbos$getDoubleJumps() > 0) {
-                playerCasted.lesbos$doubleJump();
-            }
-        });
-    }
 }

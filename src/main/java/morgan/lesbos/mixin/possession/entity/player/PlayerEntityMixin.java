@@ -1,12 +1,16 @@
 package morgan.lesbos.mixin.possession.entity.player;
 
-import morgan.lesbos.components.LesbosComponents;
+import morgan.lesbos.components.LesbosEntityComponents;
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
+import morgan.lesbos.network.packet.PossessionS2CPacket;
+import morgan.lesbos.network.packet.UnPossessionS2CPacket;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -20,9 +24,6 @@ import java.util.Set;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements PossessionInterface {
-    @Unique
-    public boolean wasPossessing;
-
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -30,18 +31,19 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
 
 
     public boolean lesbos$isPossessing() {
-        return LesbosComponents.POSSESSION.get(this).isPossessing();
+        return LesbosEntityComponents.POSSESSION.get(this).isPossessing();
     }
 
     @Nullable
     public MobEntity lesbos$getPossessedEntity() {
-        return LesbosComponents.POSSESSION.get(this).getPossessedEntity();
+        return LesbosEntityComponents.POSSESSION.get(this).getPossessedEntity();
     }
 
     public void lesbos$setPossessedEntity(@Nullable MobEntity entity) {
-        LesbosComponents.POSSESSION.get(this).setPossessedEntity(entity);
+        LesbosEntityComponents.POSSESSION.get(this).setPossessedEntity(entity);
     }
 
+    @Unique
     private static final Set<EntityType<?>> UNPOSSESSABLE_TYPES = Set.of(
             EntityType.ENDER_DRAGON,
             EntityType.WITHER,
@@ -73,6 +75,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
 
         this.calculateDimensions();
 
+        if ((PlayerEntity) (Object) this instanceof ServerPlayerEntity serverPlayerEntity) {
+            ServerPlayNetworking.send(serverPlayerEntity, new PossessionS2CPacket(entity.getId()));
+        }
+
         return true;
     }
 
@@ -88,6 +94,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
         this.lesbos$setPossessedEntity(null);
 
         this.calculateDimensions();
+
+        if ((PlayerEntity) (Object) this instanceof ServerPlayerEntity serverPlayerEntity) {
+            ServerPlayNetworking.send(serverPlayerEntity, new UnPossessionS2CPacket());
+        }
     }
 
 
@@ -97,15 +107,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
         MobEntity entity = this.lesbos$getPossessedEntity();
 
         if (entity == null) {
-            if ( wasPossessing ) {
-                this.lesbos$unPossess();
-                wasPossessing = false;
-            }
             return;
-        }
-        else if ( !wasPossessing ) {
-            this.lesbos$possess(entity);
-            wasPossessing = true;
         }
 
         if (entity.isDead() || entity.isRemoved()) {

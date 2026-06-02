@@ -1,6 +1,6 @@
 package morgan.lesbos.mixin.double_jump.entity;
 
-import morgan.lesbos.components.LesbosComponents;
+import morgan.lesbos.components.LesbosEntityComponents;
 import morgan.lesbos.interfaces.DoubleJumpInterface;
 import morgan.lesbos.network.packet.DoubleJumpC2SPacket;
 import morgan.lesbos.powers.DoubleJumpPowerType;
@@ -48,11 +48,11 @@ public abstract class LivingEntityMixin extends Entity implements DoubleJumpInte
     }
 
     public int lesbos$getDoubleJumps(){
-        return LesbosComponents.DOUBLE_JUMP.get(this).getDoubleJumps();
+        return LesbosEntityComponents.DOUBLE_JUMP.get(this).getDoubleJumps();
     }
 
     public void lesbos$setDoubleJumps(int doubleJumps){
-        LesbosComponents.DOUBLE_JUMP.get(this).setDoubleJumps(doubleJumps);
+        LesbosEntityComponents.DOUBLE_JUMP.get(this).setDoubleJumps(doubleJumps);
     }
 
     public boolean lesbos$canDoubleJump(){

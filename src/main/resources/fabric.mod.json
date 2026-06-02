@@ -17,7 +17,7 @@
       "morgan.lesbos.client.LesbosClient"
     ],
     "cardinal-components": [
-      "morgan.lesbos.components.LesbosComponents"
+      "morgan.lesbos.components.LesbosEntityComponents"
     ]
   },
   "mixins": [

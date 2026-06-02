@@ -1,5 +1,6 @@
 package morgan.lesbos.components;
 
+import morgan.lesbos.Lesbos;
 import morgan.lesbos.mixin.common.client.world.ClientWorldAccessor;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -33,6 +34,7 @@ public class PossessionComponent implements AutoSyncedComponent {
         return this.possessedEntityUuid;
     }
 
+    // Can return null even if entity exists, if the entity is in unloaded chunks...
     @Nullable
     private static MobEntity findEntityByUuid(World world, UUID uuid) {
         Entity possessedEntity = null;
@@ -58,7 +60,7 @@ public class PossessionComponent implements AutoSyncedComponent {
         UUID uuid = entity == null ? null : entity.getUuid();
         if ( this.possessedEntityUuid != uuid ) {
             this.possessedEntityUuid = uuid;
-            LesbosComponents.POSSESSION.sync(this.playerEntity);
+            LesbosEntityComponents.POSSESSION.sync(this.playerEntity);
         }
     }
 
