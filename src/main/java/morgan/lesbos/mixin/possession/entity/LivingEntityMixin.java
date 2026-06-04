@@ -146,18 +146,6 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
-    @Inject(method = "applyDamage", at= @At("HEAD"), cancellable = true)
-    public void redirectApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
-        if ((LivingEntity) (Object) this instanceof PlayerEntity player) {
-            PossessionInterface possession = (PossessionInterface) player;
-            MobEntity entity = possession.lesbos$getPossessedEntity();
-
-            if ( entity != null ) {
-                ci.cancel();
-            }
-        }
-    }
-
     @Inject(method = "isUsingItem", at = @At("HEAD"), cancellable = true)
     public void redirectIsUsingItem(CallbackInfoReturnable<Boolean> cir) {
         if ((LivingEntity) (Object) this instanceof MobEntity) {

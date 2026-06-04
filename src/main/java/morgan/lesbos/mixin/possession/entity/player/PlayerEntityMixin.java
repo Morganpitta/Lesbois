@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -132,6 +133,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
              entityBoundingBox.getLengthZ() != playerBoundingBox.getLengthZ() ) {
 
             this.calculateDimensions();
+        }
+    }
+
+    @Inject(method = "applyDamage", at= @At("HEAD"), cancellable = true)
+    public void redirectApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
+        MobEntity entity = this.lesbos$getPossessedEntity();
+
+        if ( entity != null ) {
+            ci.cancel();
         }
     }
 }
