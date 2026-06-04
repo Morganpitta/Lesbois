@@ -1,7 +1,8 @@
 {
   "replace": true,
   "origins": [
-    "lesbos:test"
+    "lesbos:test",
+    "lesbos:parasyte"
   ],
   "loading_priority": 1
 }

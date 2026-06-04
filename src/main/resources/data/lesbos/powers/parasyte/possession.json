@@ -1,0 +1,8 @@
+{
+  "type": "origins:toggle",
+  "key": {
+    "key": "key.origins.primary_active",
+    "continuous": false
+  },
+  "retain_state": false
+}

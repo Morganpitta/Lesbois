@@ -1,0 +1,51 @@
+{
+  "type": "origins:modify_damage_dealt",
+  "modifier": {
+    "operation": "apoli:set_base",
+    "amount": 0
+  },
+  "condition": {
+    "type": "apoli:power_active",
+    "power": "lesbos:parasyte/possession"
+  },
+  "damage_condition": {
+    "type": "origins:type",
+    "damage_type": "minecraft:player_attack"
+  },
+  "bientity_action": {
+    "type": "origins:and",
+    "actions": [
+      {
+        "type": "lesbos:possess"
+      },
+      {
+        "type": "origins:actor_action",
+        "action": {
+          "type": "origins:and",
+          "actions": [
+            {
+              "type": "origins:execute_command",
+              "command": "particle minecraft:reverse_portal ~ ~1 ~ 0.5 0.5 0.5 2 100 force"
+            },
+            {
+              "type": "origins:execute_command",
+              "command": "particle minecraft:dust_color_transition{from_color:[0.7,0.0,1.0],scale:4.0f,to_color:[0.0,0.0,0.0]} ~ ~1 ~ 1.0 1.0 1.0 0.1 100 force"
+            },
+            {
+              "type": "origins:execute_command",
+              "command": "playsound minecraft:entity.illusioner.cast_spell player @a ~ ~ ~ 1.0 1.0"
+            },
+            {
+              "type": "origins:execute_command",
+              "command": "playsound minecraft:block.candle.extinguish player @a ~ ~ ~ 1.0 1.0"
+            },
+            {
+              "type": "origins:toggle",
+              "power": "lesbos:parasyte/possession"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

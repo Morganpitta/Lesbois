@@ -6,7 +6,7 @@ import io.github.apace100.apoli.action.type.EntityActionType;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
-import morgan.lesbos.actions.LesbosEntityActionTypes;
+import morgan.lesbos.actions.LesbosActionTypes;
 import morgan.lesbos.interfaces.GrappleInterface;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -61,6 +61,6 @@ public class GrappleEntityActionType extends EntityActionType {
 
     @Override
     public @NotNull ActionConfiguration<?> getConfig() {
-        return LesbosEntityActionTypes.GRAPPLE;
+        return LesbosActionTypes.GRAPPLE;
     }
 }

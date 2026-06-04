@@ -1,0 +1,14 @@
+{
+  "powers": [
+    "lesbos:parasyte/possession",
+    "lesbos:parasyte/possession_overlay",
+    "lesbos:parasyte/possession_possess",
+    "lesbos:parasyte/creeper"
+  ],
+  "icon": {
+    "id": "minecraft:ender_eye"
+  },
+  "name": "Parasyte",
+  "description": "Parasyte",
+  "impact": 3
+}
