@@ -10,6 +10,8 @@ import morgan.lesbos.actions.LesbosActionTypes;
 import morgan.lesbos.common.Util;
 import morgan.lesbos.interfaces.GrappleInterface;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,7 +34,7 @@ public class ShockwaveEntityActionType extends EntityActionType {
             new SerializableData()
                     .add("min_speed", SerializableDataTypes.DOUBLE, 1D)
                     .add("distance", SerializableDataTypes.DOUBLE, 10D)
-                    .add("damage", SerializableDataTypes.DOUBLE, 2D)
+                    .add("damage", SerializableDataTypes.DOUBLE, 0.5D)
                     .add("knockback", SerializableDataTypes.DOUBLE, 1D),
             data -> new ShockwaveEntityActionType(
                     data.get("min_speed"),
@@ -81,12 +83,12 @@ public class ShockwaveEntityActionType extends EntityActionType {
         player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 3.0F, 1.0F);
 
         entities.forEach(entity -> {
-            Vec3d vectorToEntity = entity.getPos().subtract(player.getPos());
+            Vec3d vectorToEntity = entity.getPos().subtract(player.getPos()).normalize();
 
-            entity.damage(entity.getDamageSources().playerAttack(player), (float) (this.damage * playerSpeed));
+            entity.damage(entity.getDamageSources().playerAttack(player), (float) (this.damage * playerSpeed * player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
 
-            Vec3d knockback = vectorToEntity.normalize().multiply(this.knockback * playerSpeed);
-            knockback = new Vec3d(knockback.x, Math.max(knockback.y, this.knockback * playerSpeed), knockback.z);
+            Vec3d knockback = new Vec3d(vectorToEntity.x, 1, vectorToEntity.z)
+                                    .multiply(this.knockback * playerSpeed * player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_KNOCKBACK));
             entity.setVelocity(entity.getVelocity().add(knockback));
         });
     }
