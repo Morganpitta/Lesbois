@@ -54,7 +54,7 @@ public class DoubleJumpPowerType extends PowerType {
         if (component == null) return 0;
 
         return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DoubleJumpPowerType)
+                .filter(power -> power.getType() instanceof DoubleJumpPowerType && power.isActive(entity))
                 .mapToInt(power -> ((DoubleJumpPowerType) power.getType()).getDoubleJumps()).max()
                 .orElse(0);
     }
