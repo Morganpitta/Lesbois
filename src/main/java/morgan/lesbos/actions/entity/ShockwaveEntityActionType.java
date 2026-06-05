@@ -15,6 +15,7 @@ import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -72,13 +73,12 @@ public class ShockwaveEntityActionType extends EntityActionType {
         player.velocityModified = true;
         player.fallDistance = 0;
 
-
-        for (double j = 0; j < distance; j+=0.25) {
+        for (double j = 2; j < distance*2; j+=2) {
             Vec3d particlePos = player.getPos().add(playerVelocity.multiply(j));
-            player.getServerWorld().spawnParticles(ParticleTypes.SONIC_BOOM, particlePos.x, particlePos.y, particlePos.z, 1, 0.0, 0.0, 0.0, 0.0);
+            player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION, particlePos.x, particlePos.y, particlePos.z, 0, 0.0, 0.0, 0.0, j/2);
         }
 
-        player.playSound(SoundEvents.ENTITY_WARDEN_SONIC_BOOM, 3.0F, 1.0F);
+        player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 3.0F, 1.0F);
 
         entities.forEach(entity -> {
             Vec3d vectorToEntity = entity.getPos().subtract(player.getPos());
