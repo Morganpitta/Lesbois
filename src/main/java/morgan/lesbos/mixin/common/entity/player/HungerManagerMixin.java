@@ -23,7 +23,7 @@ public class HungerManagerMixin {
     @Shadow
     private float saturationLevel;
 
-    @Inject(method = "update", at=@At("HEAD"), cancellable = true)
+    @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     public void disableHunger(PlayerEntity player, CallbackInfo ci) {
         if (DisableHungerPowerType.shouldDisableHunger(player)) {
             this.foodLevel = 20;

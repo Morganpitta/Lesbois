@@ -11,7 +11,7 @@
   "visible_in_third_person": true,
   "hide_with_hud": true,
   "condition": {
-    "type": "apoli:power_active",
+    "type": "origins:power_active",
     "power": "lesbos:parasyte/possession"
   }
 }

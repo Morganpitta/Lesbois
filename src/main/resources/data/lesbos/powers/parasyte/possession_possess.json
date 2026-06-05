@@ -5,7 +5,7 @@
     "amount": 0
   },
   "condition": {
-    "type": "apoli:power_active",
+    "type": "origins:power_active",
     "power": "lesbos:parasyte/possession"
   },
   "damage_condition": {
