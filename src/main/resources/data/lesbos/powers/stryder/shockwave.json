@@ -4,8 +4,8 @@
     "type": "lesbos:shockwave",
     "minSpeed": 1,
     "distance": 10,
-    "damage": 10,
-    "knockback": 0
+    "damage": 2,
+    "knockback": 3
   },
   "key": {
     "key": "key.origins.secondary_active"

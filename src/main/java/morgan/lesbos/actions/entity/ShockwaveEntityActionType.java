@@ -13,7 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,12 +29,12 @@ public class ShockwaveEntityActionType extends EntityActionType {
 
     public static final TypedDataObjectFactory<ShockwaveEntityActionType> DATA_FACTORY = TypedDataObjectFactory.simple(
             new SerializableData()
-                    .add("minSpeed", SerializableDataTypes.DOUBLE, 0.5D)
+                    .add("min_speed", SerializableDataTypes.DOUBLE, 0.5D)
                     .add("distance", SerializableDataTypes.DOUBLE, 15D)
                     .add("damage", SerializableDataTypes.DOUBLE, 5D)
                     .add("knockback", SerializableDataTypes.DOUBLE, 5D),
             data -> new ShockwaveEntityActionType(
-                    data.get("minSpeed"),
+                    data.get("min_speed"),
                     data.get("distance"),
                     data.get("damage"),
                     data.get("knockback")),
@@ -69,6 +71,14 @@ public class ShockwaveEntityActionType extends EntityActionType {
         player.velocityDirty = true;
         player.velocityModified = true;
         player.fallDistance = 0;
+
+
+        for (double j = 0; j < distance; j+=0.25) {
+            Vec3d particlePos = player.getPos().add(playerVelocity.multiply(j));
+            player.getServerWorld().spawnParticles(ParticleTypes.SONIC_BOOM, particlePos.x, particlePos.y, particlePos.z, 1, 0.0, 0.0, 0.0, 0.0);
+        }
+
+        player.playSound(SoundEvents.ENTITY_WARDEN_SONIC_BOOM, 3.0F, 1.0F);
 
         entities.forEach(entity -> {
             Vec3d vectorToEntity = entity.getPos().subtract(player.getPos());
