@@ -68,14 +68,16 @@ public class ShockwaveEntityActionType extends EntityActionType {
         player.setVelocity(Vec3d.ZERO);
         player.velocityDirty = true;
         player.velocityModified = true;
+        player.fallDistance = 0;
 
         entities.forEach(entity -> {
             Vec3d vectorToEntity = entity.getPos().subtract(player.getPos());
-            double distanceToEntity = vectorToEntity.length() * playerSpeed;
-
-            if ( distanceToEntity < 1 ) distanceToEntity = 1;
+//            double distanceToEntity = vectorToEntity.length() * playerSpeed;
+//
+//            if ( distanceToEntity < 1 ) distanceToEntity = 1;
 
             entity.damage(entity.getDamageSources().playerAttack(player), (float) (this.damage * playerSpeed));
+
             Vec3d knockback = vectorToEntity.normalize().multiply(this.knockback * playerSpeed);
             knockback = new Vec3d(knockback.x, Math.max(knockback.y, this.knockback * playerSpeed), knockback.z);
             entity.setVelocity(entity.getVelocity().add(knockback));
