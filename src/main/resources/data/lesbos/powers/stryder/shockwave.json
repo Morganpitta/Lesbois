@@ -1,0 +1,9 @@
+{
+  "type": "origins:action_on_key_press",
+  "entity_action": {
+    "type": "lesbos:shockwave"
+  },
+  "key": {
+    "key": "key.origins.secondary_active"
+  }
+}

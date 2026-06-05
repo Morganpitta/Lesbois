@@ -11,7 +11,8 @@
     "lesbos:stryder/un_grapple",
     "lesbos:stryder/oc_over_time",
     "lesbos:stryder/oc_toggle",
-    "lesbos:stryder/oc_overlay"
+    "lesbos:stryder/oc_overlay",
+    "lesbos:stryder/shockwave"
   ],
   "icon": {
     "id": "minecraft:ender_eye"

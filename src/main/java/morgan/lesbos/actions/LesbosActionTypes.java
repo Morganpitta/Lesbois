@@ -9,12 +9,14 @@ import io.github.apace100.apoli.data.TypedDataObjectFactory;
 import morgan.lesbos.Lesbos;
 import morgan.lesbos.actions.bientity.PossessBiEntityActionType;
 import morgan.lesbos.actions.entity.GrappleEntityActionType;
+import morgan.lesbos.actions.entity.ShockwaveEntityActionType;
 import morgan.lesbos.actions.entity.UnGrappleEntityActionType;
 
 public class LesbosActionTypes {
     public static final ActionConfiguration<GrappleEntityActionType> GRAPPLE = registerEntityAction("grapple", GrappleEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<UnGrappleEntityActionType> UN_GRAPPLE = registerEntityAction("un_grapple", UnGrappleEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<PossessBiEntityActionType> POSSESS = registerBiEntityAction("possess", PossessBiEntityActionType.DATA_FACTORY);
+    public static final ActionConfiguration<ShockwaveEntityActionType> SHOCKWAVE = registerEntityAction("shockwave", ShockwaveEntityActionType.DATA_FACTORY);
 
     public static void register() {
     }
