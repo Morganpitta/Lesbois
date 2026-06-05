@@ -4,17 +4,21 @@ import io.github.apace100.apoli.action.ActionConfiguration;
 import io.github.apace100.apoli.action.context.EntityActionContext;
 import io.github.apace100.apoli.action.type.EntityActionType;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
+import io.github.apace100.apoli.mixin.power.type.ModifyEnchantmentLevelPowerTypeMixin;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import morgan.lesbos.actions.LesbosActionTypes;
 import morgan.lesbos.common.Util;
 import morgan.lesbos.interfaces.GrappleInterface;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -88,7 +92,7 @@ public class ShockwaveEntityActionType extends EntityActionType {
             entity.damage(entity.getDamageSources().playerAttack(player), (float) (this.damage * playerSpeed * player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
 
             Vec3d knockback = new Vec3d(vectorToEntity.x, 1, vectorToEntity.z)
-                                    .multiply(this.knockback * playerSpeed * player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_KNOCKBACK));
+                                    .multiply(this.knockback * playerSpeed);
             entity.setVelocity(entity.getVelocity().add(knockback));
         });
     }
