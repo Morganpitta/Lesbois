@@ -79,6 +79,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
             this.startRiding(vehicle);
         }
 
+        this.setPos(entity.getPos().x, entity.getPos().y, entity.getPos().z);
         this.calculateDimensions();
 
         if ((PlayerEntity) (Object) this instanceof ServerPlayerEntity serverPlayerEntity) {

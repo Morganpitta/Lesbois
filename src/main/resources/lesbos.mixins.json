@@ -15,6 +15,7 @@
     "grapple.entity.player.PlayerEntityMixin",
     "possession.entity.EntityMixin",
     "possession.entity.LivingEntityMixin",
+    "possession.entity.ai.brain.BrainMixin",
     "possession.entity.mob.MobEntityMixin",
     "possession.entity.player.PlayerEntityMixin",
     "possession.server.PlayerManagerMixin",
@@ -26,6 +27,7 @@
   "client": [
     "common.client.gui.hud.InGameHudMixin",
     "common.client.world.ClientWorldAccessor",
+    "possession.client.gui.hud.InGameHudMixin",
     "possession.client.network.OtherClientPlayerEntityMixin",
     "possession.client.render.WorldRendererMixin"
   ]

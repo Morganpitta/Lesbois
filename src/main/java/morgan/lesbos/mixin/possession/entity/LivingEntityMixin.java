@@ -3,12 +3,14 @@ package morgan.lesbos.mixin.possession.entity;
 import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -65,8 +67,8 @@ public abstract class LivingEntityMixin extends Entity {
             this.lastHandSwingProgress = player.lastHandSwingProgress;
             this.handSwingProgress = player.handSwingProgress;
 
-            player.setOnFire(this.isOnFire());
-            player.setAir(this.getAir());
+            this.setOnFire(player.isOnFire());
+            this.setFireTicks(player.getFireTicks());
         }
     }
 
@@ -170,5 +172,18 @@ public abstract class LivingEntityMixin extends Entity {
                 cir.setReturnValue(player.getItemUseTime());
             }
         }
+    }
+
+    @Redirect(method = "modifyAppliedDamage", at= @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getProtectionAmount(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/damage/DamageSource;)F"))
+    public float redirectProtectionAmount(ServerWorld world, LivingEntity user, DamageSource damageSource) {
+        if (user instanceof MobEntity) {
+            PlayerEntity player = ((PossessorInterface) user).lesbos$getPossessor();
+
+            if ( player != null ) {
+                return EnchantmentHelper.getProtectionAmount(world, player, damageSource);
+            }
+        }
+
+        return EnchantmentHelper.getProtectionAmount(world, user, damageSource);
     }
 }

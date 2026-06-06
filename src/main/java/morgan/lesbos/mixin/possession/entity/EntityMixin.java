@@ -4,6 +4,8 @@ import morgan.lesbos.interfaces.PossessionInterface;
 import morgan.lesbos.interfaces.PossessorInterface;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
@@ -25,6 +27,9 @@ import java.util.Set;
 public abstract class EntityMixin {
     @Shadow
     public abstract World getWorld();
+
+    @Shadow
+    public abstract DataTracker getDataTracker();
 
     @Unique
     private Entity getRootEntity(Entity entity) {
@@ -132,6 +137,17 @@ public abstract class EntityMixin {
         }
     }
 
+    @Inject(method = "canStartRiding", at=@At("HEAD"), cancellable = true)
+    void preventRiding(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if ((Entity) (Object) this instanceof MobEntity mobEntity) {
+            PlayerEntity player = ((PossessorInterface) mobEntity).lesbos$getPossessor();
+
+            if (player != null) {
+                cir.setReturnValue(false);
+            }
+        }
+    }
+
     @Inject(method = "getPose", at=@At("HEAD"), cancellable = true)
     public void getPose(CallbackInfoReturnable<EntityPose> cir) {
         if ((Entity) (Object) this instanceof MobEntity entity) {
@@ -139,6 +155,30 @@ public abstract class EntityMixin {
 
             if (player != null) {
                 cir.setReturnValue(player.getPose());
+            }
+        }
+    }
+
+    @Inject(method = "getAir", at=@At("HEAD"), cancellable = true)
+    public void getAir(CallbackInfoReturnable<Integer> cir) {
+        if ((Entity) (Object) this instanceof PlayerEntity) {
+            MobEntity entity = ((PossessionInterface) this).lesbos$getPossessedEntity();
+
+            if (entity != null) {
+                cir.setReturnValue(entity.getAir());
+            }
+        }
+    }
+
+    @Inject(method = "getMaxAir", at=@At("HEAD"), cancellable = true)
+    public void getMaxAir(CallbackInfoReturnable<Integer> cir) {
+        if ((Entity) (Object) this instanceof PlayerEntity) {
+            if (this.getDataTracker() == null) return;
+
+            MobEntity entity = ((PossessionInterface) this).lesbos$getPossessedEntity();
+
+            if (entity != null) {
+                cir.setReturnValue(entity.getMaxAir());
             }
         }
     }
