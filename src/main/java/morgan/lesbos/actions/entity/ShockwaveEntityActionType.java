@@ -93,8 +93,11 @@ public class ShockwaveEntityActionType extends EntityActionType {
         world.playSound(null, player.getX(), player.getY(), player.getZ(), LesbosSounds.SONIC_BOOM, SoundCategory.PLAYERS, 3.0F, 1.0F);
 
         entities.forEach(entity -> {
-            if ( entity instanceof LivingEntity )
-                Util.sendMovingSound(LesbosSounds.PATRICK_SCREAM, 2.3F, 1.0F, entity, world.getRandom().nextLong());
+            if ( entity instanceof LivingEntity ) {
+                if (world.getRandom().nextFloat() < 0.05F) {
+                    Util.sendMovingSound(LesbosSounds.PATRICK_SCREAM, 2.3F, 1.0F, entity, world.getRandom().nextLong());
+                }
+            }
 
             Vec3d vectorToEntity = entity.getPos().subtract(player.getPos()).normalize();
 
