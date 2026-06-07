@@ -2,12 +2,13 @@ package morgan.lesbos.network.packet;
 
 import morgan.lesbos.Lesbos;
 import morgan.lesbos.interfaces.PossessionInterface;
+import morgan.lesbos.sound.LivingEntityTrackingSoundInstance;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.sound.EntityTrackingSoundInstance;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
@@ -60,9 +61,9 @@ public class LesbosClientPackets {
             Entity entity = client.world.getEntityById(payload.entityId());
             SoundEvent sound = Registries.SOUND_EVENT.get(payload.soundId());
 
-            if (entity != null && sound != null) {
+            if (entity instanceof LivingEntity && sound != null) {
                 client.getSoundManager().play(
-                        new EntityTrackingSoundInstance(sound, SoundCategory.PLAYERS, payload.volume(), payload.pitch(), entity, payload.seed())
+                        new LivingEntityTrackingSoundInstance(sound, SoundCategory.PLAYERS, payload.volume(), payload.pitch(), (LivingEntity) entity, payload.seed())
                 );
             }
         });
