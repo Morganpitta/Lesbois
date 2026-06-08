@@ -14,12 +14,6 @@ import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-    @Shadow
-    @Final
-    private static Identifier FOOD_EMPTY_TEXTURE;
-    @Shadow
-    @Final
-    private static Identifier FOOD_EMPTY_HUNGER_TEXTURE;
     @Unique
     private static final Identifier FOOD_DISABLED_TEXTURE = Lesbos.id("hud/food_disabled");
 
@@ -29,8 +23,6 @@ public class InGameHudMixin {
     )
     private void disableFood(DrawContext instance, Identifier texture, int x, int y, int width, int height, DrawContext context, PlayerEntity player, int top, int right) {
         if (DisableHungerPowerType.shouldDisableHunger(player)) {
-//            if (texture == FOOD_EMPTY_TEXTURE || texture == FOOD_EMPTY_HUNGER_TEXTURE)
-//                instance.drawGuiTexture(FOOD_EMPTY_TEXTURE, x, y, width, height);
             instance.drawGuiTexture(FOOD_DISABLED_TEXTURE, x, y, width, height);
         }
         else {

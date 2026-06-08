@@ -13,6 +13,7 @@ public class LesbosPowerTypes {
     public static final PowerConfiguration<ActionOnKeyReleasePowerType> ACTION_ON_KEY_RELEASE = register("action_on_key_release", ActionOnKeyReleasePowerType.DATA_FACTORY);
     public static final PowerConfiguration<DragModifierPowerType> DRAG_MODIFIER = register("drag_modifier", DragModifierPowerType.DATA_FACTORY);
     public static final PowerConfiguration<DisableHungerPowerType> DISABLE_HUNGER = register("disable_hunger", DisableHungerPowerType::new);
+    public static final PowerConfiguration<ActionOnParryPowerType> ACTION_ON_PARRY = register("action_on_parry", ActionOnParryPowerType.DATA_FACTORY);
 
     public static void register() {
     }

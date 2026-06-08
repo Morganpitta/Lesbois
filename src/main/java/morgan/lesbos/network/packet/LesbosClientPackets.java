@@ -1,7 +1,12 @@
 package morgan.lesbos.network.packet;
 
+import io.github.apace100.apoli.component.PowerHolderComponent;
+import io.github.apace100.apoli.power.PowerManager;
+import io.github.apace100.apoli.power.type.PowerType;
 import morgan.lesbos.Lesbos;
 import morgan.lesbos.interfaces.PossessionInterface;
+import morgan.lesbos.powers.ActionOnKeyReleasePowerType;
+import morgan.lesbos.powers.ActionOnParryPowerType;
 import morgan.lesbos.sound.LivingEntityTrackingSoundInstance;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,8 +17,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class LesbosClientPackets {
@@ -21,6 +28,7 @@ public class LesbosClientPackets {
         ClientPlayNetworking.registerGlobalReceiver(PossessionS2CPacket.ID, LesbosClientPackets::handlePossessionPacket);
         ClientPlayNetworking.registerGlobalReceiver(UnPossessionS2CPacket.ID, LesbosClientPackets::handleUnPossessionPacket);
         ClientPlayNetworking.registerGlobalReceiver(MovingSoundS2CPacket.ID, LesbosClientPackets::handleMovingSoundPacket);
+//        ClientPlayNetworking.registerGlobalReceiver(UseParryPowerTypesS2CPacket.ID, LesbosClientPackets::handleUseParryPacket);
     }
 
     public static void handlePossessionPacket(PossessionS2CPacket payload, ClientPlayNetworking.Context context) {
@@ -68,4 +76,31 @@ public class LesbosClientPackets {
             }
         });
     }
+
+//    public static void handleUseParryPacket(UseParryPowerTypesS2CPacket payload, ClientPlayNetworking.Context context) {
+//        context.client().execute(() -> {
+//            PlayerEntity player = context.player();
+//            PowerHolderComponent component = PowerHolderComponent.KEY.get(player);
+//
+//            for (Identifier powerId : payload.powerIds()) {
+//                PowerType powerType = PowerManager.getOptional(powerId)
+//                        .map(component::getPowerType)
+//                        .orElse(null);
+//
+//                if (powerType instanceof ActionOnParryPowerType parryPowerType) {
+//
+//                    if (parryPowerType.isActive()) {
+//                        parryPowerType.onUse();
+//                    }
+//
+//                }
+//                else if (powerType != null) {
+//                    Lesbos.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a key release power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
+//                }
+//                else {
+//                    Lesbos.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering key release power types of player {}!", powerId, player.getName().getString());
+//                }
+//            }
+//        });
+//    }
 }

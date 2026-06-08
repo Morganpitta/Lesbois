@@ -9,6 +9,8 @@
     "common.entity.LivingEntityMixin",
     "common.entity.mob.MobEntityAccessor",
     "common.entity.player.HungerManagerMixin",
+    "common.entity.player.PlayerEntityMixin",
+    "common.item.SwordItemMixin",
     "common.power.type.ActiveMixin",
     "double_jump.entity.EntityMixin",
     "double_jump.entity.LivingEntityMixin",
@@ -26,6 +28,7 @@
   },
   "client": [
     "common.client.gui.hud.InGameHudMixin",
+    "common.client.render.item.HeldItemRendererMixin",
     "common.client.world.ClientWorldAccessor",
     "possession.client.gui.hud.InGameHudMixin",
     "possession.client.network.OtherClientPlayerEntityMixin",

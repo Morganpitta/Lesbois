@@ -1,0 +1,9 @@
+{
+  "type": "lesbos:action_on_parry",
+  "entity_action": {
+    "type": "origins:explode",
+    "power": 5,
+    "damage_self": true,
+    "create_fire": false
+  }
+}

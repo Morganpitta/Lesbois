@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 public class LesbosEntityConditionTypes {
     public static final ConditionConfiguration<GrapplingEntityConditionType> GRAPPLING = register("grappling", GrapplingEntityConditionType::new);
     public static final ConditionConfiguration<PossessedEntityConditionType> POSSESSED_ENTITY = register("possessed_entity", PossessedEntityConditionType.DATA_FACTORY);
+    public static final ConditionConfiguration<IsParryingConditionType> IS_PARRYING = register("grappling", IsParryingConditionType::new);
 
     public static void register() {
     }
