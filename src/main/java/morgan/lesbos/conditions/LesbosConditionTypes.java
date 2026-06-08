@@ -1,19 +1,20 @@
-package morgan.lesbos.conditions.entity;
+package morgan.lesbos.conditions;
 
 import io.github.apace100.apoli.condition.ConditionConfiguration;
-import io.github.apace100.apoli.condition.type.ConditionType;
 import io.github.apace100.apoli.condition.type.EntityConditionType;
 import io.github.apace100.apoli.condition.type.EntityConditionTypes;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
 import morgan.lesbos.Lesbos;
-import net.minecraft.util.Identifier;
+import morgan.lesbos.conditions.entity.GrapplingEntityConditionType;
+import morgan.lesbos.conditions.entity.IsParryingEntityConditionType;
+import morgan.lesbos.conditions.entity.PossessedEntityConditionEntityConditionType;
 
 import java.util.function.Supplier;
 
-public class LesbosEntityConditionTypes {
+public class LesbosConditionTypes {
     public static final ConditionConfiguration<GrapplingEntityConditionType> GRAPPLING = register("grappling", GrapplingEntityConditionType::new);
-    public static final ConditionConfiguration<PossessedEntityConditionType> POSSESSED_ENTITY = register("possessed_entity", PossessedEntityConditionType.DATA_FACTORY);
-    public static final ConditionConfiguration<IsParryingConditionType> IS_PARRYING = register("grappling", IsParryingConditionType::new);
+    public static final ConditionConfiguration<PossessedEntityConditionEntityConditionType> POSSESSED_ENTITY_CONDITION = register("possessed_entity_condition", PossessedEntityConditionEntityConditionType.DATA_FACTORY);
+    public static final ConditionConfiguration<IsParryingEntityConditionType> IS_PARRYING = register("grappling", IsParryingEntityConditionType::new);
 
     public static void register() {
     }

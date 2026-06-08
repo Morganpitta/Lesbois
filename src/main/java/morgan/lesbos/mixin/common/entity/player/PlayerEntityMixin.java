@@ -86,7 +86,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
                         0.5F, 1.8F
                 );
 
-                triggerParryActions((PlayerEntity) (Object) this);
+                triggerParryActions((PlayerEntity) (Object) this, source, amount);
 
                 cir.setReturnValue(false);
             }

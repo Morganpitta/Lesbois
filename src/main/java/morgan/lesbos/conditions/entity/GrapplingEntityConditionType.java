@@ -3,6 +3,7 @@ package morgan.lesbos.conditions.entity;
 import io.github.apace100.apoli.condition.ConditionConfiguration;
 import io.github.apace100.apoli.condition.context.EntityConditionContext;
 import io.github.apace100.apoli.condition.type.EntityConditionType;
+import morgan.lesbos.conditions.LesbosConditionTypes;
 import morgan.lesbos.interfaces.GrappleInterface;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,6 +23,6 @@ public class GrapplingEntityConditionType extends EntityConditionType {
 
     @Override
     public @NotNull ConditionConfiguration<?> getConfig() {
-        return LesbosEntityConditionTypes.GRAPPLING;
+        return LesbosConditionTypes.GRAPPLING;
     }
 }

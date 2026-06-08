@@ -28,7 +28,6 @@ public class LesbosClientPackets {
         ClientPlayNetworking.registerGlobalReceiver(PossessionS2CPacket.ID, LesbosClientPackets::handlePossessionPacket);
         ClientPlayNetworking.registerGlobalReceiver(UnPossessionS2CPacket.ID, LesbosClientPackets::handleUnPossessionPacket);
         ClientPlayNetworking.registerGlobalReceiver(MovingSoundS2CPacket.ID, LesbosClientPackets::handleMovingSoundPacket);
-//        ClientPlayNetworking.registerGlobalReceiver(UseParryPowerTypesS2CPacket.ID, LesbosClientPackets::handleUseParryPacket);
     }
 
     public static void handlePossessionPacket(PossessionS2CPacket payload, ClientPlayNetworking.Context context) {
@@ -76,31 +75,4 @@ public class LesbosClientPackets {
             }
         });
     }
-
-//    public static void handleUseParryPacket(UseParryPowerTypesS2CPacket payload, ClientPlayNetworking.Context context) {
-//        context.client().execute(() -> {
-//            PlayerEntity player = context.player();
-//            PowerHolderComponent component = PowerHolderComponent.KEY.get(player);
-//
-//            for (Identifier powerId : payload.powerIds()) {
-//                PowerType powerType = PowerManager.getOptional(powerId)
-//                        .map(component::getPowerType)
-//                        .orElse(null);
-//
-//                if (powerType instanceof ActionOnParryPowerType parryPowerType) {
-//
-//                    if (parryPowerType.isActive()) {
-//                        parryPowerType.onUse();
-//                    }
-//
-//                }
-//                else if (powerType != null) {
-//                    Lesbos.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a key release power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
-//                }
-//                else {
-//                    Lesbos.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering key release power types of player {}!", powerId, player.getName().getString());
-//                }
-//            }
-//        });
-//    }
 }

@@ -4,7 +4,7 @@ import morgan.lesbos.actions.LesbosActionTypes;
 import morgan.lesbos.command.LesbosCommands;
 import morgan.lesbos.entity.LesbosEntities;
 import morgan.lesbos.network.packet.LesbosPackets;
-import morgan.lesbos.conditions.entity.LesbosEntityConditionTypes;
+import morgan.lesbos.conditions.LesbosConditionTypes;
 import morgan.lesbos.powers.LesbosPowerTypes;
 import morgan.lesbos.sound.LesbosSounds;
 import net.fabricmc.api.ModInitializer;
@@ -30,7 +30,7 @@ public class Lesbos implements ModInitializer {
 
         // Apoli registries
         LesbosPowerTypes.register();
-        LesbosEntityConditionTypes.register();
+        LesbosConditionTypes.register();
         LesbosActionTypes.register();
 
         LOGGER.info("Lesbos initialised!!!!!");

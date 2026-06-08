@@ -49,5 +49,4 @@ public class ActionOnKeyReleasePowerType extends PowerType {
     public void onUse() {
         entityAction.execute(getHolder());
     }
-
 }

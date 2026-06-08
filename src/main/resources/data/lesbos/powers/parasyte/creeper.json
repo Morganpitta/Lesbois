@@ -4,11 +4,17 @@
     "type": "origins:and",
     "actions": [
       {
+        "type": "lesbos:possessed_entity_action",
+        "entity_action": {
+          "type": "origins:execute_command",
+          "command": "kill"
+        }
+      },
+      {
         "type": "origins:explode",
         "power": 3,
-        "destruction_type": "DESTROY",
-        "damage_self": false,
-        "create_fire": false
+        "destruction_type": "keep",
+        "damage_self": false
       },
       {
         "type": "origins:execute_command",
@@ -20,7 +26,10 @@
     "key": "key.origins.secondary_active"
   },
   "condition": {
-    "type": "lesbos:possessed_entity",
-    "entity_type": "minecraft:creeper"
+    "type": "lesbos:possessed_entity_condition",
+    "entity_condition": {
+      "type": "origins:entity_type",
+      "entity_type": "minecraft:creeper"
+    }
   }
 }

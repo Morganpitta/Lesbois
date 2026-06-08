@@ -1,13 +1,13 @@
 package morgan.lesbos.conditions.entity;
 
 import io.github.apace100.apoli.condition.ConditionConfiguration;
+import io.github.apace100.apoli.condition.EntityCondition;
 import io.github.apace100.apoli.condition.context.EntityConditionContext;
 import io.github.apace100.apoli.condition.type.EntityConditionType;
-import io.github.apace100.apoli.condition.type.entity.EntityTypeEntityConditionType;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
-import morgan.lesbos.interfaces.GrappleInterface;
+import morgan.lesbos.conditions.LesbosConditionTypes;
 import morgan.lesbos.interfaces.PossessionInterface;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,22 +15,22 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class PossessedEntityConditionType extends EntityConditionType {
-    private final EntityType<?> entityType;
+public class PossessedEntityConditionEntityConditionType extends EntityConditionType {
+    private final EntityCondition entityCondition;
 
 
-    public static final TypedDataObjectFactory<PossessedEntityConditionType> DATA_FACTORY = TypedDataObjectFactory.simple(
+    public static final TypedDataObjectFactory<PossessedEntityConditionEntityConditionType> DATA_FACTORY = TypedDataObjectFactory.simple(
             new SerializableData()
-                    .add("entity_type", SerializableDataTypes.ENTITY_TYPE),
-            data -> new PossessedEntityConditionType(
-                    data.get("entity_type")
+                    .add("entity_condition", EntityCondition.DATA_TYPE),
+            data -> new PossessedEntityConditionEntityConditionType(
+                    data.get("entity_condition")
             ),
             (conditionType, serializableData) -> serializableData.instance()
-                    .set("entity_type", conditionType.entityType)
+                    .set("entity_condition", conditionType.entityCondition)
     );
 
-    public PossessedEntityConditionType(EntityType<?> entityType) {
-        this.entityType = entityType;
+    public PossessedEntityConditionEntityConditionType(EntityCondition entityCondition) {
+        this.entityCondition = entityCondition;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PossessedEntityConditionType extends EntityConditionType {
             MobEntity entity = ((PossessionInterface) player).lesbos$getPossessedEntity();
 
             if (entity != null) {
-                return entity.getType().equals(entityType);
+                return entityCondition.test(entity);
             }
         }
 
@@ -49,6 +49,6 @@ public class PossessedEntityConditionType extends EntityConditionType {
 
     @Override
     public @NotNull ConditionConfiguration<?> getConfig() {
-        return LesbosEntityConditionTypes.POSSESSED_ENTITY;
+        return LesbosConditionTypes.POSSESSED_ENTITY_CONDITION;
     }
 }
