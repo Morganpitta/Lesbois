@@ -1,0 +1,17 @@
+{
+  "type": "origins:attribute",
+  "modifiers": [
+    {
+      "id": "lesbois:reduced_health",
+      "attribute": "minecraft:generic.max_health",
+      "amount": -16,
+      "operation": "add_value"
+    },
+    {
+      "id": "lesbois:reduced_size",
+      "attribute": "minecraft:generic.scale",
+      "amount": -0.5,
+      "operation": "add_multiplied_total"
+    }
+  ]
+}

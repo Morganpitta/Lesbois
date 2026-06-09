@@ -1,0 +1,6 @@
+{
+  "type": "lesbois:action_on_key_release",
+  "entity_action": {
+    "type": "lesbois:un_grapple"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "powers": [
+    "lesbois:parasyte/possession",
+    "lesbois:parasyte/possession_overlay",
+    "lesbois:parasyte/possession_possess",
+    "lesbois:parasyte/creeper",
+    "lesbois:parasyte/disable_hunger",
+    "lesbois:parasyte/attributes",
+    "lesbois:parasyte/purple"
+  ],
+  "icon": {
+    "id": "minecraft:ender_eye"
+  },
+  "name": "Parasyte",
+  "description": "Parasyte",
+  "impact": 3
+}

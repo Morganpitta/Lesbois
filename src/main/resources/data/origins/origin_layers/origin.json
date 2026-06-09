@@ -1,9 +1,9 @@
 {
   "replace": true,
   "origins": [
-    "lesbos:test",
-    "lesbos:parasyte",
-    "lesbos:stryder"
+    "lesbois:test",
+    "lesbois:parasyte",
+    "lesbois:stryder"
   ],
   "loading_priority": 1
 }

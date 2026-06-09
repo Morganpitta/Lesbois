@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "lesbos",
+  "id": "lesbois",
   "version": "${version}",
-  "name": "Lesbos",
+  "name": "Lesbois",
   "description": "",
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/lesbos/icon.png",
+  "icon": "assets/lesbois/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "morgan.lesbos.Lesbos"
+      "morgan.lesbois.Lesbois"
     ],
     "client": [
-      "morgan.lesbos.client.LesbosClient"
+      "morgan.lesbois.client.LesboisClient"
     ],
     "cardinal-components": [
-      "morgan.lesbos.components.LesbosEntityComponents"
+      "morgan.lesbois.components.LesboisEntityComponents"
     ]
   },
   "mixins": [
-    "lesbos.mixins.json"
+    "lesbois.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.19.2",
@@ -30,8 +30,8 @@
   },
   "custom": {
     "cardinal-components": [
-      "lesbos:double_jumps",
-      "lesbos:possession"
+      "lesbois:double_jumps",
+      "lesbois:possession"
     ]
   }
 }

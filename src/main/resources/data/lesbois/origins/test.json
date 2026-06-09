@@ -1,0 +1,16 @@
+{
+  "powers": [
+    "lesbois:test_ground_pound",
+    "lesbois:test_gp_land",
+    "lesbois:test_gp_resource",
+    "lesbois:test_gp_fall",
+    "lesbois:test_faya",
+    "lesbois:test_parry"
+  ],
+  "icon": {
+    "id": "minecraft:poisonous_potato"
+  },
+  "name": "Test",
+  "description": "Testing",
+  "impact": 1
+}

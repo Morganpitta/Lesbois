@@ -1,0 +1,10 @@
+{
+  "type": "lesbois:double_jump",
+  "double_jumps": 9,
+  "name": "Test",
+  "description": "Testign",
+  "condition": {
+    "type": "origins:power_active",
+    "power": "lesbois:stryder/oc_toggle"
+  }
+}

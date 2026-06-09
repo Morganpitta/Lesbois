@@ -1,0 +1,17 @@
+{
+  "patrick_scream": {
+    "category": "player",
+    "sounds": [
+      "lesbois:patrick_scream"
+    ]
+  },
+  "sonic_boom": {
+    "category": "player",
+    "sounds": [
+      "lesbois:sonic_boom1",
+      "lesbois:sonic_boom2",
+      "lesbois:sonic_boom3",
+      "lesbois:sonic_boom4"
+    ]
+  }
+}

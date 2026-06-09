@@ -1,0 +1,24 @@
+{
+  "powers": [
+    "lesbois:stryder/double_jump",
+    "lesbois:stryder/double_jump_oc",
+    "lesbois:stryder/grapple",
+    "lesbois:stryder/grapple_oc",
+    "lesbois:stryder/un_grapple",
+    "lesbois:stryder/oc_charge",
+    "lesbois:stryder/oc_toggle",
+    "lesbois:stryder/oc_overlay",
+    "lesbois:stryder/oc_over_time",
+    "lesbois:stryder/safe_fall",
+    "lesbois:stryder/safe_fall_oc",
+    "lesbois:stryder/step_height_oc",
+    "lesbois:stryder/drag_modifier_oc",
+    "lesbois:stryder/shockwave"
+  ],
+  "icon": {
+    "id": "minecraft:ender_eye"
+  },
+  "name": "Stryder",
+  "description": "Stryde around with the stryd mmmmmm",
+  "impact": 3
+}

@@ -1,6 +1,0 @@
-{
-  "type": "lesbos:action_on_key_release",
-  "entity_action": {
-    "type": "lesbos:un_grapple"
-  }
-}

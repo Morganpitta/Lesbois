@@ -1,0 +1,16 @@
+{
+  "type": "origins:conditioned_attribute",
+  "modifier": {
+    "id": "lesbois:safe_fall",
+    "name": "Safe fall increase",
+    "attribute": "minecraft:generic.safe_fall_distance",
+    "amount": 9,
+    "operation": "ADD_VALUE"
+  },
+  "tick_rate": 5,
+  "condition": {
+    "type": "apoli:power_active",
+    "power": "lesbois:stryder/oc_toggle",
+    "inverted": true
+  }
+}

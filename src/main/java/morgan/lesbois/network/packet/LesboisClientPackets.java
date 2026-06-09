@@ -1,0 +1,71 @@
+package morgan.lesbois.network.packet;
+
+import morgan.lesbois.Lesbois;
+import morgan.lesbois.interfaces.PossessionInterface;
+import morgan.lesbois.sound.LivingEntityTrackingSoundInstance;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.Registries;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+
+@Environment(EnvType.CLIENT)
+public class LesboisClientPackets {
+    public static void register() {
+        ClientPlayNetworking.registerGlobalReceiver(PossessionS2CPacket.ID, LesboisClientPackets::handlePossessionPacket);
+        ClientPlayNetworking.registerGlobalReceiver(UnPossessionS2CPacket.ID, LesboisClientPackets::handleUnPossessionPacket);
+        ClientPlayNetworking.registerGlobalReceiver(MovingSoundS2CPacket.ID, LesboisClientPackets::handleMovingSoundPacket);
+    }
+
+    public static void handlePossessionPacket(PossessionS2CPacket payload, ClientPlayNetworking.Context context) {
+        context.client().execute(() -> tryPossess(context.player(), payload.entityId(), 20));
+    }
+
+    private static void tryPossess(PlayerEntity player, int entityId, int retries) {
+        if (player == null || player.getWorld() == null) return;
+
+        Entity entity = player.getWorld().getEntityById(entityId);
+
+        if (entity instanceof MobEntity mob) {
+            ((PossessionInterface) player).lesbois$possess(mob);
+        }
+        else {
+            if (retries > 0) {
+                MinecraftClient.getInstance().execute(() -> {
+                    tryPossess(player, entityId, retries - 1);
+                });
+            }
+            else {
+                Lesbois.LOGGER.warn("Failed to possess entity ID {}, entity was never found", entityId);
+            }
+        }
+    }
+
+    public static void handleUnPossessionPacket(UnPossessionS2CPacket payload, ClientPlayNetworking.Context context) {
+        PlayerEntity player = context.player();
+
+        ((PossessionInterface) player).lesbois$unPossess();
+    }
+
+    public static void handleMovingSoundPacket(MovingSoundS2CPacket payload, ClientPlayNetworking.Context context) {
+        context.client().execute(() -> {
+            var client = context.client();
+            if (client.world == null) return;
+
+            Entity entity = client.world.getEntityById(payload.entityId());
+            SoundEvent sound = Registries.SOUND_EVENT.get(payload.soundId());
+
+            if (entity instanceof LivingEntity && sound != null) {
+                client.getSoundManager().play(
+                        new LivingEntityTrackingSoundInstance(sound, SoundCategory.PLAYERS, payload.volume(), payload.pitch(), (LivingEntity) entity, payload.seed())
+                );
+            }
+        });
+    }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "origins:multiple",
+  "increment": {
+    "type": "origins:action_over_time",
+    "interval": 20,
+    "entity_action": {
+      "type": "origins:change_resource",
+      "resource": "lesbois:stryder/oc_charge",
+      "change": 1
+    },
+    "condition": {
+      "type": "origins:power_active",
+      "power": "lesbois:stryder/oc_toggle",
+      "inverted": true
+    }
+  },
+  "decrement": {
+    "type": "origins:action_over_time",
+    "interval": 20,
+    "entity_action": {
+      "type": "origins:change_resource",
+      "resource": "lesbois:stryder/oc_charge",
+      "change": -1
+    },
+    "condition": {
+      "type": "origins:power_active",
+      "power": "lesbois:stryder/oc_toggle"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "origins:modify_damage_taken",
+  "damage_condition": {
+    "type": "origins:in_tag",
+    "tag": "minecraft:is_fall"
+  },
+  "modifier": {
+    "operation": "set_total",
+    "amount": 0
+  },
+  "condition": {
+    "type": "origins:resource",
+    "resource": "lesbois:test_gp_resource",
+    "comparison": "==",
+    "compare_to": 1
+  }
+}

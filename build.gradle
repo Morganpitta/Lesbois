@@ -57,7 +57,7 @@ loom {
 //    splitEnvironmentSourceSets() Re inable if you want to split server and client code
 
     mods {
-        "lesbos" {
+        "lesbois" {
             sourceSet sourceSets.main
 //            sourceSet sourceSets.client
         }
