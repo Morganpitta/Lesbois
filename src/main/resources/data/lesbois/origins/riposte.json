@@ -1,0 +1,12 @@
+{
+  "powers": [
+    "lesbois:test_parry",
+    "lesbois:test_shieldless"
+  ],
+  "icon": {
+    "id": "minecraft:iron_sword"
+  },
+  "name": "Riposte",
+  "description": "Parry this you filthy casual",
+  "impact": 3
+}

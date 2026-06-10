@@ -3,7 +3,8 @@
   "origins": [
     "lesbois:test",
     "lesbois:parasyte",
-    "lesbois:stryder"
+    "lesbois:stryder",
+    "lesbois:riposte"
   ],
   "loading_priority": 1
 }
