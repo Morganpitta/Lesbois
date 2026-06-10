@@ -4,6 +4,7 @@ import morgan.lesbois.interfaces.FalteredInterface;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.WindowEventHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolItem;
@@ -30,7 +31,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
         if (this.player != null) {
             ItemStack heldItem = this.player.getMainHandStack();
 
-            if (heldItem.getItem() instanceof ToolItem tool && ((FalteredInterface) tool).lesbois$isFaltered(heldItem)) {
+            if ( ((FalteredInterface) heldItem.getItem()).lesbois$isFaltered(heldItem)) {
                 cir.setReturnValue(false);
             }
         }

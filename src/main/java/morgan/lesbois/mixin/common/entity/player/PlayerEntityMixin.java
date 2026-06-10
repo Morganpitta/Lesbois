@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.MaceItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.DamageTypeTags;
@@ -74,7 +75,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
 
     @Unique
     private static final List<Item> DISABLED_WEAPONS = Registries.ITEM.stream()
-            .filter(item -> item instanceof SwordItem || item instanceof AxeItem)
+            .filter(item -> item instanceof SwordItem || item instanceof AxeItem || item instanceof MaceItem)
             .toList();
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
@@ -94,7 +95,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
                             .filter(stack -> stack.getItem() instanceof FalteredInterface)
                             .forEach(itemStack -> ((FalteredInterface) itemStack.getItem()).lesbois$setFaltered(itemStack, true));
 
-                        player.currentScreenHandler.sendContentUpdates();
+                        player.currentScreenHandler.syncState();
                     }
                 }
 
