@@ -14,6 +14,7 @@ public class LesboisPowerTypes {
     public static final PowerConfiguration<DragModifierPowerType> DRAG_MODIFIER = register("drag_modifier", DragModifierPowerType.DATA_FACTORY);
     public static final PowerConfiguration<DisableHungerPowerType> DISABLE_HUNGER = register("disable_hunger", DisableHungerPowerType::new);
     public static final PowerConfiguration<ActionOnParryPowerType> ACTION_ON_PARRY = register("action_on_parry", ActionOnParryPowerType.DATA_FACTORY);
+    public static final PowerConfiguration<ParryPowerType> PARRY = register("parry", ParryPowerType::new);
 
     public static void register() {
     }

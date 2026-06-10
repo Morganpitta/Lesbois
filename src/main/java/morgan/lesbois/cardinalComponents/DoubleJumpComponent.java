@@ -1,4 +1,4 @@
-package morgan.lesbois.components;
+package morgan.lesbois.cardinalComponents;
 
 import morgan.lesbois.Lesbois;
 import net.minecraft.entity.LivingEntity;

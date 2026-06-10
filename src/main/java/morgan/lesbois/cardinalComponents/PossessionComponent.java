@@ -1,4 +1,4 @@
-package morgan.lesbois.components;
+package morgan.lesbois.cardinalComponents;
 
 import morgan.lesbois.Lesbois;
 import morgan.lesbois.mixin.common.client.world.ClientWorldAccessor;

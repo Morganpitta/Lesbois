@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.possession.entity.player;
 
-import morgan.lesbois.components.LesboisEntityComponents;
+import morgan.lesbois.cardinalComponents.LesboisEntityComponents;
 import morgan.lesbois.interfaces.PossessionInterface;
 import morgan.lesbois.interfaces.PossessorInterface;
 import morgan.lesbois.network.packet.PossessionS2CPacket;

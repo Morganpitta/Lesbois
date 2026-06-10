@@ -17,7 +17,7 @@
       "morgan.lesbois.client.LesboisClient"
     ],
     "cardinal-components": [
-      "morgan.lesbois.components.LesboisEntityComponents"
+      "morgan.lesbois.cardinalComponents.LesboisEntityComponents"
     ]
   },
   "mixins": [
