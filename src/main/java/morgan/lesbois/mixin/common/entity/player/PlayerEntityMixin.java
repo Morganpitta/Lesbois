@@ -10,6 +10,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SwordItem;
 import net.minecraft.registry.Registries;
@@ -46,7 +47,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
     public boolean lesbois$isParrying() {
         if (this.isUsingItem() && !this.activeItemStack.isEmpty()) {
             Item item = this.activeItemStack.getItem();
-            if ( item instanceof SwordItem) {
+            if (item instanceof SwordItem || item instanceof AxeItem) {
                 return item.getUseAction(this.activeItemStack) == UseAction.BLOCK;
             }
         }
@@ -73,7 +74,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
 
     @Unique
     private static final List<Item> DISABLED_WEAPONS = Registries.ITEM.stream()
-            .filter(item -> item instanceof net.minecraft.item.SwordItem || item instanceof net.minecraft.item.AxeItem)
+            .filter(item -> item instanceof SwordItem || item instanceof AxeItem)
             .toList();
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
@@ -90,7 +91,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
 
                         player.getInventory().main.stream()
                             .filter(itemStack -> !itemStack.isEmpty() && DISABLED_WEAPONS.contains(itemStack.getItem()))
+                            .filter(stack -> stack.getItem() instanceof FalteredInterface)
                             .forEach(itemStack -> ((FalteredInterface) itemStack.getItem()).lesbois$setFaltered(itemStack, true));
+
+                        player.currentScreenHandler.sendContentUpdates();
                     }
                 }
 

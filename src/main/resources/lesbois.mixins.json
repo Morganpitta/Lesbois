@@ -10,7 +10,6 @@
     "common.entity.mob.MobEntityAccessor",
     "common.entity.player.HungerManagerMixin",
     "common.entity.player.PlayerEntityMixin",
-    "common.item.SwordItemMixin",
     "common.item.ToolItemMixin",
     "common.power.type.ActiveMixin",
     "double_jump.entity.EntityMixin",
