@@ -1,13 +1,13 @@
 package morgan.lesbois.mixin.common.entity.player;
 
-import morgan.lesbois.Lesbois;
-import morgan.lesbois.interfaces.FalteredInterface;
+import morgan.lesbois.entity.effect.LesboisStatusEffects;
 import morgan.lesbois.interfaces.ParryInterface;
 import morgan.lesbois.powers.ParryPowerType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -43,7 +43,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
     }
 
     public boolean lesbois$canParry() {
-        return ParryPowerType.canParry((PlayerEntity) (Object) this);
+        return ParryPowerType.canParry((PlayerEntity) (Object) this) && !this.hasStatusEffect(LesboisStatusEffects.FALTERED);
     }
 
     public boolean lesbois$isParrying() {
@@ -74,33 +74,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
         return false;
     }
 
-    @Unique
-    private static List<Item> DISABLED_WEAPONS = null;
-
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void parryDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (this.lesbois$isParrying()) {
             if (!source.isIn(DamageTypeTags.BYPASSES_ARMOR) && canParryDamage(source)) {
-                this.getItemCooldownManager().set(this.activeItemStack.getItem(), 5);
+                this.getItemCooldownManager().set(this.activeItemStack.getItem(), 10);
                 this.clearActiveItem();
 
                 if (!source.isIn(DamageTypeTags.IS_PROJECTILE) && source.getAttacker() instanceof LivingEntity entity) {
                     entity.takeKnockback(0.5F, this.getX() - entity.getX(), this.getZ() - entity.getZ());
                     if ( entity instanceof PlayerEntity player) {
-                        if (DISABLED_WEAPONS == null) {
-                            DISABLED_WEAPONS = Registries.ITEM.stream()
-                                    .filter(item -> item instanceof SwordItem || item instanceof AxeItem || item instanceof MaceItem)
-                                    .toList();
-                        }
-
-                        DISABLED_WEAPONS.forEach(weapon -> player.getItemCooldownManager().set(weapon, 40));
-
-                        player.getInventory().main.stream()
-                            .filter(itemStack -> !itemStack.isEmpty() && DISABLED_WEAPONS.contains(itemStack.getItem()))
-                            .filter(stack -> stack.getItem() instanceof FalteredInterface)
-                            .forEach(itemStack -> ((FalteredInterface) itemStack.getItem()).lesbois$setFaltered(itemStack, true));
-
-                        player.currentScreenHandler.syncState();
+                        player.addStatusEffect(new StatusEffectInstance(LesboisStatusEffects.FALTERED, 40, 0));
                     }
                 }
 

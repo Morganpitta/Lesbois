@@ -1,13 +1,10 @@
 package morgan.lesbois.mixin.common.client.world;
 
-import morgan.lesbois.interfaces.FalteredInterface;
+import morgan.lesbois.entity.effect.LesboisStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.WindowEventHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,9 +26,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void cancelAttack(CallbackInfoReturnable<Boolean> cir) {
         if (this.player != null) {
-            ItemStack heldItem = this.player.getMainHandStack();
-
-            if ( ((FalteredInterface) heldItem.getItem()).lesbois$isFaltered(heldItem)) {
+            if (this.player.hasStatusEffect(LesboisStatusEffects.FALTERED)) {
                 cir.setReturnValue(false);
             }
         }

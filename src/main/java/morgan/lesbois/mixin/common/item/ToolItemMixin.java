@@ -1,9 +1,9 @@
 package morgan.lesbois.mixin.common.item;
 
-import morgan.lesbois.interfaces.FalteredInterface;
+import morgan.lesbois.entity.effect.LesboisStatusEffects;
 import morgan.lesbois.interfaces.ParryInterface;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ToolItem.class)
-public abstract class ToolItemMixin extends Item implements FalteredInterface {
+public abstract class ToolItemMixin extends Item {
     public ToolItemMixin(Settings settings) {
         super(settings);
     }
@@ -48,8 +48,7 @@ public abstract class ToolItemMixin extends Item implements FalteredInterface {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient() && user instanceof PlayerEntity player) {
-            player.getItemCooldownManager().set(this, 40);
-            this.lesbois$setFaltered(stack, true);
+            user.addStatusEffect(new StatusEffectInstance(LesboisStatusEffects.FALTERED, 40, 0));
 
             world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.8F, 0.8F);
         }
@@ -59,7 +58,8 @@ public abstract class ToolItemMixin extends Item implements FalteredInterface {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (!world.isClient() && user instanceof PlayerEntity player) {
-            player.getItemCooldownManager().set(this, 20);
+            user.addStatusEffect(new StatusEffectInstance(LesboisStatusEffects.FALTERED, 40, 0));
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.8F, 0.8F);
         }
     }
 }
