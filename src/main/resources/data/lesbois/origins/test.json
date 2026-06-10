@@ -4,7 +4,6 @@
     "lesbois:test_gp_land",
     "lesbois:test_gp_resource",
     "lesbois:test_gp_fall",
-    "lesbois:test_faya",
     "lesbois:test_parry"
   ],
   "icon": {
