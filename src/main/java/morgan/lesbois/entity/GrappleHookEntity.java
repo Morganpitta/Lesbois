@@ -31,7 +31,7 @@ public class GrappleHookEntity extends Entity implements Ownable {
             GrappleHookEntity.class, TrackedDataHandlerRegistry.INTEGER
     );
 
-    public GrappleHookEntity(EntityType<GrappleHookEntity> type, World world) {
+    public GrappleHookEntity(EntityType<? extends GrappleHookEntity> type, World world) {
         super(type, world);
     }
 

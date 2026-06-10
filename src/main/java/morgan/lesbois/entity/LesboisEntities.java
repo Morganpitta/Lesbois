@@ -16,6 +16,14 @@ public class LesboisEntities {
                     .trackingTickInterval(1)
     );
 
+    public static final EntityType<CoinEntity> COIN = register(
+            "coin",
+            EntityType.Builder.<CoinEntity>create(CoinEntity::new, SpawnGroup.MISC)
+            .dimensions(0.25F, 0.25F)
+            .maxTrackingRange(4)
+            .trackingTickInterval(10)
+    );
+
     public static void register() {}
 
     public static <T extends Entity> EntityType<T> register(String path, EntityType.Builder<T> builder) {

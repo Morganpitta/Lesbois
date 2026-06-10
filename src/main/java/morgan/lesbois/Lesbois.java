@@ -6,6 +6,7 @@ import morgan.lesbois.component.LesboisComponentTypes;
 import morgan.lesbois.conditions.LesboisConditionTypes;
 import morgan.lesbois.entity.LesboisEntities;
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
+import morgan.lesbois.item.LesboisItems;
 import morgan.lesbois.network.packet.LesboisPackets;
 import morgan.lesbois.powers.LesboisPowerTypes;
 import morgan.lesbois.sound.LesboisSounds;
@@ -34,6 +35,7 @@ public class Lesbois implements ModInitializer {
         LesboisSounds.register();
         LesboisComponentTypes.register();
         LesboisStatusEffects.register();
+        LesboisItems.register();
 
         // Apoli registries
         LesboisPowerTypes.register();

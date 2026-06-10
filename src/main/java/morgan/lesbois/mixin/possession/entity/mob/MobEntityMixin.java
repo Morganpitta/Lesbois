@@ -157,7 +157,8 @@ public abstract class MobEntityMixin extends LivingEntity implements PossessorIn
             GoalSelector goalSelector = new GoalSelector(instance.getWorld().getProfilerSupplier());
 
             for (PrioritizedGoal prioritizedGoal : ((MobEntityAccessor) instance).lesbois$getGoalSelector().getGoals()) {
-                if (!prioritizedGoal.getGoal().getClass().getSimpleName().equals("PlayWithItemsGoal")) {
+                if (!prioritizedGoal.getGoal().getClass().getSimpleName().equals("PlayWithItemsGoal") &&
+                    !prioritizedGoal.getGoal().getClass().getSimpleName().equals("TemptGoal")) {
                     goalSelector.add(prioritizedGoal.getPriority(), prioritizedGoal);
                 }
             }
