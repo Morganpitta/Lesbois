@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.double_jump.entity;
 
-import morgan.lesbois.components.LesboisEntityComponents;
+import morgan.lesbois.cardinalComponents.LesboisEntityComponents;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
 import morgan.lesbois.network.packet.DoubleJumpC2SPacket;
 import morgan.lesbois.powers.DoubleJumpPowerType;

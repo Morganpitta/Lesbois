@@ -1,10 +1,13 @@
 package morgan.lesbois.mixin.common.entity.player;
 
+import morgan.lesbois.interfaces.FalteredInterface;
 import morgan.lesbois.interfaces.ParryInterface;
+import morgan.lesbois.powers.ParryPowerType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
@@ -17,6 +20,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,8 +32,15 @@ import static morgan.lesbois.powers.ActionOnParryPowerType.triggerParryActions;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements ParryInterface {
+    @Shadow
+    public abstract ItemCooldownManager getItemCooldownManager();
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    public boolean lesbois$canParry() {
+        return ParryPowerType.canParry((PlayerEntity) (Object) this);
     }
 
     public boolean lesbois$isParrying() {
@@ -69,12 +80,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
     private void parryDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (this.lesbois$isParrying()) {
             if (!source.isIn(DamageTypeTags.BYPASSES_ARMOR) && canParryDamage(source)) {
+                this.getItemCooldownManager().set(this.activeItemStack.getItem(), 5);
                 this.clearActiveItem();
 
                 if (!source.isIn(DamageTypeTags.IS_PROJECTILE) && source.getAttacker() instanceof LivingEntity entity) {
                     entity.takeKnockback(0.5F, this.getX() - entity.getX(), this.getZ() - entity.getZ());
                     if ( entity instanceof PlayerEntity player) {
                         DISABLED_WEAPONS.forEach(weapon -> player.getItemCooldownManager().set(weapon, 10));
+
+                        player.getInventory().main.stream()
+                            .filter(itemStack -> !itemStack.isEmpty() && DISABLED_WEAPONS.contains(itemStack.getItem()))
+                            .forEach(itemStack -> ((FalteredInterface) itemStack.getItem()).lesbois$setFaltered(itemStack, true));
                     }
                 }
 

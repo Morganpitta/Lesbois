@@ -54,7 +54,7 @@ repositories {
 }
 
 loom {
-//    splitEnvironmentSourceSets() Re inable if you want to split server and client code
+//    splitEnvironmentSourceSets() Re enable if you want to split server and client code
 
     mods {
         "lesbois" {
@@ -78,17 +78,28 @@ dependencies {
     modImplementation "maven.modrinth:origins-extra-keybinds-fabric:${project.extra_keybinds_version}"
 }
 
-// Shows version from fabric.mod.json
 processResources {
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
         expand "version": inputs.properties.version
     }
+
+    if (project.hasProperty('noDatapack')) {
+        println "-PnoDatapack specified, Excluding datapack from build"
+
+        exclude 'data/**'
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
+}
+
+tasks.named('remapJar') {
+    if (project.hasProperty('noDatapack')) {
+        archiveVersion = "${project.version}-no-datapack"
+    }
 }
 
 java {
