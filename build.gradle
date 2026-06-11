@@ -72,9 +72,13 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 //    modImplementation "maven.modrinth:origins:${project.origins_version}"  Try using this if your not using my custom sources
-    modApi "io.github.apace100:origins-fabric:${project.origins_version}"
-    modApi "io.github.apace100:apoli:${project.apoli_version}"
-    modApi "maven.modrinth:origins-extra-keybinds-fabric:${project.extra_keybinds_version}"
+    modImplementation "io.github.apace100:origins-fabric:${project.origins_version}"
+    modImplementation "io.github.apace100:apoli:${project.apoli_version}"
+    modImplementation "maven.modrinth:origins-extra-keybinds-fabric:${project.extra_keybinds_version}"
+
+    include "io.github.apace100:origins-fabric:${project.origins_version}"
+    include "io.github.apace100:apoli:${project.apoli_version}"
+    include "maven.modrinth:origins-extra-keybinds-fabric:${project.extra_keybinds_version}"
 }
 
 processResources {

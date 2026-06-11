@@ -1,5 +1,8 @@
 {
   "effect.lesbois.faltered": "Faltered",
+  "effect.lesbois.scorched": "Scorched",
+  "effect.lesbois.frozen": "Frozen",
   "item.lesbois.coin": "Coin",
   "entity.lesbois.coin": "Coin"
+
 }

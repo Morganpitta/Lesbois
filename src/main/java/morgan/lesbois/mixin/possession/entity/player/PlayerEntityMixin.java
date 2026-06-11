@@ -96,6 +96,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Possessi
 
         if (entity != null) {
             entity.setNoGravity(false);
+            entity.setSprinting(false);
 
             ((PossessorInterface) entity).lesbois$setPossessor(null);
         }

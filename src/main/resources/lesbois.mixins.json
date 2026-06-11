@@ -9,6 +9,7 @@
     "common.entity.LivingEntityMixin",
     "common.entity.ai.goal.AttackGoalMixin",
     "common.entity.ai.goal.MeleeAttackGoalMixin",
+    "common.entity.effect.StatusEffectInstanceMixin",
     "common.entity.mob.MobEntityAccessor",
     "common.entity.player.HungerManagerMixin",
     "common.entity.player.PlayerEntityMixin",
