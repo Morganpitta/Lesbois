@@ -83,9 +83,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
 
                 if (!source.isIn(DamageTypeTags.IS_PROJECTILE) && source.getAttacker() instanceof LivingEntity entity) {
                     entity.takeKnockback(0.5F, this.getX() - entity.getX(), this.getZ() - entity.getZ());
-                    if ( entity instanceof PlayerEntity player) {
-                        player.addStatusEffect(new StatusEffectInstance(LesboisStatusEffects.FALTERED, 40, 0));
-                    }
+                    entity.addStatusEffect(new StatusEffectInstance(LesboisStatusEffects.FALTERED, 40, 0));
                 }
 
                 this.getWorld().playSound(
