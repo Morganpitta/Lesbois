@@ -1,0 +1,26 @@
+{
+  "type": "origins:active_self",
+  "key": {
+    "key": "key.origins.primary_active"
+  },
+  "entity_action": {
+    "type": "origins:and",
+    "actions": [
+      {
+        "type": "origins:fire_projectile",
+        "entity_type": "lesbois:coin",
+        "divergence": 0
+      },
+      {
+        "type": "origins:play_sound",
+        "sound": "minecraft:item.armor.equip_chain"
+      }
+  ]
+  },
+  "projectile_action": {
+    "type": "origins:add_velocity",
+    "velocity": {
+      "y": 10
+    }
+  }
+}

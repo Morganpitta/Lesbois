@@ -2,8 +2,6 @@ package morgan.lesbois.entity;
 
 import morgan.lesbois.item.LesboisItems;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;

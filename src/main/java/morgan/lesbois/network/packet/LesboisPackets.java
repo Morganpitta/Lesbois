@@ -5,6 +5,7 @@ import io.github.apace100.apoli.power.PowerManager;
 import io.github.apace100.apoli.power.type.PowerType;
 import morgan.lesbois.Lesbois;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
+import morgan.lesbois.powers.ActionOnCoinPowerType;
 import morgan.lesbois.powers.ActionOnKeyReleasePowerType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -16,6 +17,7 @@ public class LesboisPackets {
     public static void register() {
         PayloadTypeRegistry.playC2S().register(DoubleJumpC2SPacket.ID, DoubleJumpC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(UseKeyReleasePowerTypesC2SPacket.ID, UseKeyReleasePowerTypesC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(UseCoinPowerTypesC2SPacket.ID, UseCoinPowerTypesC2SPacket.CODEC);
 
         PayloadTypeRegistry.playS2C().register(PossessionS2CPacket.ID, PossessionS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(UnPossessionS2CPacket.ID, UnPossessionS2CPacket.CODEC);
@@ -23,6 +25,7 @@ public class LesboisPackets {
 
         ServerPlayNetworking.registerGlobalReceiver(DoubleJumpC2SPacket.ID, LesboisPackets::handleDoubleJumpPacket);
         ServerPlayNetworking.registerGlobalReceiver(UseKeyReleasePowerTypesC2SPacket.ID, LesboisPackets::handleUseKeyReleasePowerType);
+        ServerPlayNetworking.registerGlobalReceiver(UseCoinPowerTypesC2SPacket.ID, LesboisPackets::handleUseCoinPowerType);
     }
 
     public static void handleDoubleJumpPacket(DoubleJumpC2SPacket payload, ServerPlayNetworking.Context context) {
@@ -56,6 +59,29 @@ public class LesboisPackets {
                     keyReleasePowerType.onUse();
                 }
 
+            }
+            else if (powerType != null) {
+                Lesbois.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a key release power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
+            }
+            else {
+                Lesbois.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering key release power types of player {}!", powerId, player.getName().getString());
+            }
+        }
+    }
+
+    public static void handleUseCoinPowerType(UseCoinPowerTypesC2SPacket payload, ServerPlayNetworking.Context context) {
+        ServerPlayerEntity player = context.player();
+        PowerHolderComponent component = PowerHolderComponent.KEY.get(player);
+
+        for (Identifier powerId : payload.powerIds()) {
+            PowerType powerType = PowerManager.getOptional(powerId)
+                    .map(component::getPowerType)
+                    .orElse(null);
+
+            if (powerType instanceof ActionOnCoinPowerType coinPowerType) {
+                if (coinPowerType.isActive()) {
+                    coinPowerType.onUse();
+                }
             }
             else if (powerType != null) {
                 Lesbois.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a key release power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());

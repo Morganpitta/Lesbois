@@ -1,0 +1,7 @@
+{
+  "type": "lesbois:action_on_coin",
+  "entity_action": {
+    "type": "origins:spawn_entity",
+    "entity_type": "minecraft:chicken"
+  }
+}
