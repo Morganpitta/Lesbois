@@ -7,9 +7,7 @@
     "type": "origins:and",
     "actions": [
       {
-        "type": "origins:fire_projectile",
-        "entity_type": "lesbois:coin",
-        "divergence": 0
+        "type": "lesbois:toss_coin"
       },
       {
         "type": "origins:play_sound",

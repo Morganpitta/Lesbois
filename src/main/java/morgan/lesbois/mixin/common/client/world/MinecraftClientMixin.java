@@ -40,7 +40,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
                         Vec3d entityVec = entity.getPos().subtract(this.player.getPos()).normalize();
                         Vec3d rotationVec = this.player.getRotationVector().normalize();
 
-                        return rotationVec.dotProduct(entityVec) >= Math.cos(Math.toRadians(5));
+                        return rotationVec.dotProduct(entityVec) >= Math.cos(Math.toRadians(10));
                     }
             );
 
