@@ -1,7 +1,10 @@
 {
   "powers": [
-    "lesbois:test_parry",
-    "lesbois:test_shieldless"
+    "lesbois:riposte/parry",
+    "lesbois:riposte/shieldless",
+    "lesbois:riposte/coin",
+    "lesbois:riposte/coin_action",
+    "lesbois:riposte/frost_glide"
   ],
   "icon": {
     "id": "minecraft:iron_sword"

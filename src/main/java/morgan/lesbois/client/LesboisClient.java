@@ -1,6 +1,8 @@
 package morgan.lesbois.client;
 
 import morgan.lesbois.Lesbois;
+import morgan.lesbois.block.LesboisBlocks;
+import morgan.lesbois.client.render.LesboisRenderLayer;
 import morgan.lesbois.client.render.entity.LesboisEntityRenderers;
 import morgan.lesbois.network.packet.LesboisClientPackets;
 import net.fabricmc.api.ClientModInitializer;
@@ -13,6 +15,7 @@ public class LesboisClient implements ClientModInitializer {
     public void onInitializeClient() {
         LesboisEntityRenderers.register();
         LesboisClientPackets.register();
+        LesboisRenderLayer.register();
 
         Lesbois.LOGGER.info("Lesbois Client initialised!!!!!");
     }

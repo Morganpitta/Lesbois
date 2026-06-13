@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "lesbois:block/frost_block_0"
+    },
+    "age=1": {
+      "model": "lesbois:block/frost_block_1"
+    },
+    "age=2": {
+      "model": "lesbois:block/frost_block_2"
+    },
+    "age=3": {
+      "model": "lesbois:block/frost_block_3"
+    }
+  }
+}

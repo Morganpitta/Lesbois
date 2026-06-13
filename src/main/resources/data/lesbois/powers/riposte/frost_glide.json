@@ -1,0 +1,7 @@
+{
+  "type": "lesbois:frost_glide",
+  "key": {
+    "key": "key.origins.secondary_active",
+    "continuous": true
+  }
+}

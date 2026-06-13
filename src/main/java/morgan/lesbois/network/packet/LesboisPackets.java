@@ -4,13 +4,19 @@ import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.PowerManager;
 import io.github.apace100.apoli.power.type.PowerType;
 import morgan.lesbois.Lesbois;
+import morgan.lesbois.block.LesboisBlocks;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
 import morgan.lesbois.powers.ActionOnCoinPowerType;
 import morgan.lesbois.powers.ActionOnKeyReleasePowerType;
+import morgan.lesbois.powers.FrostGlidingPowerType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 public class LesboisPackets {
@@ -18,6 +24,7 @@ public class LesboisPackets {
         PayloadTypeRegistry.playC2S().register(DoubleJumpC2SPacket.ID, DoubleJumpC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(UseKeyReleasePowerTypesC2SPacket.ID, UseKeyReleasePowerTypesC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(UseCoinPowerTypesC2SPacket.ID, UseCoinPowerTypesC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(FrostGlideC2SPacket.ID, FrostGlideC2SPacket.CODEC);
 
         PayloadTypeRegistry.playS2C().register(PossessionS2CPacket.ID, PossessionS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(UnPossessionS2CPacket.ID, UnPossessionS2CPacket.CODEC);
@@ -26,6 +33,7 @@ public class LesboisPackets {
         ServerPlayNetworking.registerGlobalReceiver(DoubleJumpC2SPacket.ID, LesboisPackets::handleDoubleJumpPacket);
         ServerPlayNetworking.registerGlobalReceiver(UseKeyReleasePowerTypesC2SPacket.ID, LesboisPackets::handleUseKeyReleasePowerType);
         ServerPlayNetworking.registerGlobalReceiver(UseCoinPowerTypesC2SPacket.ID, LesboisPackets::handleUseCoinPowerType);
+        ServerPlayNetworking.registerGlobalReceiver(FrostGlideC2SPacket.ID, LesboisPackets::handlePlaceFrostBlock);
     }
 
     public static void handleDoubleJumpPacket(DoubleJumpC2SPacket payload, ServerPlayNetworking.Context context) {
@@ -90,5 +98,25 @@ public class LesboisPackets {
                 Lesbois.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering key release power types of player {}!", powerId, player.getName().getString());
             }
         }
+    }
+
+    public static void handlePlaceFrostBlock(FrostGlideC2SPacket payload, ServerPlayNetworking.Context context) {
+        MinecraftServer server = context.player().getServer();
+
+        if ( server == null ) return;
+
+        server.execute(() -> {
+            ServerPlayerEntity player = context.player();
+
+            BlockState frostBlockState = LesboisBlocks.FROST_BLOCK.getDefaultState();
+
+            if (player.getWorld().getBlockState(payload.pos()).isOf(Blocks.WATER)) {
+                frostBlockState = frostBlockState.with(Properties.WATERLOGGED, true);
+            }
+
+            player.getWorld().setBlockState(payload.pos(), frostBlockState, 3);
+
+            FrostGlidingPowerType.triggerActions(player);
+        });
     }
 }

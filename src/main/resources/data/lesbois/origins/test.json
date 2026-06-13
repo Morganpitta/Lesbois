@@ -3,10 +3,7 @@
     "lesbois:test_ground_pound",
     "lesbois:test_gp_land",
     "lesbois:test_gp_resource",
-    "lesbois:test_gp_fall",
-    "lesbois:test_parry",
-    "lesbois:test_coin",
-    "lesbois:test_coin_action"
+    "lesbois:test_gp_fall"
   ],
   "icon": {
     "id": "minecraft:poisonous_potato"
