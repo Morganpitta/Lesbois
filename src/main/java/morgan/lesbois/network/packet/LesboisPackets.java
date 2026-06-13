@@ -91,10 +91,10 @@ public class LesboisPackets {
                 }
             }
             else if (powerType != null) {
-                Lesbois.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a key release power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
+                Lesbois.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a coin power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
             }
             else {
-                Lesbois.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering key release power types of player {}!", powerId, player.getName().getString());
+                Lesbois.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering coin power types of player {}!", powerId, player.getName().getString());
             }
         }
     }

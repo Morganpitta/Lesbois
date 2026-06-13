@@ -14,11 +14,5 @@
         "sound": "minecraft:item.armor.equip_chain"
       }
   ]
-  },
-  "projectile_action": {
-    "type": "origins:add_velocity",
-    "velocity": {
-      "y": 10
-    }
   }
 }
