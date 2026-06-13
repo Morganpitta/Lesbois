@@ -20,25 +20,25 @@ import java.util.Optional;
 public class FrostGlidingPowerType extends PowerType {
     public static final TypedDataObjectFactory<FrostGlidingPowerType> DATA_FACTORY = PowerType.createConditionedDataFactory(
             new SerializableData()
-                    .add("entity_action", EntityAction.DATA_TYPE)
-                    .add("key", ApoliDataTypes.BACKWARDS_COMPATIBLE_KEY, KeyBindingReference.NONE),
+                    .add("key", ApoliDataTypes.BACKWARDS_COMPATIBLE_KEY, KeyBindingReference.NONE)
+                    .add("entity_action", EntityAction.DATA_TYPE.optional(), Optional.empty()),
             (data, condition) -> new FrostGlidingPowerType(
-                    data.get("entity_action"),
                     data.get("key"),
+                    data.get("entity_action"),
                     condition
             ),
             (powerType, serializableData) -> serializableData.instance()
-                    .set("entity_action", powerType.entityAction)
                     .set("key", powerType.getKey())
+                    .set("entity_action", powerType.entityAction)
     );
 
-    private final EntityAction entityAction;
     private final KeyBindingReference key;
+    private final Optional<EntityAction> entityAction;
 
-    FrostGlidingPowerType(KeyBindingReference key, EntityAction entityAction, Optional<EntityCondition> condition) {
+    FrostGlidingPowerType(KeyBindingReference key, Optional<EntityAction> entityAction, Optional<EntityCondition> condition) {
         super(condition);
-        this.entityAction = entityAction;
         this.key = key;
+        this.entityAction = entityAction;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class FrostGlidingPowerType extends PowerType {
 
 
     public void onUse() {
-        entityAction.execute(getHolder());
+        this.entityAction.ifPresent(action -> action.execute(getHolder()));
     }
 
     public boolean isActive() {

@@ -145,14 +145,4 @@ public class FrostBlock extends TranslucentBlock implements Waterloggable {
 
         return false;
     }
-
-    @Override
-    public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (entity instanceof PlayerEntity player && FrostGlidingPowerType.shouldFrostGlide(player)) {
-            entity.handleFallDamage(fallDistance, 0.0F, world.getDamageSources().fall());
-        }
-        else {
-            super.onLandedUpon(world, state, pos, entity, fallDistance);
-        }
-    }
 }
