@@ -52,7 +52,7 @@ public class FrostGlidingPowerType extends PowerType {
     }
 
     public boolean isActive() {
-        return super.isActive() && key.asKeyBinding().map(KeyBinding::isPressed).orElse(false);
+        return super.isActive() && this.getHolder().getWorld().isClient() && key.asKeyBinding().map(KeyBinding::isPressed).orElse(false);
     }
 
     public KeyBindingReference getKey() {
