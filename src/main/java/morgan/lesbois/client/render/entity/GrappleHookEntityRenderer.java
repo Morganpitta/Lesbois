@@ -3,53 +3,65 @@ package morgan.lesbois.client.render.entity;
 import morgan.lesbois.entity.GrappleHookEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class GrappleHookEntityRenderer extends EntityRenderer<GrappleHookEntity> {
+    private final ItemRenderer itemRenderer;
+    private final ItemStack swordStack = new ItemStack(Items.IRON_SWORD);
 
     public GrappleHookEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
+        itemRenderer = context.getItemRenderer();
     }
 
     @Override
     public void render(GrappleHookEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        PlayerEntity owner = entity.getOwner();
-        if (owner == null) return;
+        renderSword(entity, matrices, vertexConsumers, light);
 
+        renderLine(entity, tickDelta, matrices, vertexConsumers);
+
+        super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
+    }
+
+    private void renderSword(GrappleHookEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
 
-        float h = owner.getHandSwingProgress(tickDelta);
-        float j = MathHelper.sin(MathHelper.sqrt(h) * (float) Math.PI);
-        Vec3d ownerPos = getHandPos(owner, j, tickDelta);
-        Vec3d hookPos = entity.getLerpedPos(tickDelta);
+        matrices.multiply(entity.getSide().getRotationQuaternion());
 
-        float x = (float)(ownerPos.x - hookPos.x);
-        float y = (float)(ownerPos.y - hookPos.y);
-        float z = (float)(ownerPos.z - hookPos.z);
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(135.0F));
 
-        VertexConsumer lineBuffer = vertexConsumers.getBuffer(RenderLayer.getLineStrip());
-        MatrixStack.Entry entry = matrices.peek();
-
-        int segments = 16;
-        for (int i = 0; i <= segments; i++) {
-            renderLine(x, y, z, lineBuffer, entry, percentage(i, segments), percentage(i + 1, segments));
-        }
+        this.itemRenderer.renderItem(
+                this.swordStack,
+                ModelTransformationMode.FIXED,
+                light,
+                OverlayTexture.DEFAULT_UV,
+                matrices,
+                vertexConsumers,
+                entity.getWorld(),
+                entity.getId()
+        );
 
         matrices.pop();
-        super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
     private Vec3d getHandPos(PlayerEntity player, float f, float tickDelta) {
@@ -71,20 +83,37 @@ public class GrappleHookEntityRenderer extends EntityRenderer<GrappleHookEntity>
         }
     }
 
-    private static void renderLine(float x, float y, float z, VertexConsumer buffer, MatrixStack.Entry matrices, float segmentStart, float segmentEnd) {
-        Vec3d start = new Vec3d(x * segmentStart, y * segmentStart, z * segmentStart);
-        Vec3d end = new Vec3d(x * segmentEnd, y * segmentEnd, z * segmentEnd);
+    private void renderLine(GrappleHookEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers) {
+        PlayerEntity owner = entity.getOwner();
+        if (owner == null) return;
 
-        Vec3d normal = new Vec3d(end.x - start.x, end.y - start.y, end.z - start.z);
-        normal.normalize();
+        float h = owner.getHandSwingProgress(tickDelta);
+        float j = MathHelper.sin(MathHelper.sqrt(h) * (float) Math.PI);
 
-        buffer.vertex(matrices, (float) start.x, (float) start.y, (float) start.z)
-                .color(Colors.BLACK)
-                .normal(matrices, (float) normal.x, (float) normal.y, (float) normal.z);
-    }
+        // Remember entity.getLerpedPos(tickDelta) is origin for this matrix
 
-    private static float percentage(int value, int max) {
-        return (float) value / max;
+        Vec3d handPos = getHandPos(owner, j, tickDelta).subtract(entity.getLerpedPos(tickDelta));
+        Vec3d hiltOffset = new Vec3d(entity.getSide().getUnitVector()).multiply(0.55);
+
+        matrices.push();
+
+        VertexConsumer lineBuffer = vertexConsumers.getBuffer(RenderLayer.getLineStrip());
+        MatrixStack.Entry entry = matrices.peek();
+
+        Vec3d normal = handPos.subtract(hiltOffset).normalize();
+
+        int segments = 16;
+        for (int index = 0; index <= segments; index++) {
+            float percent = (float) index / segments;
+
+            Vec3d vec3d = hiltOffset.lerp(handPos, percent);
+
+            lineBuffer.vertex(entry.getPositionMatrix(), (float) vec3d.x, (float) vec3d.y, (float) vec3d.z)
+                    .color(Colors.BLACK)
+                    .normal(entry, (float) normal.x, (float) normal.y, (float) normal.z);
+        }
+
+        matrices.pop();
     }
 
     @Override

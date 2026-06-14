@@ -3,11 +3,13 @@ package morgan.lesbois.mixin.grapple.entity.player;
 import morgan.lesbois.entity.GrappleHookEntity;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
 import morgan.lesbois.interfaces.GrappleInterface;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -57,7 +59,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GrappleI
 
         if (hit.getType() == HitResult.Type.MISS) return null;
 
-        GrappleHookEntity hook = new GrappleHookEntity(this.getWorld(), (PlayerEntity) (Object) this, hit.getPos(), minDistance, pullSpeed, lookAssist, damping);
+        Vec3d offset = new Vec3d(hit.getSide().getUnitVector()).multiply(0.1);
+
+        GrappleHookEntity hook = new GrappleHookEntity(this.getWorld(), (PlayerEntity) (Object) this, hit.getPos().add(offset), hit.getSide(), minDistance, pullSpeed, lookAssist, damping);
         this.getWorld().spawnEntity(hook);
         this.grappleHook = hook;
 

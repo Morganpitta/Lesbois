@@ -2,8 +2,25 @@
   "type": "origins:action_on_key_press",
   "cooldown": 20,
   "entity_action": {
-    "type": "lesbois:grapple",
-    "max_distance": 80
+    "type": "origins:and",
+    "actions": [
+      {
+        "type": "lesbois:grapple",
+        "max_distance": 80
+      },
+      {
+        "type": "origins:play_sound",
+        "sound": "minecraft:block.chain.place",
+        "volume": 1.0,
+        "pitch": 1.0
+      },
+      {
+        "type": "origins:play_sound",
+        "sound": "minecraft:item.spyglass.use",
+        "volume": 1.0,
+        "pitch": 0.75
+      }
+    ]
   },
   "key": {
     "key": "key.origins.primary_active"

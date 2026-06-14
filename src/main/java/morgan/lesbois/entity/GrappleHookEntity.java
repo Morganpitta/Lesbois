@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -31,14 +32,19 @@ public class GrappleHookEntity extends Entity implements Ownable {
             GrappleHookEntity.class, TrackedDataHandlerRegistry.INTEGER
     );
 
+    private static final TrackedData<Direction> ATTACHED_SIDE = DataTracker.registerData(
+            GrappleHookEntity.class, TrackedDataHandlerRegistry.FACING
+    );
+
     public GrappleHookEntity(EntityType<? extends GrappleHookEntity> type, World world) {
         super(type, world);
     }
 
-    public GrappleHookEntity(World world, @Nullable PlayerEntity owner, Vec3d position, double minDistance, double pullSpeed, double lookAssist, double damping) {
+    public GrappleHookEntity(World world, @Nullable PlayerEntity owner, Vec3d position, Direction side, double minDistance, double pullSpeed, double lookAssist, double damping) {
         super(LesboisEntities.GRAPPLE_HOOK, world);
         this.setOwner(owner);
         this.setPosition(position);
+        this.setSide(side);
         this.minDistance = minDistance;
         this.lookAssist = lookAssist;
         this.pullSpeed = pullSpeed;
@@ -56,6 +62,14 @@ public class GrappleHookEntity extends Entity implements Ownable {
         this.dataTracker.set(OWNER_ID, owner != null ? owner.getId() : -1);
     }
 
+    private void setSide(Direction side) {
+        this.dataTracker.set(ATTACHED_SIDE, side != null ? side : Direction.UP);
+    }
+
+    public Direction getSide() {
+        return this.dataTracker.get(ATTACHED_SIDE);
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -71,11 +85,13 @@ public class GrappleHookEntity extends Entity implements Ownable {
             }
 
             if (owner instanceof ServerPlayerEntity serverPlayer) {
-                Vec3d direction = this.getPos().subtract(owner.getPos()).normalize();
+                Vec3d hiltOffset = new Vec3d(this.getSide().getUnitVector()).multiply(0.55);
+                Vec3d hiltPos = this.getPos().add(hiltOffset);
+                Vec3d direction = hiltPos.subtract(owner.getPos()).normalize();
                 Vec3d playerDirection = serverPlayer.getRotationVector().normalize();
                 Vec3d velocity = owner.getVelocity();
 
-                double distanceSq = this.getPos().squaredDistanceTo(owner.getPos());
+                double distanceSq = hiltPos.squaredDistanceTo(owner.getPos());
                 double pullSpeed = this.pullSpeed;
                 double lookAssist = this.lookAssist;
 
@@ -115,6 +131,7 @@ public class GrappleHookEntity extends Entity implements Ownable {
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(OWNER_ID, -1);
+        builder.add(ATTACHED_SIDE, Direction.UP);
     }
 
     @Override
