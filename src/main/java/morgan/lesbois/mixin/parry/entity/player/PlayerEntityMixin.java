@@ -55,7 +55,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ParryInt
     public boolean canParryDamage(DamageSource source) {
         Entity entity = source.getSource();
         if (entity instanceof PersistentProjectileEntity persistentProjectileEntity && persistentProjectileEntity.getPierceLevel() > 0) {
-            return true;
+            return false;
         }
 
         Vec3d vec3d = source.getPosition();

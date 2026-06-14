@@ -27,5 +27,6 @@ public abstract class PersistentProjectileEntityMixin extends ProjectileEntity {
     private void updateProjectilePosition(EntityHitResult entityHitResult, CallbackInfo ci) {
         Vec3d hitPos = entityHitResult.getPos();
         this.setPosition(hitPos);
+        this.setRotation(entityHitResult.getEntity().getYaw(), entityHitResult.getEntity().getPitch());
     }
 }
