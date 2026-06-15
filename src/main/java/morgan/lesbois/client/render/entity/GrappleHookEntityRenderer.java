@@ -68,25 +68,6 @@ public class GrappleHookEntityRenderer extends EntityRenderer<GrappleHookEntity>
         matrices.pop();
     }
 
-    private Vec3d getHandPos(PlayerEntity player, float f, float tickDelta) {
-        int i = player.getMainArm() == Arm.RIGHT ? 1 : -1;
-
-        if (this.dispatcher.gameOptions.getPerspective().isFirstPerson() && player == MinecraftClient.getInstance().player) {
-            double m = 960.0 / this.dispatcher.gameOptions.getFov().getValue().intValue();
-            Vec3d vec3d = this.dispatcher.camera.getProjection().getPosition(i * 0.525F, -0.1F).multiply(m).rotateY(f * 0.5F).rotateX(-f * 0.7F);
-            return player.getCameraPosVec(tickDelta).add(vec3d);
-        } else {
-            float g = MathHelper.lerp(tickDelta, player.prevBodyYaw, player.bodyYaw) * (float) (Math.PI / 180.0);
-            double d = MathHelper.sin(g);
-            double e = MathHelper.cos(g);
-            float h = player.getScale();
-            double j = i * 0.35 * h;
-            double k = 0.8 * h;
-            float l = player.isInSneakingPose() ? -0.1875F : 0.0F;
-            return player.getCameraPosVec(tickDelta).add(-e * j - d * k, l - 0.45 * h, -d * j + e * k);
-        }
-    }
-
     private void renderLine(GrappleHookEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers) {
         PlayerEntity owner = entity.getOwner();
         if (owner == null) return;
@@ -96,7 +77,7 @@ public class GrappleHookEntityRenderer extends EntityRenderer<GrappleHookEntity>
 
         // Remember entity.getLerpedPos(tickDelta) is origin for this matrix
 
-        Vec3d handPos = getHandPos(owner, j, tickDelta).subtract(entity.getLerpedPos(tickDelta));
+        Vec3d handPos = owner.getLeashPos(tickDelta).subtract(entity.getLerpedPos(tickDelta));
         Vec3d hiltOffset = entity.getRotationVector().multiply(-0.55);
 
         matrices.push();

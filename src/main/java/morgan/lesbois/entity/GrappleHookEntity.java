@@ -1,6 +1,7 @@
 package morgan.lesbois.entity;
 
 import morgan.lesbois.interfaces.GrappleInterface;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Ownable;
@@ -61,50 +62,45 @@ public class GrappleHookEntity extends Entity implements Ownable {
     @Override
     public void tick() {
         super.tick();
-        if (!this.getWorld().isClient()) {
-            PlayerEntity owner = this.getOwner();
-            if (owner == null || owner.isDead() || owner.isRemoved()) {
-                if (owner != null) {
-                    ((GrappleInterface) (Object) owner).lesbois$setGrappleHook(null);
-                }
-
-                this.discard();
-                return;
+        PlayerEntity owner = this.getOwner();
+        if (owner == null || owner.isDead() || owner.isRemoved()) {
+            if (owner != null) {
+                ((GrappleInterface) (Object) owner).lesbois$setGrappleHook(null);
             }
 
-            if (owner instanceof ServerPlayerEntity serverPlayer) {
-                Vec3d hiltOffset = this.getRotationVector().normalize().multiply(-0.55);
-                Vec3d hiltPos = this.getPos().add(hiltOffset);
-                Vec3d direction = hiltPos.subtract(owner.getPos()).normalize();
-                Vec3d playerDirection = serverPlayer.getRotationVector().normalize();
-                Vec3d velocity = owner.getVelocity();
+            this.discard();
+            return;
+        }
 
-                double distanceSq = hiltPos.squaredDistanceTo(owner.getBoundingBox().getCenter());
-                double pullSpeed = this.pullSpeed;
-                double lookAssist = this.lookAssist;
+        if (owner instanceof PlayerEntity player) {
+            Vec3d hiltOffset = this.getRotationVector().normalize().multiply(-0.55);
+            Vec3d hiltPos = this.getPos().add(hiltOffset);
+            Vec3d ownerPos = owner.getBoundingBox().getCenter();
 
-                double minDistanceSq = this.minDistance * this.minDistance;
-                if (distanceSq < (minDistanceSq * 0.25)) {
-                    pullSpeed = 0;
-                    lookAssist = 0;
-                } else if (distanceSq < minDistanceSq) {
-                    pullSpeed *= (distanceSq - (minDistanceSq * 0.25)) / (minDistanceSq * 0.75);
-                    lookAssist = 0;
-                }
+            Vec3d direction = hiltPos.subtract(ownerPos).normalize();
+            Vec3d playerDirection = player.getRotationVector().normalize();
+            Vec3d velocity = owner.getVelocity();
 
-                // Tried to make inputs change direction but i'd need to rework how the grapple works to make it client side
+            double distanceSq = hiltPos.squaredDistanceTo(ownerPos);
+            double pullSpeed = this.pullSpeed;
+            double lookAssist = this.lookAssist;
 
-//                Vec3d inputDirection = new Vec3d(owner.forwardSpeed, 0, owner.horizontalSpeed).normalize();
-//
-//                float yaw = (float) Math.atan2(playerDirection.z, playerDirection.x);
-//                float pitch = (float) Math.atan2(playerDirection.y, Math.sqrt(playerDirection.x * playerDirection.x + playerDirection.z * playerDirection.z));
+            double minDistanceSq = this.minDistance * this.minDistance;
+            if (distanceSq < (minDistanceSq * 0.25)) {
+                pullSpeed = 0;
+                lookAssist = 0;
+            } else if (distanceSq < minDistanceSq) {
+                pullSpeed *= (distanceSq - (minDistanceSq * 0.25)) / (minDistanceSq * 0.75);
+                lookAssist = 0;
+            }
 
-                serverPlayer.setVelocity(
-                        velocity.multiply(1-Math.clamp(this.damping, 0, 1))
+            player.setVelocity(
+                    velocity.multiply(1 - Math.clamp(this.damping, 0, 1))
                             .add(direction.multiply(pullFactorModifier * pullSpeed))
                             .add(playerDirection.multiply(lookAssistModifier * lookAssist))
-                );
+            );
 
+            if (!this.getWorld().isClient() && player instanceof ServerPlayerEntity serverPlayer) {
                 serverPlayer.velocityDirty = true;
                 serverPlayer.velocityModified = true;
 
