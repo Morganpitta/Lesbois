@@ -1,9 +1,6 @@
 {
   "powers": [
-    "lesbois:test_ground_pound",
-    "lesbois:test_gp_land",
-    "lesbois:test_gp_resource",
-    "lesbois:test_gp_fall"
+    "lesbois:test_test"
   ],
   "icon": {
     "id": "minecraft:poisonous_potato"
