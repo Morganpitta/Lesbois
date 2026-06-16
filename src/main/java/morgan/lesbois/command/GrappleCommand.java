@@ -2,6 +2,7 @@ package morgan.lesbois.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import morgan.lesbois.entity.GrappleHookEntity;
 import morgan.lesbois.interfaces.GrappleInterface;
@@ -17,16 +18,16 @@ public class GrappleCommand {
                         .requires(source -> source.hasPermissionLevel(2))
                         .executes(context -> execute(context.getSource(),20))
                         .then(
-                                CommandManager.argument("maxDistance", DoubleArgumentType.doubleArg(1.0, 100.0))
-                                        .executes(context -> execute(context.getSource(), DoubleArgumentType.getDouble(context, "maxDistance")))
+                                CommandManager.argument("maxDistance", FloatArgumentType.floatArg(1.0F, 100.0F))
+                                        .executes(context -> execute(context.getSource(), FloatArgumentType.getFloat(context, "maxDistance")))
                         )
         );
     }
 
-    private static int execute(ServerCommandSource source, double maxDistance) throws CommandSyntaxException {
+    private static int execute(ServerCommandSource source, float maxDistance) throws CommandSyntaxException {
         GrappleInterface player = (GrappleInterface) (Object) source.getPlayerOrThrow();
 
-        GrappleHookEntity hook = player.lesbois$grapple(maxDistance, 2, false, 1, 1, 0.92);
+        GrappleHookEntity hook = player.lesbois$grapple(maxDistance, 2, false, 1, 1, 0.92F);
 
         if (hook != null) {
             source.sendFeedback(() -> Text.literal("Grappled!!!!!"), false);

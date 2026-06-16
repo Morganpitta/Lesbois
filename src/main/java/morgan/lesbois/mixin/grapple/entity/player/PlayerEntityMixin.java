@@ -41,7 +41,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GrappleI
 
     @Unique
     @Nullable
-    public GrappleHookEntity lesbois$grapple(double maxDistance, double minDistance, boolean disableFallDamage, double pullSpeed, double lookAssist, double damping) {
+    public GrappleHookEntity lesbois$grapple(float maxDistance, float minDistance, boolean disableFallDamage, float pullSpeed, float lookAssist, float damping) {
         if (this.grappleHook != null) {
             this.grappleHook.discard();
             this.grappleHook = null;

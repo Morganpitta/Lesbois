@@ -1,7 +1,6 @@
 package morgan.lesbois.entity;
 
 import morgan.lesbois.interfaces.GrappleInterface;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Ownable;
@@ -12,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -20,34 +18,31 @@ import org.jetbrains.annotations.Nullable;
 public class GrappleHookEntity extends Entity implements Ownable {
     @Nullable
     private PlayerEntity owner;
+    private static final TrackedData<Integer> OWNER_ID = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public boolean disableFallDamage;
-    public double minDistance;
-    public double lookAssist;
-    public double pullSpeed;
-    public double damping;
+    private static final TrackedData<Float> MIN_DISTANCE = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> LOOK_ASSIST = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> PULL_SPEED = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> DAMPING = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
     // Ideally a 3:2 ratio
     public static final double pullFactorModifier = 0.25;
     public static final double lookAssistModifier = 0.18;
 
-    private static final TrackedData<Integer> OWNER_ID = DataTracker.registerData(
-            GrappleHookEntity.class, TrackedDataHandlerRegistry.INTEGER
-    );
-
     public GrappleHookEntity(EntityType<? extends GrappleHookEntity> type, World world) {
         super(type, world);
     }
 
-    public GrappleHookEntity(World world, @Nullable PlayerEntity owner, Vec3d position, float yaw, float pitch, boolean disableFallDamage, double minDistance, double pullSpeed, double lookAssist, double damping) {
+    public GrappleHookEntity(World world, @Nullable PlayerEntity owner, Vec3d position, float yaw, float pitch, boolean disableFallDamage, float minDistance, float pullSpeed, float lookAssist, float damping) {
         super(LesboisEntities.GRAPPLE_HOOK, world);
         this.setOwner(owner);
         this.setPosition(position);
         this.setRotation(yaw, pitch);
         this.disableFallDamage = disableFallDamage;
-        this.minDistance = minDistance;
-        this.lookAssist = lookAssist;
-        this.pullSpeed = pullSpeed;
-        this.damping = damping;
+        this.setMinDistance(minDistance);
+        this.setLookAssist(lookAssist);
+        this.setPullSpeed(pullSpeed);
+        this.setDamping(damping);
     }
 
     @Override
@@ -59,6 +54,38 @@ public class GrappleHookEntity extends Entity implements Ownable {
     public void setOwner(@Nullable PlayerEntity owner) {
         this.owner = owner;
         this.dataTracker.set(OWNER_ID, owner != null ? owner.getId() : -1);
+    }
+
+    public float getMinDistance() {
+        return this.dataTracker.get(MIN_DISTANCE);
+    }
+
+    public void setMinDistance(float minDistance) {
+        this.dataTracker.set(MIN_DISTANCE, minDistance);
+    }
+
+    public float getLookAssist() {
+        return this.dataTracker.get(LOOK_ASSIST);
+    }
+
+    public void setLookAssist(float lookAssist) {
+        this.dataTracker.set(LOOK_ASSIST, lookAssist);
+    }
+
+    public float getPullSpeed() {
+        return this.dataTracker.get(PULL_SPEED);
+    }
+
+    public void setPullSpeed(float pullSpeed) {
+        this.dataTracker.set(PULL_SPEED, pullSpeed);
+    }
+
+    public float getDamping() {
+        return this.dataTracker.get(DAMPING);
+    }
+
+    public void setDamping(float damping) {
+        this.dataTracker.set(DAMPING, damping);
     }
 
     @Override
@@ -84,35 +111,32 @@ public class GrappleHookEntity extends Entity implements Ownable {
             Vec3d velocity = owner.getVelocity();
 
             double distanceSq = hiltPos.squaredDistanceTo(ownerPos);
-            double pullSpeed = this.pullSpeed;
-            double lookAssist = this.lookAssist;
+            double pullSpeed = this.getPullSpeed();
+            double lookAssist = this.getLookAssist();
+            double damping = this.getDamping();
 
-            double minDistanceSq = this.minDistance * this.minDistance;
-            if (distanceSq < (minDistanceSq * 0.25)) {
-                pullSpeed = 0;
+            double minDistanceSq = this.getMinDistance() * this.getMinDistance();
+            if (distanceSq < minDistanceSq) {
                 lookAssist = 0;
-            } else if (distanceSq < minDistanceSq) {
-                pullSpeed *= (distanceSq - (minDistanceSq * 0.25)) / (minDistanceSq * 0.75);
-                lookAssist = 0;
+                pullSpeed *= distanceSq/minDistanceSq;
+
+                double speedSq = velocity.lengthSquared();
+                double minSpeedSq = 0.5 * 0.5;
+                if (speedSq < minSpeedSq) {
+                    double distanceDamping = 1 - (distanceSq / minDistanceSq);
+                    double speedDamping = 1 - (speedSq / minSpeedSq);
+                    damping = Math.max(damping, speedDamping * distanceDamping * 0.8);
+                }
             }
 
             player.setVelocity(
-                    velocity.multiply(1 - Math.clamp(this.damping, 0, 1))
+                    velocity.multiply(1 - Math.clamp(damping, 0, 1))
                             .add(direction.multiply(pullFactorModifier * pullSpeed))
                             .add(playerDirection.multiply(lookAssistModifier * lookAssist))
             );
 
             if (this.disableFallDamage)
                 player.fallDistance = 0;
-
-            if (!this.getWorld().isClient() && player instanceof ServerPlayerEntity serverPlayer) {
-                serverPlayer.velocityDirty = true;
-                serverPlayer.velocityModified = true;
-
-                serverPlayer.networkHandler.sendPacket(
-                        new EntityVelocityUpdateS2CPacket(serverPlayer)
-                );
-            }
         }
     }
 
@@ -124,6 +148,10 @@ public class GrappleHookEntity extends Entity implements Ownable {
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(OWNER_ID, -1);
+        builder.add(MIN_DISTANCE, 0.0F);
+        builder.add(LOOK_ASSIST, 0.0F);
+        builder.add(PULL_SPEED, 0.0F);
+        builder.add(DAMPING, 0.0F);
     }
 
     @Override
@@ -143,9 +171,6 @@ public class GrappleHookEntity extends Entity implements Ownable {
         }
         super.onRemoved();
     }
-
-
-    // MP TODO: implement createSpawnPacket and onSpawnPacket
 
     // Entity is non-persistent, no need to save or have any additional data
     @Override

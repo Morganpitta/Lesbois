@@ -17,6 +17,7 @@
     "double_jump.entity.EntityMixin",
     "double_jump.entity.LivingEntityMixin",
     "grapple.entity.player.PlayerEntityMixin",
+    "grapple.server.network.ServerPlayNetworkHandlerMixin",
     "parry.entity.player.PlayerEntityMixin",
     "parry.entity.projectile.PersistentProjectileEntityMixin",
     "parry.entity.projectile.ProjectileEntityMixin",

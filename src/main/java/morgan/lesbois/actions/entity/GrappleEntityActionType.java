@@ -13,20 +13,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class GrappleEntityActionType extends EntityActionType {
     private final boolean disableFallDamage;
-    private final double maxDistance;
-    private final double minDistance;
-    private final double lookAssist;
-    private final double pullSpeed;
-    private final double damping;
+    private final float maxDistance;
+    private final float minDistance;
+    private final float lookAssist;
+    private final float pullSpeed;
+    private final float damping;
 
     public static final TypedDataObjectFactory<GrappleEntityActionType> DATA_FACTORY = TypedDataObjectFactory.simple(
             new SerializableData()
                     .add("disable_fall_damage", SerializableDataTypes.BOOLEAN, false)
-                    .add("max_distance", SerializableDataTypes.DOUBLE, 20D)
-                    .add("min_distance", SerializableDataTypes.DOUBLE, 2D)
-                    .add("look_assist", SerializableDataTypes.DOUBLE, 1D)
-                    .add("pull_speed", SerializableDataTypes.DOUBLE, 1D)
-                    .add("damping", SerializableDataTypes.DOUBLE, 0.1D),
+                    .add("max_distance", SerializableDataTypes.FLOAT, 20F)
+                    .add("min_distance", SerializableDataTypes.FLOAT, 2F)
+                    .add("look_assist", SerializableDataTypes.FLOAT, 1F)
+                    .add("pull_speed", SerializableDataTypes.FLOAT, 1F)
+                    .add("damping", SerializableDataTypes.FLOAT, 0.1F),
             data -> new GrappleEntityActionType(
                     data.get("disable_fall_damage"),
                     data.get("max_distance"),
@@ -44,7 +44,7 @@ public class GrappleEntityActionType extends EntityActionType {
                     .set("damping", actionType.damping)
     );
 
-    public GrappleEntityActionType(boolean disableFallDamage, double maxDistance, double minDistance, double pullSpeed, double lookAssist, double damping) {
+    public GrappleEntityActionType(boolean disableFallDamage, float maxDistance, float minDistance, float pullSpeed, float lookAssist, float damping) {
         this.disableFallDamage = disableFallDamage;
         this.maxDistance = maxDistance;
         this.minDistance = minDistance;
