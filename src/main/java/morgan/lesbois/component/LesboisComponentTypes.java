@@ -2,12 +2,17 @@ package morgan.lesbois.component;
 
 import morgan.lesbois.Lesbois;
 import net.minecraft.component.ComponentType;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 import java.util.function.UnaryOperator;
 
 public class LesboisComponentTypes {
+    public static final ComponentType<ItemBuffsComponent> BUFFS = register(
+            "enchantments", builder -> builder.codec(ItemBuffsComponent.CODEC).packetCodec(ItemBuffsComponent.PACKET_CODEC).cache()
+    );
+
     public static void register() {
     }
 
