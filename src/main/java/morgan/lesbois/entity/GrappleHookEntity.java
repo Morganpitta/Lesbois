@@ -25,9 +25,8 @@ public class GrappleHookEntity extends Entity implements Ownable {
     private static final TrackedData<Float> PULL_SPEED = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> DAMPING = DataTracker.registerData(GrappleHookEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
-    // Ideally a 3:2 ratio
     public static final double pullFactorModifier = 0.25;
-    public static final double lookAssistModifier = 0.18;
+    public static final double lookAssistModifier = 0.25;
 
     public GrappleHookEntity(EntityType<? extends GrappleHookEntity> type, World world) {
         super(type, world);

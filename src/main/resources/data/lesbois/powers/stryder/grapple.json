@@ -7,9 +7,10 @@
       {
         "type": "lesbois:grapple",
         "max_distance": 40,
-        "look_assist": 0.1,
-        "pull_speed": 0.5,
-        "damping": 0.05
+        "look_assist": 0.2,
+        "pull_speed": 3.0,
+        "damping": 0.5,
+        "disable_fall_damage": true
       },
       {
         "type": "origins:play_sound",
