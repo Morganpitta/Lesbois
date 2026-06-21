@@ -1,6 +1,6 @@
 {
   "type": "origins:action_on_key_press",
-  "cooldown": 60,
+  "cooldown": 80,
   "entity_action": {
     "type": "origins:and",
     "actions": [
@@ -8,7 +8,7 @@
         "type": "lesbois:grapple",
         "max_distance": 40,
         "look_assist": 0.2,
-        "pull_speed": 3.0,
+        "pull_speed": 2.0,
         "damping": 0.5,
         "disable_fall_damage": true
       },

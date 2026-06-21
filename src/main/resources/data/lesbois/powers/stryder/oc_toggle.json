@@ -5,11 +5,5 @@
     "continuous": false
   },
   "retain_state": false,
-  "active_by_default": false,
-  "condition": {
-    "type": "origins:resource",
-    "resource": "lesbois:stryder/oc_charge",
-    "comparison": ">",
-    "compare_to": 0
-  }
+  "active_by_default": false
 }
