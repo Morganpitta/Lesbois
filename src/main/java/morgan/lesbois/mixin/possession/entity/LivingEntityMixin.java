@@ -184,4 +184,26 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
     }
+
+    @Inject(method = "takeKnockback", at=@At("HEAD"))
+    public void takeKnockBack(double strength, double x, double z, CallbackInfo ci) {
+        if ((LivingEntity) (Object) this instanceof MobEntity) {
+            PlayerEntity player = ((PossessorInterface) this).lesbois$getPossessor();
+
+            if ( player != null ) {
+                player.takeKnockback(strength, x, z);
+            }
+        }
+    }
+
+    @Inject(method = "tiltScreen", at=@At("HEAD"))
+    public void tiltScreen(double deltaX, double deltaZ, CallbackInfo ci) {
+        if ((LivingEntity) (Object) this instanceof MobEntity) {
+            PlayerEntity player = ((PossessorInterface) this).lesbois$getPossessor();
+
+            if ( player != null ) {
+                player.tiltScreen(deltaX, deltaZ);
+            }
+        }
+    }
 }

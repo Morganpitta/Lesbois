@@ -29,6 +29,7 @@
     "possession.entity.ai.brain.BrainMixin",
     "possession.entity.mob.MobEntityMixin",
     "possession.entity.player.PlayerEntityMixin",
+    "possession.entity.projectile.ProjectileEntityMixin",
     "possession.server.PlayerManagerMixin",
     "possession.server.network.ServerPlayerEntityMixin"
   ],
