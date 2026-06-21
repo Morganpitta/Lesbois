@@ -78,7 +78,7 @@ public class GrappleHookEntityRenderer extends EntityRenderer<GrappleHookEntity>
         // Remember entity.getLerpedPos(tickDelta) is origin for this matrix
 
         Vec3d handPos = owner.getLeashPos(tickDelta).subtract(entity.getLerpedPos(tickDelta));
-        Vec3d hiltOffset = entity.getRotationVector().multiply(-0.55);
+        Vec3d hiltOffset = entity.getHiltOffset();
 
         matrices.push();
 

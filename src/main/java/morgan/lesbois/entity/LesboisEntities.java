@@ -12,7 +12,7 @@ public class LesboisEntities {
             "grapple_hook",
             EntityType.Builder.<GrappleHookEntity>create(GrappleHookEntity::new, SpawnGroup.MISC)
                     .dimensions(0.25f, 0.25f)
-                    .maxTrackingRange(4)
+                    .maxTrackingRange(128)
                     .trackingTickInterval(1)
     );
 

@@ -87,6 +87,14 @@ public class GrappleHookEntity extends Entity implements Ownable {
         this.dataTracker.set(DAMPING, damping);
     }
 
+    public Vec3d getHiltOffset() {
+        return this.getRotationVector().normalize().multiply(-0.55);
+    }
+
+    public Vec3d getHiltPos() {
+        return this.getPos().add(this.getHiltOffset());
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -97,45 +105,6 @@ public class GrappleHookEntity extends Entity implements Ownable {
             }
 
             this.discard();
-            return;
-        }
-
-        if (owner instanceof PlayerEntity player) {
-            Vec3d hiltOffset = this.getRotationVector().normalize().multiply(-0.55);
-            Vec3d hiltPos = this.getPos().add(hiltOffset);
-            Vec3d ownerPos = owner.getBoundingBox().getCenter();
-
-            Vec3d direction = hiltPos.subtract(ownerPos).normalize();
-            Vec3d playerDirection = player.getRotationVector().normalize();
-            Vec3d velocity = owner.getVelocity();
-
-            double distanceSq = hiltPos.squaredDistanceTo(ownerPos);
-            double pullSpeed = this.getPullSpeed();
-            double lookAssist = this.getLookAssist();
-            double damping = this.getDamping();
-
-            double minDistanceSq = this.getMinDistance() * this.getMinDistance();
-            if (distanceSq < minDistanceSq) {
-                lookAssist = 0;
-                pullSpeed *= distanceSq/minDistanceSq;
-
-                double speedSq = velocity.lengthSquared();
-                double minSpeedSq = 0.5 * 0.5;
-                if (speedSq < minSpeedSq) {
-                    double distanceDamping = 1 - (distanceSq / minDistanceSq);
-                    double speedDamping = 1 - (speedSq / minSpeedSq);
-                    damping = Math.max(damping, speedDamping * distanceDamping * 0.8);
-                }
-            }
-
-            player.setVelocity(
-                    velocity.multiply(1 - Math.clamp(damping, 0, 1))
-                            .add(direction.multiply(pullFactorModifier * pullSpeed))
-                            .add(playerDirection.multiply(lookAssistModifier * lookAssist))
-            );
-
-            if (this.disableFallDamage)
-                player.fallDistance = 0;
         }
     }
 

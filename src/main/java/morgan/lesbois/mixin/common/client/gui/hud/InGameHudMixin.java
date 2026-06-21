@@ -2,15 +2,16 @@ package morgan.lesbois.mixin.common.client.gui.hud;
 
 import morgan.lesbois.Lesbois;
 import morgan.lesbois.powers.DisableHungerPowerType;
+import morgan.lesbois.powers.SpeedometerPowerType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Arm;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -43,15 +44,22 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void renderMainHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        float speed = 0;
-        if (this.client.player != null) {
-            speed = (float) this.client.player.getVelocity().length();
-        }
+        ClientPlayerEntity player = this.client.player;
+        if (this.client.player != null && SpeedometerPowerType.shouldShow(player)) {
+            float speed = (float) player.getVelocity().length();
 
-        // No rounding options... grrr
-        String string = String.format("%.1f", Math.floor(speed*10.f)/10.f);
-        int x = (context.getScaledWindowWidth() - this.getTextRenderer().getWidth(string)) / 2 + 91 + 6 + 18 + 6;
-        int y = context.getScaledWindowHeight() - 20 + 9 - this.getTextRenderer().fontHeight/2;
-        context.drawText(this.getTextRenderer(), string, x + 1, y, 0xFFFFFF, false);
+            // No rounding options... grrr
+            String string = String.format("%.1f", Math.floor(speed*10.f)/10.f);
+            int x = (context.getScaledWindowWidth()) / 2 + 91 + 6 + 18 + 6;
+            int y = context.getScaledWindowHeight() - 20 + 9 - this.getTextRenderer().fontHeight/2;
+
+            int colour = Colors.WHITE;
+            if (speed > 2.5)
+                colour = Colors.RED;
+            else if (speed > 1.5)
+                colour = Colors.YELLOW;
+
+            context.drawText(this.getTextRenderer(), string, x + 1, y, colour, false);
+        }
     }
 }

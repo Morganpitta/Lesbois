@@ -16,9 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class PossessingEntityEntityConditionType extends EntityConditionType {
-    private final Optional<EntityCondition> entityCondition;
-
-
     public static final TypedDataObjectFactory<PossessingEntityEntityConditionType> DATA_FACTORY = TypedDataObjectFactory.simple(
             new SerializableData()
                     .add("entity_condition", EntityCondition.DATA_TYPE.optional()),
@@ -28,6 +25,8 @@ public class PossessingEntityEntityConditionType extends EntityConditionType {
             (conditionType, serializableData) -> serializableData.instance()
                     .set("entity_condition", conditionType.entityCondition)
     );
+
+    private final Optional<EntityCondition> entityCondition;
 
     public PossessingEntityEntityConditionType(Optional<EntityCondition> entityCondition) {
         this.entityCondition = entityCondition;

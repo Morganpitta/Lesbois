@@ -3,7 +3,6 @@ package morgan.lesbois.mixin.grapple.entity.player;
 import morgan.lesbois.entity.GrappleHookEntity;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
 import morgan.lesbois.interfaces.GrappleInterface;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +15,9 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements GrappleInterface {
@@ -89,5 +90,47 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GrappleI
     )
     public boolean getBlockBreakingSpeedIncreaseMiningSpeedWhenGrappled(PlayerEntity player) {
         return player.isOnGround() || ((GrappleInterface) player).lesbois$getGrappleHook() != null;
+    }
+
+    @Inject(method = "tickMovement", at=@At("HEAD"))
+    public void tickMovement(CallbackInfo ci) {
+        GrappleHookEntity entity = this.lesbois$getGrappleHook();
+
+        if (entity != null) {
+            Vec3d hiltPos = entity.getHiltPos();
+            Vec3d ownerPos = this.getBoundingBox().getCenter();
+
+            Vec3d direction = hiltPos.subtract(ownerPos).normalize();
+            Vec3d playerDirection = this.getRotationVector().normalize();
+            Vec3d velocity = this.getVelocity();
+
+            double distanceSq = hiltPos.squaredDistanceTo(ownerPos);
+            double pullSpeed = entity.getPullSpeed();
+            double lookAssist = entity.getLookAssist();
+            double damping = entity.getDamping();
+
+            double minDistanceSq = entity.getMinDistance() * entity.getMinDistance();
+            if (distanceSq < minDistanceSq) {
+                lookAssist = 0;
+                pullSpeed *= distanceSq/minDistanceSq;
+
+                double speedSq = velocity.lengthSquared();
+                double minSpeedSq = 0.5 * 0.5;
+                if (speedSq < minSpeedSq) {
+                    double distanceDamping = 1 - (distanceSq / minDistanceSq);
+                    double speedDamping = 1 - (speedSq / minSpeedSq);
+                    damping = Math.max(damping, speedDamping * distanceDamping * 0.8);
+                }
+            }
+
+            this.setVelocity(
+                    velocity.multiply(1 - Math.clamp(damping, 0, 1))
+                            .add(direction.multiply(GrappleHookEntity.pullFactorModifier * pullSpeed))
+                            .add(playerDirection.multiply(GrappleHookEntity.lookAssistModifier * lookAssist))
+            );
+
+            if (entity.disableFallDamage)
+                this.fallDistance = 0;
+        }
     }
 }

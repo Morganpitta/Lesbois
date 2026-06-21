@@ -20,6 +20,8 @@ public class LesboisPowerTypes {
     public static final PowerConfiguration<ParryPowerType> PARRY = registerConditionedSimple("parry", ParryPowerType::new);
     public static final PowerConfiguration<ActionOnCoinPowerType> ACTION_ON_COIN = register("action_on_coin", ActionOnCoinPowerType.DATA_FACTORY);
     public static final PowerConfiguration<FrostGlidingPowerType> FROST_GLIDE = register("frost_glide", FrostGlidingPowerType.DATA_FACTORY);
+    public static final PowerConfiguration<SpeedometerPowerType> SPEEDOMETER = registerConditionedSimple("speedometer", SpeedometerPowerType::new);
+    public static final PowerConfiguration<ShockwavePowerType> SHOCKWAVE = register("shockwave", ShockwavePowerType.DATA_FACTORY);
 
     public static void register() {
     }

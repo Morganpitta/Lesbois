@@ -1,6 +1,6 @@
 {
   "type": "lesbois:drag_modifier",
-  "air_drag": 0.96,
+  "air_drag": 0.98,
   "friction": 0.96,
   "ignore_block_friction": true,
   "slide_mode": true,

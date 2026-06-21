@@ -1,12 +1,9 @@
 {
-  "type": "origins:action_on_key_press",
-  "entity_action": {
-    "type": "lesbois:shockwave",
-    "min_speed": 2.0,
-    "distance": 10,
-    "damage": 0.5,
-    "knockback": 1
-  },
+  "type": "lesbois:shockwave",
+  "min_speed": 2.4,
+  "distance": 10,
+  "damage": 0.5,
+  "knockback": 1,
   "key": {
     "key": "key.origins.ternary_active"
   }

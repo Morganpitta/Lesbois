@@ -11,7 +11,8 @@
     "lesbois:stryder/safe_fall_oc",
     "lesbois:stryder/step_height_oc",
     "lesbois:stryder/drag_modifier_oc",
-    "lesbois:stryder/shockwave"
+    "lesbois:stryder/shockwave",
+    "lesbois:stryder/speedometer"
   ],
   "icon": {
     "id": "minecraft:wind_charge"

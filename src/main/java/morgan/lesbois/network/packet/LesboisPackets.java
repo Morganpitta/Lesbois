@@ -9,6 +9,7 @@ import morgan.lesbois.interfaces.DoubleJumpInterface;
 import morgan.lesbois.powers.ActionOnCoinPowerType;
 import morgan.lesbois.powers.ActionOnKeyReleasePowerType;
 import morgan.lesbois.powers.FrostGlidingPowerType;
+import morgan.lesbois.powers.ShockwavePowerType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
@@ -17,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 
 public class LesboisPackets {
     public static void register() {
@@ -24,6 +26,7 @@ public class LesboisPackets {
         PayloadTypeRegistry.playC2S().register(UseKeyReleasePowerTypesC2SPacket.ID, UseKeyReleasePowerTypesC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(UseCoinPowerTypesC2SPacket.ID, UseCoinPowerTypesC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(FrostGlideC2SPacket.ID, FrostGlideC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(ShockwavePowerTypesC2SPacket.ID, ShockwavePowerTypesC2SPacket.CODEC);
 
         PayloadTypeRegistry.playS2C().register(PossessionS2CPacket.ID, PossessionS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(UnPossessionS2CPacket.ID, UnPossessionS2CPacket.CODEC);
@@ -33,6 +36,7 @@ public class LesboisPackets {
         ServerPlayNetworking.registerGlobalReceiver(UseKeyReleasePowerTypesC2SPacket.ID, LesboisPackets::handleUseKeyReleasePowerType);
         ServerPlayNetworking.registerGlobalReceiver(UseCoinPowerTypesC2SPacket.ID, LesboisPackets::handleUseCoinPowerType);
         ServerPlayNetworking.registerGlobalReceiver(FrostGlideC2SPacket.ID, LesboisPackets::handleFrostGlide);
+        ServerPlayNetworking.registerGlobalReceiver(ShockwavePowerTypesC2SPacket.ID, LesboisPackets::handleShockwavePacket);
     }
 
     public static void handleDoubleJumpPacket(DoubleJumpC2SPacket payload, ServerPlayNetworking.Context context) {
@@ -117,5 +121,28 @@ public class LesboisPackets {
 
             FrostGlidingPowerType.triggerActions(player);
         });
+    }
+
+    public static void handleShockwavePacket(ShockwavePowerTypesC2SPacket payload, ServerPlayNetworking.Context context) {
+        ServerPlayerEntity player = context.player();
+        PowerHolderComponent component = PowerHolderComponent.KEY.get(player);
+        Vec3d velocity = new Vec3d(payload.velocity());
+        Vec3d pos = new Vec3d(payload.pos());
+
+        for (Identifier powerId : payload.powerIds()) {
+            PowerType powerType = PowerManager.getOptional(powerId)
+                    .map(component::getPowerType)
+                    .orElse(null);
+
+            if (powerType instanceof ShockwavePowerType shockwavePowerType) {
+                shockwavePowerType.triggerShockwave(player, velocity, pos);
+            }
+            else if (powerType != null) {
+                Lesbois.LOGGER.warn("Unexpectedly found power \"{}\" (which doesn't have a shockwave power type) while receiving packet for triggering active power types of player {}!", powerId, player.getName().getString());
+            }
+            else {
+                Lesbois.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering shockwave power types of player {}!", powerId, player.getName().getString());
+            }
+        }
     }
 }

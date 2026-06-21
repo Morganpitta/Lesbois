@@ -14,7 +14,6 @@ public class LesboisActionTypes {
     public static final ActionConfiguration<GrappleEntityActionType> GRAPPLE = registerEntityAction("grapple", GrappleEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<UnGrappleEntityActionType> UN_GRAPPLE = registerEntityAction("un_grapple", UnGrappleEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<PossessBiEntityActionType> POSSESS = registerBiEntityAction("possess", PossessBiEntityActionType.DATA_FACTORY);
-    public static final ActionConfiguration<ShockwaveEntityActionType> SHOCKWAVE = registerEntityAction("shockwave", ShockwaveEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<UnPossessEntityActionType> UN_POSSESS = registerEntityAction("un_possess", UnPossessEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<PossessedEntityActionEntityActionType> POSSESSED_ENTITY_ACTION = registerEntityAction("possessed_entity_action", PossessedEntityActionEntityActionType.DATA_FACTORY);
     public static final ActionConfiguration<TossCoinEntityAction> TOSS_COIN = registerEntityAction("toss_coin", TossCoinEntityAction.DATA_FACTORY);
