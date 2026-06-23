@@ -91,7 +91,7 @@ public class ShockwavePowerType extends PowerType {
 
         Vec3d velocityNormalised = velocity.normalize();
 
-        List<Entity> entities = Util.getEntitiesInCone(player.getServerWorld(), player, pos.subtract(velocityNormalised.multiply(2)).subtract(velocity), velocityNormalised, this.distance + 2, 90);
+        List<Entity> entities = Util.getEntitiesInCone(player.getServerWorld(), player, pos.subtract(velocityNormalised.multiply(2)), velocityNormalised, this.distance + 2, 90);
 
         player.setVelocity(Vec3d.ZERO);
         player.velocityDirty = true;

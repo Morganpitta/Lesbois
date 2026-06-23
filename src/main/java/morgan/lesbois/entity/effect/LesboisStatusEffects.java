@@ -14,13 +14,13 @@ public class LesboisStatusEffects {
             "faltered",
             new StatusEffect(StatusEffectCategory.HARMFUL, 0x000000) {}
     );
-    public static final RegistryEntry<StatusEffect> SCORCHED = register(
-            "scorched",
-            new StackingStatusEffect(StatusEffectCategory.HARMFUL, 0xE64A19, 5) {}
+    public static final RegistryEntry<StatusEffect> OVERCHARGED = register(
+            "overcharged",
+            new StackingStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00F0FF, 5)
     );
-    public static final RegistryEntry<StatusEffect> FROZEN = register(
-            "frozen",
-            new StackingStatusEffect(StatusEffectCategory.HARMFUL, 0x29B6F6, 5) {}
+    public static final RegistryEntry<StatusEffect> UNSTABLE = register(
+            "unstable",
+            new StackingStatusEffect(StatusEffectCategory.HARMFUL, 0x00F0FF, 5)
     );
 
     public static void register() {}

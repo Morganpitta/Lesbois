@@ -38,6 +38,7 @@
   },
   "client": [
     "common.client.gui.hud.InGameHudMixin",
+    "common.client.render.entity.LivingEntityRendererMixin",
     "common.client.world.ClientWorldAccessor",
     "common.client.world.MinecraftClientMixin",
     "parry.client.render.item.HeldItemRendererMixin",
