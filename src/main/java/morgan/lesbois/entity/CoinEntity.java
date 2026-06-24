@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.random.Random;
@@ -26,7 +27,7 @@ public class CoinEntity extends ThrownItemEntity {
 
     @Override
     protected Item getDefaultItem() {
-        return LesboisItems.COIN;
+        return Items.NETHER_STAR;
     }
 
     // Stops jitter by disabling server sync

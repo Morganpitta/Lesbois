@@ -1,10 +1,8 @@
-package morgan.lesbois.mixin.common.entity.ai.goal;
+package morgan.lesbois.mixin.effects.entity.ai.goal;
 
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
-import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

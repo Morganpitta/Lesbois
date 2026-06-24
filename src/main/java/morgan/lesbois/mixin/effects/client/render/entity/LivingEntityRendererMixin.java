@@ -1,4 +1,4 @@
-package morgan.lesbois.mixin.common.client.render.entity;
+package morgan.lesbois.mixin.effects.client.render.entity;
 
 import morgan.lesbois.client.render.entity.feature.UnstableFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;

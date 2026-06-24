@@ -26,7 +26,7 @@ public class TossCoinEntityAction extends EntityActionType {
     public static final TypedDataObjectFactory<TossCoinEntityAction> DATA_FACTORY = TypedDataObjectFactory.simple(
             new SerializableData()
                     .add("speed", SerializableDataTypes.DOUBLE, 1D)
-                    .add("height", SerializableDataTypes.DOUBLE, 1D),
+                    .add("height", SerializableDataTypes.DOUBLE, 0.7D),
             data -> new TossCoinEntityAction(
                     data.get("speed"),
                     data.get("height")),

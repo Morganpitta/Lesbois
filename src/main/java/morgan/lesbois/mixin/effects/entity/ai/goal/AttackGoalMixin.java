@@ -1,4 +1,4 @@
-package morgan.lesbois.mixin.common.entity.ai.goal;
+package morgan.lesbois.mixin.effects.entity.ai.goal;
 
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
 import net.minecraft.entity.ai.goal.AttackGoal;

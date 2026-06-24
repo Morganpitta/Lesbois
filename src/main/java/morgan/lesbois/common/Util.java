@@ -38,18 +38,13 @@ public class Util {
                 }).toList();
     }
 
-    public static <T extends ParticleEffect> int spawnParticles(ServerWorld world, T particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed, boolean force) {
+    public static <T extends ParticleEffect> void spawnParticles(ServerWorld world, T particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed, boolean force) {
         ParticleS2CPacket particleS2CPacket = new ParticleS2CPacket(particle, false, x, y, z, (float)deltaX, (float)deltaY, (float)deltaZ, (float)speed, count);
-        int i = 0;
 
-        for (int j = 0; j < world.getPlayers().size(); j++) {
-            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)world.getPlayers().get(j);
-            if (world.sendToPlayerIfNearby(serverPlayerEntity, force, x, y, z, particleS2CPacket)) {
-                i++;
-            }
+        for (int index = 0; index < world.getPlayers().size(); index++) {
+            ServerPlayerEntity serverPlayerEntity = world.getPlayers().get(index);
+            world.sendToPlayerIfNearby(serverPlayerEntity, force, x, y, z, particleS2CPacket);
         }
-
-        return i;
     }
 
     public static void sendMovingSound(SoundEvent sound, float volume, float pitch, Entity entity, long seed)

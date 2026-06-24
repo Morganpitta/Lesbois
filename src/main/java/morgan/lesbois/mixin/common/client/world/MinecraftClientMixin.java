@@ -1,9 +1,7 @@
 package morgan.lesbois.mixin.common.client.world;
 
 import morgan.lesbois.entity.CoinEntity;
-import morgan.lesbois.entity.effect.LesboisStatusEffects;
 import morgan.lesbois.network.packet.CoinHitC2SPacket;
-import morgan.lesbois.powers.ActionOnCoinPowerType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.WindowEventHandler;
@@ -36,8 +34,8 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
         super(string);
     }
 
-    @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void cancelAttack(CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true, order = 0)
+    private void hitCoin(CallbackInfoReturnable<Boolean> cir) {
         if (this.player != null) {
             List<CoinEntity> coins = this.player.getWorld().getEntitiesByType(
                     TypeFilter.instanceOf(CoinEntity.class),
@@ -47,7 +45,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
                         Vec3d entityVec = entity.getPos().subtract(this.player.getPos()).normalize();
                         Vec3d rotationVec = this.player.getRotationVector().normalize();
 
-                        return rotationVec.dotProduct(entityVec) >= Math.cos(Math.toRadians(10));
+                        return rotationVec.dotProduct(entityVec) >= Math.cos(Math.toRadians(15));
                     }
             );
 
@@ -58,12 +56,6 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
 
             if (!coins.isEmpty()) {
                 cir.setReturnValue(false);
-                return;
-            }
-
-            if (this.player.hasStatusEffect(LesboisStatusEffects.FALTERED)) {
-                cir.setReturnValue(false);
-                return;
             }
         }
     }
