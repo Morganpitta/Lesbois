@@ -56,6 +56,9 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
     @Shadow
     public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
+    @Shadow
+    public abstract boolean isDead();
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -121,12 +124,12 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
     }
 
     @Inject(method = "damage", at = @At("RETURN"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSleeping()Z")))
-    private void applyUnstableOnHit(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void applyUnstableOnHit(DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) {
             return;
         }
 
-        Entity attacker = source.getAttacker();
+        Entity attacker = damageSource.getAttacker();
 
         if (attacker instanceof LivingEntity livingEntity) {
             if (livingEntity.hasStatusEffect(LesboisStatusEffects.OVERCHARGED)) {
@@ -147,6 +150,17 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
                 }
             }
         }
+
+        if (this.isDead()) {
+            if (this.hasStatusEffect(LesboisStatusEffects.UNSTABLE)) {
+                StatusEffectInstance effect = this.getStatusEffect(LesboisStatusEffects.UNSTABLE);
+                StatusEffectSource source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
+
+                if (source != null && source.attackerUuid() != null) {
+                    this.triggerUnstableExplosion(source.attackerUuid(), source.damage(), effect.getAmplifier());
+                }
+            }
+        }
     }
 
     @Inject(method = "onStatusEffectRemoved", at = @At("TAIL"))
@@ -161,18 +175,6 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
     public void onUnstableFinished(StatusEffectInstance effect, CallbackInfo ci) {
         if (effect.equals(LesboisStatusEffects.UNSTABLE)) {
             StatusEffectSource source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
-            if (source != null && source.attackerUuid() != null) {
-                this.triggerUnstableExplosion(source.attackerUuid(), source.damage(), effect.getAmplifier());
-            }
-        }
-    }
-
-    @Inject(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;onKilledBy(Lnet/minecraft/entity/LivingEntity;)V"))
-    public void onDeath(DamageSource damageSource, CallbackInfo ci) {
-        if (this.hasStatusEffect(LesboisStatusEffects.UNSTABLE)) {
-            StatusEffectInstance effect = this.getStatusEffect(LesboisStatusEffects.UNSTABLE);
-            StatusEffectSource source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
-
             if (source != null && source.attackerUuid() != null) {
                 this.triggerUnstableExplosion(source.attackerUuid(), source.damage(), effect.getAmplifier());
             }
