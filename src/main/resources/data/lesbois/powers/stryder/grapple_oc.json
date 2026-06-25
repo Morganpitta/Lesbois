@@ -7,8 +7,8 @@
       {
         "type": "lesbois:grapple",
         "max_distance": 80,
-        "look_assist": 0.6,
-        "pull_speed": 0.9,
+        "look_assist": 0.4,
+        "pull_speed": 0.6,
         "damping": 0.1,
         "disable_fall_damage": true
       },

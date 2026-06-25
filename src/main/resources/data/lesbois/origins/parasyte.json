@@ -3,10 +3,11 @@
     "lesbois:parasyte/possession",
     "lesbois:parasyte/possession_overlay",
     "lesbois:parasyte/possession_possess",
-    "lesbois:parasyte/creeper",
     "lesbois:parasyte/disable_hunger",
     "lesbois:parasyte/attributes",
-    "lesbois:parasyte/purple"
+    "lesbois:parasyte/purple",
+    "lesbois:parasyte/creeper",
+    "lesbois:parasyte/enderman"
   ],
   "icon": {
     "id": "minecraft:ender_eye"

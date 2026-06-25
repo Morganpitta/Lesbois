@@ -105,7 +105,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
                         World.ExplosionSourceType.MOB
                 );
 
-                Util.spawnExpandingSphericalParticles(serverWorld, ParticleTypes.SOUL_FIRE_FLAME, new Vec3d(this.getX(), this.getBodyY(0.5), this.getZ()), 36, 36, 0.5);
+                Util.spawnExpandingSphericalParticles(serverWorld, ParticleTypes.SOUL_FIRE_FLAME, new Vec3d(this.getX(), this.getBodyY(0.5), this.getZ()), 18, 18, 0.5);
             }
         }
     }
