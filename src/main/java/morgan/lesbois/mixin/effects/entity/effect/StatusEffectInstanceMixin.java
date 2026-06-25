@@ -1,21 +1,14 @@
 package morgan.lesbois.mixin.effects.entity.effect;
 
-import morgan.lesbois.Lesbois;
 import morgan.lesbois.entity.effect.StackingStatusEffect;
-import morgan.lesbois.interfaces.StatusEffectSourceInterface;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.UUID;
 
 @Mixin(StatusEffectInstance.class)
 public abstract class StatusEffectInstanceMixin implements Comparable<StatusEffectInstance> {

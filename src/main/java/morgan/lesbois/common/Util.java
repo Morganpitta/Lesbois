@@ -47,8 +47,7 @@ public class Util {
         }
     }
 
-    public static void sendMovingSound(SoundEvent sound, float volume, float pitch, Entity entity, long seed)
-     {
+    public static void sendMovingSound(SoundEvent sound, float volume, float pitch, Entity entity, long seed) {
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
             MovingSoundS2CPacket packet = new MovingSoundS2CPacket(sound.getId(), volume, pitch, entity.getId(), seed);
 
@@ -62,6 +61,36 @@ public class Util {
                 for (ServerPlayerEntity player : PlayerLookup.tracking(entity)) {
                     ServerPlayNetworking.send(player, packet);
                 }
+            }
+        }
+    }
+
+    public static void spawnExpandingSphericalParticles(ServerWorld world, ParticleEffect particle, Vec3d pos, int verticalSteps, int horizontalSteps, double baseSpeed) {
+        for (int i = 0; i < verticalSteps; i++) {
+            double phi = (i * Math.PI) / verticalSteps;
+            double sinPhi = Math.sin(phi);
+            double cosPhi = Math.cos(phi);
+
+            for (int j = 0; j < horizontalSteps; j++) {
+                double theta = (j * 2 * Math.PI) / horizontalSteps;
+
+                double dirX = sinPhi * Math.cos(theta) + (Math.random() - 0.5) * 0.1f;
+                double dirY = cosPhi + (Math.random() - 0.5) * 0.1f;
+                double dirZ = sinPhi * Math.sin(theta) + (Math.random() - 0.5) * 0.1f;
+
+                double speed = baseSpeed + (world.getRandom().nextFloat() * (baseSpeed * 0.5));
+
+                spawnParticles(
+                        world,
+                        particle,
+                        pos.x, pos.y, pos.z,
+                        0,
+                        dirX,
+                        dirY,
+                        dirZ,
+                        speed,
+                        false
+                );
             }
         }
     }

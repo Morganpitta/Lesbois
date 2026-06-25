@@ -3,6 +3,7 @@ package morgan.lesbois.mixin.effects.entity;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import morgan.lesbois.Lesbois;
+import morgan.lesbois.common.Util;
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
 import morgan.lesbois.interfaces.StatusEffectSourceInterface;
 import net.minecraft.block.BlockState;
@@ -20,6 +21,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
@@ -103,22 +105,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
                         World.ExplosionSourceType.MOB
                 );
 
-                int particles = 36;
-                for (int index = 0; index < particles; index++) {
-                    double angle = (index * 2 * Math.PI) / particles;
-
-                    double velocityX = Math.cos(angle) * 0.3;
-                    double velocityZ = Math.sin(angle) * 0.3;
-                    double velocityY = 0.1;
-
-                    serverWorld.spawnParticles(
-                            ParticleTypes.SOUL_FIRE_FLAME,
-                            this.getX(), this.getY(), this.getZ(),
-                            0,
-                            velocityX, velocityY, velocityZ,
-                            1.0
-                    );
-                }
+                Util.spawnExpandingSphericalParticles(serverWorld, ParticleTypes.SOUL_FIRE_FLAME, new Vec3d(this.getX(), this.getBodyY(0.5), this.getZ()), 36, 36, 0.5);
             }
         }
     }
