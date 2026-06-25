@@ -49,7 +49,7 @@ public class TossCoinEntityAction extends EntityActionType {
         }
 
         Vec3d horizontalVec = entity.getRotationVector().multiply(1, 0, 1).normalize();
-        Vec3d offset = entity.getPos().add(0, entity.getEyeHeight(entity.getPose())/2, 0).add(horizontalVec);
+        Vec3d offset = entity.getPos().add(0, entity.getEyeHeight(entity.getPose())*0.8, 0).add(horizontalVec);
 
         CoinEntity coin = new CoinEntity(serverWorld);
 

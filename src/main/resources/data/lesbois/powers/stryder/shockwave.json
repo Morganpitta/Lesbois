@@ -1,6 +1,6 @@
 {
   "type": "lesbois:shockwave",
-  "min_speed": 2.4,
+  "min_speed": 1.9,
   "distance": 10,
   "damage": 0.5,
   "knockback": 1,

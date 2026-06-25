@@ -54,9 +54,9 @@ public abstract class InGameHudMixin {
             int y = context.getScaledWindowHeight() - 20 + 9 - this.getTextRenderer().fontHeight/2;
 
             int colour = Colors.WHITE;
-            if (speed > 2.5)
+            if (speed > 2.0)
                 colour = Colors.RED;
-            else if (speed > 1.5)
+            else if (speed > 1.0)
                 colour = Colors.YELLOW;
 
             context.drawText(this.getTextRenderer(), string, x + 1, y, colour, false);

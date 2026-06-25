@@ -108,7 +108,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
 
         Entity attacker = damageSource.getAttacker();
 
-        if (attacker instanceof LivingEntity livingEntity) {
+        if (damageSource.getSource() != this && attacker instanceof LivingEntity livingEntity) {
             if (livingEntity.hasStatusEffect(LesboisStatusEffects.OVERCHARGED)) {
                 StatusEffectInstance effect = livingEntity.getStatusEffect(LesboisStatusEffects.OVERCHARGED);
 

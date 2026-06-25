@@ -41,6 +41,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
                     TypeFilter.instanceOf(CoinEntity.class),
                     Box.from(this.player.getPos()).expand(64),
                     entity -> {
+                        if (!entity.isActive()) return false;
                         if(entity.getOwner() != this.player) return false;
                         Vec3d entityVec = entity.getPos().subtract(this.player.getPos()).normalize();
                         Vec3d rotationVec = this.player.getRotationVector().normalize();
