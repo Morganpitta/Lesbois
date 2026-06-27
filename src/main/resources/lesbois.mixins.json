@@ -49,6 +49,7 @@
     "possession.client.gui.hud.InGameHudMixin",
     "possession.client.network.OtherClientPlayerEntityMixin",
     "possession.client.render.WorldRendererMixin",
-    "wings.client.render.entity.PlayerEntityRendererMixin"
+    "wings.client.render.entity.PlayerEntityRendererMixin",
+    "wings.client.render.entity.feature.ElytraFeatureRendererMixin"
   ]
 }
