@@ -18,6 +18,7 @@
     "effects.entity.ai.goal.MeleeAttackGoalMixin",
     "effects.entity.effect.StatusEffectInstanceMixin",
     "effects.entity.mob.MobEntityMixin",
+    "effects.item.RangedWeaponMixin",
     "grapple.entity.player.PlayerEntityMixin",
     "grapple.server.network.ServerPlayNetworkHandlerMixin",
     "parry.entity.player.PlayerEntityMixin",

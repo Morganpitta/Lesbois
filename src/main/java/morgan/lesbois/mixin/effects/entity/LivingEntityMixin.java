@@ -35,7 +35,7 @@ import java.util.Map;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements StatusEffectSourceInterface {
     @Unique
-    private final Map<RegistryEntry<StatusEffect>, StatusEffectSource> statusEffectsSources = Maps.<RegistryEntry<StatusEffect>, StatusEffectSource>newHashMap();
+    private final Map<RegistryEntry<StatusEffect>, StatusEffectSource> statusEffectsSources = Maps.newHashMap();
 
     @Unique
     private static final Codec<Map<RegistryEntry<StatusEffect>, StatusEffectSource>> SOURCES_CODEC =
@@ -51,22 +51,23 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
     public abstract @Nullable StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
 
     @Shadow
-    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
-
-    @Shadow
     public abstract boolean isDead();
-
-    @Shadow
-    public abstract boolean removeStatusEffect(RegistryEntry<StatusEffect> effect);
-
-    @Shadow
-    protected boolean dead;
 
     @Shadow
     public int deathTime;
 
+    @Shadow
+    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
+    }
+
+    @Inject(method = "tick", at=@At("TAIL"))
+    public void tick(CallbackInfo ci) {
+        if (this.getWorld() instanceof ServerWorld serverWorld && this.hasStatusEffect(LesboisStatusEffects.FALTERED) && this.age % 2 == 0) {
+            serverWorld.spawnParticles(ParticleTypes.DAMAGE_INDICATOR, this.getX(), this.getBodyY(1) + 0.25, this.getZ(), 0, 0, -1.0, 0, 0.1);
+        }
     }
 
     public @Nullable StatusEffectSource lesbois$getStatusEffectSource(RegistryEntry<StatusEffect> statusEffect) {

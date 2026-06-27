@@ -17,7 +17,7 @@ public class LesboisPowerTypes {
     public static final PowerConfiguration<DragModifierPowerType> DRAG_MODIFIER = register("drag_modifier", DragModifierPowerType.DATA_FACTORY);
     public static final PowerConfiguration<DisableHungerPowerType> DISABLE_HUNGER = registerConditionedSimple("disable_hunger", DisableHungerPowerType::new);
     public static final PowerConfiguration<ActionOnParryPowerType> ACTION_ON_PARRY = register("action_on_parry", ActionOnParryPowerType.DATA_FACTORY);
-    public static final PowerConfiguration<ParryPowerType> PARRY = registerConditionedSimple("parry", ParryPowerType::new);
+    public static final PowerConfiguration<ParryPowerType> PARRY = register("parry", ParryPowerType.DATA_FACTORY);
     public static final PowerConfiguration<ActionOnCoinPowerType> ACTION_ON_COIN = register("action_on_coin", ActionOnCoinPowerType.DATA_FACTORY);
     public static final PowerConfiguration<FrostGlidingPowerType> FROST_GLIDE = register("frost_glide", FrostGlidingPowerType.DATA_FACTORY);
     public static final PowerConfiguration<SpeedometerPowerType> SPEEDOMETER = registerConditionedSimple("speedometer", SpeedometerPowerType::new);

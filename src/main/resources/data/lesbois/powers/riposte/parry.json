@@ -1,3 +1,6 @@
 {
-  "type": "lesbois:parry"
+  "type": "lesbois:parry",
+  "max_duration_ticks": 20,
+  "failed_falter_ticks": 40,
+  "success_falter_ticks": 60
 }

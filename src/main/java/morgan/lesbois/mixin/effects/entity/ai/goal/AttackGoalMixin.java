@@ -23,7 +23,7 @@ public abstract class AttackGoalMixin extends Goal {
     @Inject(method = "tick", at=@At("HEAD"))
     public void tick(CallbackInfo ci) {
         if (this.mob.hasStatusEffect(LesboisStatusEffects.FALTERED)) {
-            this.cooldown = 20;
+            this.cooldown = 5;
         }
     }
 }
