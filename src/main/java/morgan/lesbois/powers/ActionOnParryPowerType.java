@@ -55,13 +55,8 @@ public class ActionOnParryPowerType extends PowerType {
 
     public static void triggerParryActions(PlayerEntity player, DamageSource source, float amount) {
         if (!player.getWorld().isClient()) {
-            PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-            if (component == null) return;
-
-            component.getPowerTypes().stream()
-                    .filter(powerType -> powerType instanceof ActionOnParryPowerType).map(powerType -> (ActionOnParryPowerType) powerType)
-                    .filter(powerType -> powerType.isActive() && powerType.doesApply(source, amount))
+            PowerHolderComponent.getPowerTypes(player, ActionOnParryPowerType.class).stream()
+                    .filter(powerType -> powerType.doesApply(source, amount))
                     .forEach(ActionOnParryPowerType::onUse);
         }
     }

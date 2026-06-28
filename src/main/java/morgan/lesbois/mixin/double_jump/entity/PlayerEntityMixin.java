@@ -2,10 +2,7 @@ package morgan.lesbois.mixin.double_jump.entity;
 
 import morgan.lesbois.cardinalComponents.LesboisEntityComponents;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
-import morgan.lesbois.network.packet.DoubleJumpC2SPacket;
 import morgan.lesbois.powers.DoubleJumpPowerType;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,42 +10,20 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements DoubleJumpInterface {
-    @Shadow
-    public float sidewaysSpeed;
-
-    @Shadow
-    public float forwardSpeed;
-
-    @Shadow
-    protected abstract float getJumpVelocity();
-
-    @Shadow
-    protected boolean jumping;
-
-    @Shadow
-    public abstract boolean isFallFlying();
-
-    @Unique
-    private boolean wasJumping = false;
-
-    public LivingEntityMixin(EntityType<?> type, World world) {
-        super(type, world);
+@Mixin(PlayerEntity.class)
+public abstract class PlayerEntityMixin extends LivingEntity implements DoubleJumpInterface {
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
     }
 
     public int lesbois$getMaxDoubleJumps(){
-        return DoubleJumpPowerType.getMaxDoubleJumps((LivingEntity) (Object) this);
+        return DoubleJumpPowerType.getMaxDoubleJumps((PlayerEntity) (Object) this);
     }
 
     public double lesbois$getDoubleJumpHeight(){
-        return DoubleJumpPowerType.getDoubleJumpHeight((LivingEntity) (Object) this);
+        return DoubleJumpPowerType.getDoubleJumpHeight((PlayerEntity) (Object) this);
     }
 
     public int lesbois$getDoubleJumps(){
@@ -60,7 +35,7 @@ public abstract class LivingEntityMixin extends Entity implements DoubleJumpInte
     }
 
     public boolean lesbois$canDoubleJump(){
-        return (DoubleJumpPowerType.canDoubleJump((LivingEntity) (Object)this) && lesbois$getDoubleJumps() > 0 && !this.isOnGround() && !this.isFallFlying());
+        return (DoubleJumpPowerType.canDoubleJump((PlayerEntity) (Object)this) && lesbois$getDoubleJumps() > 0 && !this.isOnGround() && !this.isFallFlying());
     }
 
     @Unique
@@ -88,27 +63,5 @@ public abstract class LivingEntityMixin extends Entity implements DoubleJumpInte
         this.lesbois$setDoubleJumps(this.lesbois$getDoubleJumps() - 1);
 
         this.velocityDirty = true;
-    }
-
-    @Inject(
-            method = "tickMovement",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V",
-                    args = "ldc=jump",
-                    shift = At.Shift.AFTER
-            )
-    )
-    public void tickMovementDoubleJump(CallbackInfo ci) {
-        if ( !((LivingEntity)(Object)this instanceof PlayerEntity) ) return;
-
-        if (this.jumping && !wasJumping) {
-            if ( this.lesbois$canDoubleJump() && !(this.isInLava() || this.isTouchingWater()) ) {
-                this.lesbois$doubleJump();
-                ClientPlayNetworking.send(new DoubleJumpC2SPacket());
-            }
-        }
-
-        wasJumping = this.jumping;
     }
 }

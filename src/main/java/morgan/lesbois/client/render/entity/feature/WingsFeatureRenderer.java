@@ -1,6 +1,7 @@
 package morgan.lesbois.client.render.entity.feature;
 
 import morgan.lesbois.client.render.entity.model.WingsEntityModel;
+import morgan.lesbois.interfaces.WingsInterface;
 import morgan.lesbois.powers.WingsPowerType;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -12,6 +13,7 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class WingsFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
     private final WingsEntityModel model;
@@ -35,7 +37,11 @@ public class WingsFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEn
         matrices.scale(0.5F, 0.5F, 0.5F);
 
         this.getContextModel().copyStateTo(this.model);
-        this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+
+        float wingAngle = MathHelper.lerp(tickDelta, ((WingsInterface) entity).lesbois$getPrevWingAngle(), ((WingsInterface) entity).lesbois$getWingAngle());
+        float wingDistance = MathHelper.lerp(tickDelta, ((WingsInterface) entity).lesbois$getPrevWingDistance(), ((WingsInterface) entity).lesbois$getWingDistance());
+
+        this.model.setAngles(entity, wingAngle, wingDistance, animationProgress, headYaw, headPitch);
 
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(texture));
         this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);

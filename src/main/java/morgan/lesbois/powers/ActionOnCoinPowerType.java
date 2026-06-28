@@ -4,17 +4,12 @@ import io.github.apace100.apoli.action.EntityAction;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.condition.EntityCondition;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
-import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerConfiguration;
 import io.github.apace100.apoli.power.type.PowerType;
 import io.github.apace100.calio.data.SerializableData;
-import morgan.lesbois.network.packet.CoinHitC2SPacket;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ActionOnCoinPowerType extends PowerType {
@@ -46,12 +41,6 @@ public class ActionOnCoinPowerType extends PowerType {
     }
 
     public static void triggerCoinActions(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return;
-
-        component.getPowerTypes().stream()
-                .filter(powerType -> powerType instanceof ActionOnCoinPowerType).map(powerType -> (ActionOnCoinPowerType) powerType)
-                .forEach(powerType -> {if (powerType.isActive()) {powerType.onUse();}});
+        PowerHolderComponent.getPowerTypes(player, ActionOnCoinPowerType.class).forEach(ActionOnCoinPowerType::onUse);
     }
 }

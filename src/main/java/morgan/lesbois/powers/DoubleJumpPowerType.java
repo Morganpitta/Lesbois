@@ -7,7 +7,7 @@ import io.github.apace100.apoli.power.PowerConfiguration;
 import io.github.apace100.apoli.power.type.PowerType;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -42,41 +42,19 @@ public class DoubleJumpPowerType extends PowerType {
         return LesboisPowerTypes.DOUBLE_JUMP;
     }
 
-    public int getDoubleJumps() {
-        return this.doubleJumps;
+    public static boolean canDoubleJump(PlayerEntity player) {
+        return PowerHolderComponent.hasPowerType(player, DoubleJumpPowerType.class);
     }
 
-    public double getHeight() {
-        return this.height;
-    }
-
-    public static boolean canDoubleJump(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if ( component == null ) return false;
-
-        return component.getPowers(true).stream().anyMatch(power -> (power.getType() instanceof DoubleJumpPowerType && power.isActive(entity)));
-    }
-
-    public static int getMaxDoubleJumps(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if (component == null) return 0;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DoubleJumpPowerType && power.isActive(entity))
-                .mapToInt(power -> ((DoubleJumpPowerType) power.getType()).getDoubleJumps()).max()
+    public static int getMaxDoubleJumps(PlayerEntity player) {
+        return PowerHolderComponent.getPowerTypes(player, DoubleJumpPowerType.class).stream()
+                .mapToInt(powerType -> powerType.doubleJumps).max()
                 .orElse(0);
     }
 
-    public static double getDoubleJumpHeight(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if (component == null) return 0;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DoubleJumpPowerType && power.isActive(entity))
-                .mapToDouble(power -> ((DoubleJumpPowerType) power.getType()).getHeight()).max()
+    public static double getDoubleJumpHeight(PlayerEntity player) {
+        return PowerHolderComponent.getPowerTypes(player, DoubleJumpPowerType.class).stream()
+                .mapToDouble(powerType -> powerType.height).max()
                 .orElse(0);
     }
 }

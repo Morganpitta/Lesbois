@@ -47,40 +47,21 @@ public class ParryPowerType extends PowerType {
     }
 
     public static boolean canParry(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return false;
-
-        return component.getPowers(true).stream().anyMatch(power -> power.getType() instanceof ParryPowerType && power.isActive(player));
+        return PowerHolderComponent.hasPowerType(player, ParryPowerType.class);
     }
 
     public static int getMaxDurationTicks(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return 0;
-
-        return component.getPowers(true).stream()
-            .filter(power -> power.getType() instanceof ParryPowerType && power.isActive(player))
-            .mapToInt(power -> ((ParryPowerType) power.getType()).maxDurationTicks).max().orElse(0);
+        return PowerHolderComponent.getPowerTypes(player, ParryPowerType.class).stream()
+            .mapToInt(powerType -> powerType.maxDurationTicks).max().orElse(0);
     }
 
     public static int getFailedFalterTicks(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return 0;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof ParryPowerType && power.isActive(player))
-                .mapToInt(power -> ((ParryPowerType) power.getType()).failedFalterTicks).max().orElse(0);
+        return PowerHolderComponent.getPowerTypes(player, ParryPowerType.class).stream()
+                .mapToInt(powerType -> powerType.failedFalterTicks).max().orElse(0);
     }
 
     public static int getSuccessFalterTicks(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return 0;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof ParryPowerType && power.isActive(player))
-                .mapToInt(power -> ((ParryPowerType) power.getType()).successFalterTicks).max().orElse(0);
+        return PowerHolderComponent.getPowerTypes(player, ParryPowerType.class).stream()
+                .mapToInt(powerType -> powerType.successFalterTicks).max().orElse(0);
     }
 }

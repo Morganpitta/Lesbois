@@ -12,7 +12,7 @@
     "common.entity.player.PlayerEntityMixin",
     "common.power.type.ActiveMixin",
     "double_jump.entity.EntityMixin",
-    "double_jump.entity.LivingEntityMixin",
+    "double_jump.entity.PlayerEntityMixin",
     "effects.entity.LivingEntityMixin",
     "effects.entity.ai.goal.AttackGoalMixin",
     "effects.entity.ai.goal.MeleeAttackGoalMixin",
@@ -34,7 +34,8 @@
     "possession.entity.player.PlayerEntityMixin",
     "possession.entity.projectile.ProjectileEntityMixin",
     "possession.server.PlayerManagerMixin",
-    "possession.server.network.ServerPlayerEntityMixin"
+    "possession.server.network.ServerPlayerEntityMixin",
+    "wings.entity.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -43,12 +44,14 @@
     "common.client.gui.hud.InGameHudMixin",
     "common.client.world.ClientWorldAccessor",
     "common.client.world.MinecraftClientMixin",
+    "double_jump.client.network.ClientPlayerEntityMixin",
     "effects.client.render.entity.LivingEntityRendererMixin",
     "effects.client.world.MinecraftClientMixin",
     "parry.client.render.item.HeldItemRendererMixin",
     "possession.client.gui.hud.InGameHudMixin",
     "possession.client.network.OtherClientPlayerEntityMixin",
     "possession.client.render.WorldRendererMixin",
+    "wings.client.network.ClientPlayerEntityMixin",
     "wings.client.render.entity.PlayerEntityRendererMixin",
     "wings.client.render.entity.feature.ElytraFeatureRendererMixin"
   ]

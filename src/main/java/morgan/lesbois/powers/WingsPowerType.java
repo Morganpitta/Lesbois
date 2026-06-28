@@ -14,26 +14,31 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class WingsPowerType extends PowerType {
-    private final int speed;
+    private final float speed;
+    private final float boost;
     private final Identifier texture;
 
     public static final TypedDataObjectFactory<WingsPowerType> DATA_FACTORY = PowerType.createConditionedDataFactory(
             new SerializableData()
-                    .add("speed", SerializableDataTypes.INT, 10)
+                    .add("speed", SerializableDataTypes.FLOAT, 0.15F)
+                    .add("boost", SerializableDataTypes.FLOAT, 0.025F)
                     .add("texture", SerializableDataTypes.IDENTIFIER),
             (data, condition) -> new WingsPowerType(
                     data.get("speed"),
+                    data.get("boost"),
                     data.get("texture"),
                     condition
             ),
             (powerType, serializableData) -> serializableData.instance()
                     .set("speed", powerType.speed)
+                    .set("boost", powerType.boost)
                     .set("texture", powerType.texture)
     );
 
-    WingsPowerType(int speed, Identifier texture, Optional<EntityCondition> condition) {
+    WingsPowerType(float speed, float boost, Identifier texture, Optional<EntityCondition> condition) {
         super(condition);
         this.speed = speed;
+        this.boost = boost;
         this.texture = texture;
     }
 
@@ -43,30 +48,21 @@ public class WingsPowerType extends PowerType {
     }
 
     public static boolean hasWings(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return false;
-
-        return component.getPowers(true).stream().anyMatch(power -> power.getType() instanceof WingsPowerType && power.isActive(player));
+        return PowerHolderComponent.hasPowerType (player, WingsPowerType.class);
     }
 
-    public static int getSpeed(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
+    public static float getSpeed(PlayerEntity player) {
+        return (float) PowerHolderComponent.getPowerTypes(player, WingsPowerType.class).stream()
+                .mapToDouble(powerType -> powerType.speed).max().orElse(0);
+    }
 
-        if (component == null) return 0;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof WingsPowerType && power.isActive(player))
-                .mapToInt(power -> ((WingsPowerType) power.getType()).speed).max().orElse(0);
+    public static float getBoost(PlayerEntity player) {
+        return (float) PowerHolderComponent.getPowerTypes(player, WingsPowerType.class).stream()
+                .mapToDouble(powerType -> powerType.boost).max().orElse(0);
     }
 
     public static Identifier getTexture(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return null;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof WingsPowerType && power.isActive(player))
-                .map(power -> ((WingsPowerType) power.getType()).texture).findFirst().orElse(null);
+        return PowerHolderComponent.getPowerTypes(player, WingsPowerType.class).stream()
+                .map(powerType -> powerType.texture).findFirst().orElse(null);
     }
 }

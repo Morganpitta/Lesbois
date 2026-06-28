@@ -20,10 +20,6 @@ public class DisableHungerPowerType extends PowerType {
     }
 
     public static boolean shouldDisableHunger(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return false;
-
-        return component.getPowers(true).stream().anyMatch(power -> power.getType() instanceof DisableHungerPowerType && power.isActive(player));
+        return PowerHolderComponent.hasPowerType(player, DisableHungerPowerType.class);
     }
 }

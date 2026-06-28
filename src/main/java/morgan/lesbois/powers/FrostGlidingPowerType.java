@@ -2,7 +2,6 @@ package morgan.lesbois.powers;
 
 import io.github.apace100.apoli.action.EntityAction;
 import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.apace100.apoli.condition.Condition;
 import io.github.apace100.apoli.condition.EntityCondition;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
@@ -11,7 +10,6 @@ import io.github.apace100.apoli.power.type.PowerType;
 import io.github.apace100.apoli.util.keybinding.KeyBindingReference;
 import io.github.apace100.calio.data.SerializableData;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,23 +58,12 @@ public class FrostGlidingPowerType extends PowerType {
     }
 
     public static boolean shouldFrostGlide(PlayerEntity player) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(player);
-
-        if (component == null) return false;
-
-        return component.getPowers(true).stream().anyMatch(power -> power.getType() instanceof FrostGlidingPowerType && power.isActive(player));
+        return PowerHolderComponent.hasPowerType(player, FrostGlidingPowerType.class);
     }
 
     public static void triggerActions(PlayerEntity player) {
-        if (!player.getWorld().isClient()) {
-            PowerHolderComponent component = PowerHolderComponent.getNullable(player);
+        if (player.getWorld().isClient()) return;
 
-            if (component == null) return;
-
-            component.getPowerTypes().stream()
-                    .filter(powerType -> powerType instanceof FrostGlidingPowerType).map(powerType -> (FrostGlidingPowerType) powerType)
-                    .filter(FrostGlidingPowerType::isActive)
-                    .forEach(FrostGlidingPowerType::onUse);
-        }
+        PowerHolderComponent.getPowerTypes(player, FrostGlidingPowerType.class).forEach(FrostGlidingPowerType::onUse);
     }
 }

@@ -51,61 +51,25 @@ public class DragModifierPowerType extends PowerType {
         return LesboisPowerTypes.DRAG_MODIFIER;
     }
 
-    public float getAirDrag() {
-        return this.airDrag;
-    }
-
-    public float getFriction() {
-        return this.friction;
-    }
-
-    public boolean getSlideMode() {
-        return this.slideMode;
-    }
-
-    public boolean shouldIgnoreBlockFriction() {
-        return this.ignoreBlockFriction;
-    }
-
     public static float getAirDrag(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if (component == null) return 0.91F;
-
-        return (float) component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
-                .mapToDouble(power -> ((DragModifierPowerType) power.getType()).getAirDrag()).max()
-                .orElse(0.91);
+        return (float) PowerHolderComponent.getPowerTypes(entity, DragModifierPowerType.class).stream()
+                .mapToDouble(powerType -> powerType.airDrag).max()
+                .orElse(0.91F);
     }
 
     public static float getFriction(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if (component == null) return 0.91F;
-
-        return (float) component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
-                .mapToDouble(power -> ((DragModifierPowerType) power.getType()).getFriction()).max()
+        return (float) PowerHolderComponent.getPowerTypes(entity, DragModifierPowerType.class).stream()
+                .mapToDouble(powerType -> powerType.friction).max()
                 .orElse(0.91);
     }
 
     public static boolean hasSlideMode(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if (component == null) return false;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
-                .anyMatch(power -> ((DragModifierPowerType) power.getType()).getSlideMode());
+        return PowerHolderComponent.getPowerTypes(entity, DragModifierPowerType.class).stream()
+                .anyMatch(powerType -> powerType.slideMode);
     }
 
     public static boolean shouldIgnoreBlockFriction(LivingEntity entity) {
-        PowerHolderComponent component = PowerHolderComponent.getNullable(entity);
-
-        if (component == null) return false;
-
-        return component.getPowers(true).stream()
-                .filter(power -> power.getType() instanceof DragModifierPowerType && power.isActive(entity))
-                .anyMatch(power -> ((DragModifierPowerType) power.getType()).shouldIgnoreBlockFriction());
+        return PowerHolderComponent.getPowerTypes(entity, DragModifierPowerType.class).stream()
+                .anyMatch(powerType -> powerType.ignoreBlockFriction);
     }
 }

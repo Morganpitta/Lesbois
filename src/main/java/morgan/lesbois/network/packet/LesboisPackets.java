@@ -7,6 +7,7 @@ import morgan.lesbois.Lesbois;
 import morgan.lesbois.block.LesboisBlocks;
 import morgan.lesbois.entity.CoinEntity;
 import morgan.lesbois.interfaces.DoubleJumpInterface;
+import morgan.lesbois.interfaces.WingsInterface;
 import morgan.lesbois.powers.ActionOnCoinPowerType;
 import morgan.lesbois.powers.ActionOnKeyReleasePowerType;
 import morgan.lesbois.powers.FrostGlidingPowerType;
@@ -29,6 +30,7 @@ public class LesboisPackets {
         PayloadTypeRegistry.playC2S().register(CoinHitC2SPacket.ID, CoinHitC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(FrostGlideC2SPacket.ID, FrostGlideC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ShockwavePowerTypesC2SPacket.ID, ShockwavePowerTypesC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(FlyingC2SPacket.ID, FlyingC2SPacket.CODEC);
 
         PayloadTypeRegistry.playS2C().register(PossessionS2CPacket.ID, PossessionS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(UnPossessionS2CPacket.ID, UnPossessionS2CPacket.CODEC);
@@ -39,6 +41,7 @@ public class LesboisPackets {
         ServerPlayNetworking.registerGlobalReceiver(CoinHitC2SPacket.ID, LesboisPackets::handleUseCoinPowerType);
         ServerPlayNetworking.registerGlobalReceiver(FrostGlideC2SPacket.ID, LesboisPackets::handleFrostGlide);
         ServerPlayNetworking.registerGlobalReceiver(ShockwavePowerTypesC2SPacket.ID, LesboisPackets::handleShockwavePacket);
+        ServerPlayNetworking.registerGlobalReceiver(FlyingC2SPacket.ID, LesboisPackets::handleFlyingPacket);
     }
 
     public static void handleDoubleJumpPacket(DoubleJumpC2SPacket payload, ServerPlayNetworking.Context context) {
@@ -55,7 +58,6 @@ public class LesboisPackets {
             }
         });
     }
-
 
     public static void handleUseKeyReleasePowerType(UseKeyReleasePowerTypesC2SPacket payload, ServerPlayNetworking.Context context) {
         ServerPlayerEntity player = context.player();
@@ -135,5 +137,15 @@ public class LesboisPackets {
                 Lesbois.LOGGER.warn("Found unknown power \"{}\" while receiving packet for triggering shockwave power types of player {}!", powerId, player.getName().getString());
             }
         }
+    }
+
+    public static void handleFlyingPacket(FlyingC2SPacket payload, ServerPlayNetworking.Context context) {
+        MinecraftServer server = context.player().getServer();
+
+        if ( server == null ) return;
+
+        server.execute(() -> {
+            ((WingsInterface) context.player()).lesbois$setFlying(payload.isFlying());
+        });
     }
 }
