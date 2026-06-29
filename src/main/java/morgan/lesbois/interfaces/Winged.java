@@ -8,4 +8,5 @@ public interface Winged {
     public float lesbois$getPrevWingAngle();
     public float lesbois$getWingDistance();
     public float lesbois$getPrevWingDistance();
+    public void lesbois$updateWings();
 }

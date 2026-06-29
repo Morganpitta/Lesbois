@@ -52,6 +52,7 @@
     "possession.client.network.OtherClientPlayerEntityMixin",
     "possession.client.render.WorldRendererMixin",
     "wings.client.network.ClientPlayerEntityMixin",
+    "wings.client.network.OtherClientPlayerEntityMixin",
     "wings.client.render.entity.PlayerEntityRendererMixin",
     "wings.client.render.entity.feature.ElytraFeatureRendererMixin"
   ]

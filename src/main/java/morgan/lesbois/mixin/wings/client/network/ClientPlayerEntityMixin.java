@@ -31,9 +31,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             method = "tickMovement",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tickMovement()V", shift = At.Shift.BEFORE)
     )
-    public void tickMovementDoubleJump(CallbackInfo ci) {
+    public void tickMovementWings(CallbackInfo ci) {
         if (this.input.jumping) {
-            if (WingsPowerType.hasWings(this) && !this.isOnGround() && !((Winged) this).lesbois$isFlying() && !wasJumping) {
+            if (WingsPowerType.hasWings(this) && !this.isOnGround() && !this.isTouchingWater() && !((Winged) this).lesbois$isFlying() && !wasJumping) {
                 ((Winged) this).lesbois$setFlying(true);
                 ClientPlayNetworking.send(new FlyingC2SPacket(true));
             }
@@ -44,5 +44,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         }
 
         wasJumping = this.input.jumping;
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At("TAIL")
+    )
+    public void tickWings(CallbackInfo ci) {
+        ((Winged) this).lesbois$updateWings();
     }
 }
