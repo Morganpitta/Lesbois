@@ -4,6 +4,8 @@
   "package": "morgan.lesbois.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "bewitched.entity.LivingEntityMixin",
+    "bewitched.entity.mob.MobEntityMixin",
     "common.entity.EntityMixin",
     "common.entity.LivingEntityAccessor",
     "common.entity.LivingEntityMixin",
