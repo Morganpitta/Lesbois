@@ -7,7 +7,7 @@ import io.github.apace100.apoli.data.TypedDataObjectFactory;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import morgan.lesbois.actions.LesboisActionTypes;
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +59,7 @@ public class GrappleEntityActionType extends EntityActionType {
             return;
         }
 
-        GrappleInterface player = (GrappleInterface) context.entity();
+        Grapple player = (Grapple) context.entity();
 
         player.lesbois$grapple(this.maxDistance, this.minDistance, this.disableFallDamage, this.pullSpeed, this.lookAssist, this.damping);
     }

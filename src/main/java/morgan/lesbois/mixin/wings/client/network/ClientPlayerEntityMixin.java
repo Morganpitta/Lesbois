@@ -1,9 +1,7 @@
 package morgan.lesbois.mixin.wings.client.network;
 
 import com.mojang.authlib.GameProfile;
-import morgan.lesbois.interfaces.DoubleJumpInterface;
-import morgan.lesbois.interfaces.WingsInterface;
-import morgan.lesbois.network.packet.DoubleJumpC2SPacket;
+import morgan.lesbois.interfaces.Winged;
 import morgan.lesbois.network.packet.FlyingC2SPacket;
 import morgan.lesbois.powers.WingsPowerType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -35,13 +33,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     )
     public void tickMovementDoubleJump(CallbackInfo ci) {
         if (this.input.jumping) {
-            if (WingsPowerType.hasWings(this) && !this.isOnGround() && !((WingsInterface) this).lesbois$isFlying() && !wasJumping) {
-                ((WingsInterface) this).lesbois$setFlying(true);
+            if (WingsPowerType.hasWings(this) && !this.isOnGround() && !((Winged) this).lesbois$isFlying() && !wasJumping) {
+                ((Winged) this).lesbois$setFlying(true);
                 ClientPlayNetworking.send(new FlyingC2SPacket(true));
             }
         }
-        else if (((WingsInterface) this).lesbois$isFlying()) {
-            ((WingsInterface) this).lesbois$setFlying(false);
+        else if (((Winged) this).lesbois$isFlying()) {
+            ((Winged) this).lesbois$setFlying(false);
             ClientPlayNetworking.send(new FlyingC2SPacket(false));
         }
 

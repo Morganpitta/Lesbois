@@ -1,6 +1,6 @@
 package morgan.lesbois.entity;
 
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Ownable;
@@ -9,8 +9,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -101,7 +99,7 @@ public class GrappleHookEntity extends Entity implements Ownable {
         PlayerEntity owner = this.getOwner();
         if (owner == null || owner.isDead() || owner.isRemoved()) {
             if (owner != null) {
-                ((GrappleInterface) (Object) owner).lesbois$setGrappleHook(null);
+                ((Grapple) (Object) owner).lesbois$setGrappleHook(null);
             }
 
             this.discard();
@@ -127,14 +125,14 @@ public class GrappleHookEntity extends Entity implements Ownable {
         if (OWNER_ID.equals(data)) {
             int id = this.dataTracker.get(OWNER_ID);
             this.owner = id != -1 ? (PlayerEntity) this.getWorld().getEntityById(id) : null;
-            if ( this.owner != null && ((GrappleInterface) this.owner).lesbois$getGrappleHook() == null) ((GrappleInterface) this.owner).lesbois$setGrappleHook(this);
+            if ( this.owner != null && ((Grapple) this.owner).lesbois$getGrappleHook() == null) ((Grapple) this.owner).lesbois$setGrappleHook(this);
         }
         super.onTrackedDataSet(data);
     }
 
     @Override
     public void onRemoved() {
-        if (owner instanceof GrappleInterface grappleOwner && grappleOwner.lesbois$getGrappleHook() == this) {
+        if (owner instanceof Grapple grappleOwner && grappleOwner.lesbois$getGrappleHook() == this) {
             grappleOwner.lesbois$setGrappleHook(null);
         }
         super.onRemoved();

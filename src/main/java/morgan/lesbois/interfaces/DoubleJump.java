@@ -1,6 +1,6 @@
 package morgan.lesbois.interfaces;
 
-public interface DoubleJumpInterface {
+public interface DoubleJump {
     public int lesbois$getMaxDoubleJumps();
     public double lesbois$getDoubleJumpHeight();
     public int lesbois$getDoubleJumps();

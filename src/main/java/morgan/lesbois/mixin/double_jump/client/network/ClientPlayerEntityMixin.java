@@ -1,7 +1,7 @@
 package morgan.lesbois.mixin.double_jump.client.network;
 
 import com.mojang.authlib.GameProfile;
-import morgan.lesbois.interfaces.DoubleJumpInterface;
+import morgan.lesbois.interfaces.DoubleJump;
 import morgan.lesbois.network.packet.DoubleJumpC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.input.Input;
@@ -32,8 +32,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     )
     public void tickMovementDoubleJump(CallbackInfo ci) {
         if (this.input.jumping && !wasJumping) {
-            if (((DoubleJumpInterface) this).lesbois$canDoubleJump() && !(this.isInLava() || this.isTouchingWater())) {
-                ((DoubleJumpInterface) this).lesbois$doubleJump();
+            if (((DoubleJump) this).lesbois$canDoubleJump() && !(this.isInLava() || this.isTouchingWater())) {
+                ((DoubleJump) this).lesbois$doubleJump();
                 ClientPlayNetworking.send(new DoubleJumpC2SPacket());
             }
         }

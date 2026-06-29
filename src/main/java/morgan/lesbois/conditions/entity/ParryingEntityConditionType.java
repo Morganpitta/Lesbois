@@ -4,7 +4,7 @@ import io.github.apace100.apoli.condition.ConditionConfiguration;
 import io.github.apace100.apoli.condition.context.EntityConditionContext;
 import io.github.apace100.apoli.condition.type.EntityConditionType;
 import morgan.lesbois.conditions.LesboisConditionTypes;
-import morgan.lesbois.interfaces.ParryInterface;
+import morgan.lesbois.interfaces.Parry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ public class ParryingEntityConditionType extends EntityConditionType {
     public boolean test(EntityConditionContext context) {
         Entity entity = context.entity();
         if ( entity instanceof PlayerEntity) {
-            return ((ParryInterface) entity).lesbois$isParrying();
+            return ((Parry) entity).lesbois$isParrying();
         }
         else {
             return false;

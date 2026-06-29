@@ -2,7 +2,7 @@ package morgan.lesbois.interfaces;
 
 import net.minecraft.entity.damage.DamageSource;
 
-public interface ParryInterface {
+public interface Parry {
     public boolean lesbois$canParry();
     public boolean lesbois$isParrying();
     public void lesbois$parry(DamageSource source, float amount);

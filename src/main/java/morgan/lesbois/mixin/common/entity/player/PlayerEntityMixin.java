@@ -2,7 +2,6 @@ package morgan.lesbois.mixin.common.entity.player;
 
 import morgan.lesbois.block.FrostBlock;
 import morgan.lesbois.block.LesboisBlocks;
-import morgan.lesbois.interfaces.ParryInterface;
 import morgan.lesbois.network.packet.FrostGlideC2SPacket;
 import morgan.lesbois.powers.FrostGlidingPowerType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -10,9 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SkinOverlayOwner;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;

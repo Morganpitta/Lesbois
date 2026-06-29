@@ -6,8 +6,8 @@ import io.github.apace100.apoli.power.type.PowerType;
 import morgan.lesbois.Lesbois;
 import morgan.lesbois.block.LesboisBlocks;
 import morgan.lesbois.entity.CoinEntity;
-import morgan.lesbois.interfaces.DoubleJumpInterface;
-import morgan.lesbois.interfaces.WingsInterface;
+import morgan.lesbois.interfaces.DoubleJump;
+import morgan.lesbois.interfaces.Winged;
 import morgan.lesbois.powers.ActionOnCoinPowerType;
 import morgan.lesbois.powers.ActionOnKeyReleasePowerType;
 import morgan.lesbois.powers.FrostGlidingPowerType;
@@ -51,7 +51,7 @@ public class LesboisPackets {
 
         server.execute(() -> {
             ServerPlayerEntity player = context.player();
-            DoubleJumpInterface playerCasted = (DoubleJumpInterface) (Object) player;
+            DoubleJump playerCasted = (DoubleJump) (Object) player;
 
             if (playerCasted.lesbois$getDoubleJumps() > 0) {
                 playerCasted.lesbois$doubleJump();
@@ -145,7 +145,7 @@ public class LesboisPackets {
         if ( server == null ) return;
 
         server.execute(() -> {
-            ((WingsInterface) context.player()).lesbois$setFlying(payload.isFlying());
+            ((Winged) context.player()).lesbois$setFlying(payload.isFlying());
         });
     }
 }

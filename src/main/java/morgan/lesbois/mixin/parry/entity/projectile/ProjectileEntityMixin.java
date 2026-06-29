@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.parry.entity.projectile;
 
-import morgan.lesbois.interfaces.ParryInterface;
+import morgan.lesbois.interfaces.Parry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ProjectileDeflection;
@@ -27,8 +27,8 @@ public abstract class ProjectileEntityMixin extends Entity {
     )
     private void deflectRedirectProjectile(ProjectileDeflection instance, ProjectileEntity projectile, Entity hitEntity, Random random) {
         if (hitEntity instanceof PlayerEntity && instance == ProjectileDeflection.SIMPLE) {
-            if (((ParryInterface) hitEntity).lesbois$shouldRedirectProjectile()) {
-                ((ParryInterface) hitEntity).lesbois$setRedirectProjectile(false);
+            if (((Parry) hitEntity).lesbois$shouldRedirectProjectile()) {
+                ((Parry) hitEntity).lesbois$setRedirectProjectile(false);
 
                 ProjectileDeflection.REDIRECTED.deflect(projectile, hitEntity, random);
                 projectile.setVelocity(projectile.getVelocity().multiply(5)); // I hate that I have to include this but this is already way too much effort for something so simple

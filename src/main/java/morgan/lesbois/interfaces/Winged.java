@@ -1,6 +1,6 @@
 package morgan.lesbois.interfaces;
 
-public interface WingsInterface {
+public interface Winged {
     public boolean lesbois$isFlying();
     public void lesbois$setFlying(boolean value);
 

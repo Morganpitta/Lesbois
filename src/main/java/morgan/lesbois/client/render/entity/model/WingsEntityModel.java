@@ -1,7 +1,6 @@
 package morgan.lesbois.client.render.entity.model;
 
 import com.google.common.collect.ImmutableList;
-import morgan.lesbois.interfaces.WingsInterface;
 import net.minecraft.client.model.*;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.model.AnimalModel;

@@ -2,7 +2,7 @@ package morgan.lesbois.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -17,7 +17,7 @@ public class UnGrappleCommand {
     }
 
     private static int execute(ServerCommandSource source) throws CommandSyntaxException {
-        GrappleInterface player = (GrappleInterface) (Object) source.getPlayerOrThrow();
+        Grapple player = (Grapple) (Object) source.getPlayerOrThrow();
 
         if (player.lesbois$unGrapple()) {
             source.sendFeedback(() -> Text.literal("Ungrappled!!!!!"), false);

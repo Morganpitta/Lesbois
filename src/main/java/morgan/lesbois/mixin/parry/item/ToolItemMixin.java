@@ -1,7 +1,7 @@
 package morgan.lesbois.mixin.parry.item;
 
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
-import morgan.lesbois.interfaces.ParryInterface;
+import morgan.lesbois.interfaces.Parry;
 import morgan.lesbois.powers.ParryPowerType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -29,7 +29,7 @@ public abstract class ToolItemMixin extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
-        if (user instanceof PlayerEntity player && ((ParryInterface)player).lesbois$canParry()) {
+        if (user instanceof PlayerEntity player && ((Parry)player).lesbois$canParry()) {
             return ParryPowerType.getMaxDurationTicks(player);
         }
 
@@ -38,7 +38,7 @@ public abstract class ToolItemMixin extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (((ParryInterface)user).lesbois$canParry()) {
+        if (((Parry)user).lesbois$canParry()) {
             ItemStack itemStack = user.getStackInHand(hand);
 
             if (itemStack.getItem() instanceof SwordItem || itemStack.getItem() instanceof AxeItem) {
@@ -62,7 +62,7 @@ public abstract class ToolItemMixin extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (user instanceof PlayerEntity player && ((ParryInterface)player).lesbois$canParry()) {
+        if (user instanceof PlayerEntity player && ((Parry)player).lesbois$canParry()) {
             this.falter(world, player);
         }
 
@@ -71,7 +71,7 @@ public abstract class ToolItemMixin extends Item {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (user instanceof PlayerEntity player && ((ParryInterface)player).lesbois$canParry()) {
+        if (user instanceof PlayerEntity player && ((Parry)player).lesbois$canParry()) {
             this.falter(world, player);
         }
     }

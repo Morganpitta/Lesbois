@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.parry.entity.projectile;
 
-import morgan.lesbois.interfaces.ParryInterface;
+import morgan.lesbois.interfaces.Parry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -33,7 +33,7 @@ public abstract class ProjectileUtilMixin {
     @Redirect(method = "getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;F)Lnet/minecraft/util/hit/EntityHitResult;", at= @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
     private static Box scaleParryingPlayerHitbox(Entity instance, World world, Entity entity, Vec3d min, Vec3d max, Box box, Predicate<Entity> predicate, float margin) {
         if (instance instanceof PlayerEntity player) {
-            if (((ParryInterface) player).lesbois$isParrying()) {
+            if (((Parry) player).lesbois$isParrying()) {
                 return instance.getBoundingBox().expand(1.5);
             }
         }

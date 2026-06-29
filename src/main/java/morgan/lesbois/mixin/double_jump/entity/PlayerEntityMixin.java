@@ -1,7 +1,7 @@
 package morgan.lesbois.mixin.double_jump.entity;
 
 import morgan.lesbois.cardinalComponents.LesboisEntityComponents;
-import morgan.lesbois.interfaces.DoubleJumpInterface;
+import morgan.lesbois.interfaces.DoubleJump;
 import morgan.lesbois.powers.DoubleJumpPowerType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements DoubleJumpInterface {
+public abstract class PlayerEntityMixin extends LivingEntity implements DoubleJump {
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }

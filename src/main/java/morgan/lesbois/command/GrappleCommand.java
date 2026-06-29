@@ -1,11 +1,10 @@
 package morgan.lesbois.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import morgan.lesbois.entity.GrappleHookEntity;
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -25,7 +24,7 @@ public class GrappleCommand {
     }
 
     private static int execute(ServerCommandSource source, float maxDistance) throws CommandSyntaxException {
-        GrappleInterface player = (GrappleInterface) (Object) source.getPlayerOrThrow();
+        Grapple player = (Grapple) (Object) source.getPlayerOrThrow();
 
         GrappleHookEntity hook = player.lesbois$grapple(maxDistance, 2, false, 1, 1, 0.92F);
 

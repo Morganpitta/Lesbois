@@ -1,8 +1,8 @@
 package morgan.lesbois.mixin.grapple.entity.player;
 
 import morgan.lesbois.entity.GrappleHookEntity;
-import morgan.lesbois.interfaces.DoubleJumpInterface;
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.DoubleJump;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements GrappleInterface {
+public abstract class PlayerEntityMixin extends LivingEntity implements Grapple {
     @Unique
     @Nullable
     GrappleHookEntity grappleHook;
@@ -66,7 +66,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GrappleI
         this.getWorld().spawnEntity(hook);
         this.grappleHook = hook;
 
-        DoubleJumpInterface doubleJumps = (DoubleJumpInterface) (Object) this;
+        DoubleJump doubleJumps = (DoubleJump) (Object) this;
         doubleJumps.lesbois$setDoubleJumps(doubleJumps.lesbois$getMaxDoubleJumps());
 
         return hook;
@@ -89,7 +89,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GrappleI
             )
     )
     public boolean getBlockBreakingSpeedIncreaseMiningSpeedWhenGrappled(PlayerEntity player) {
-        return player.isOnGround() || ((GrappleInterface) player).lesbois$getGrappleHook() != null;
+        return player.isOnGround() || ((Grapple) player).lesbois$getGrappleHook() != null;
     }
 
     @Inject(method = "tickMovement", at=@At("HEAD"))

@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.double_jump.entity;
 
-import morgan.lesbois.interfaces.DoubleJumpInterface;
+import morgan.lesbois.interfaces.DoubleJump;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -27,7 +27,7 @@ public abstract class EntityMixin {
     @Inject(method = "onLanding", at = @At("HEAD"))
     public void onLandingResetDoubleJumps(CallbackInfo ci) {
         if (!((Entity) (Object) this instanceof PlayerEntity)) return;
-        DoubleJumpInterface doubleJumps = (DoubleJumpInterface) this;
+        DoubleJump doubleJumps = (DoubleJump) this;
 
         if (this.isOnGround() && doubleJumps.lesbois$getDoubleJumps() < doubleJumps.lesbois$getMaxDoubleJumps()) {
             doubleJumps.lesbois$setDoubleJumps(doubleJumps.lesbois$getMaxDoubleJumps());

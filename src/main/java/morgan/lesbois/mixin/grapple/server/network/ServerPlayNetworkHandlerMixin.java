@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.grapple.server.network;
 
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.listener.ServerPlayPacketListener;
 import net.minecraft.network.listener.TickablePacketListener;
@@ -24,7 +24,7 @@ public abstract class ServerPlayNetworkHandlerMixin extends ServerCommonNetworkH
             )
     )
     private boolean disableSpeedCheckForGrapplingPlayers(ServerPlayerEntity player) {
-        if (((GrappleInterface) player).lesbois$getGrappleHook() != null) {
+        if (((Grapple) player).lesbois$getGrappleHook() != null) {
             return true;
         }
 

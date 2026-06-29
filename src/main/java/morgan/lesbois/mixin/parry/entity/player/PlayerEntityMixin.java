@@ -1,7 +1,7 @@
 package morgan.lesbois.mixin.parry.entity.player;
 
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
-import morgan.lesbois.interfaces.ParryInterface;
+import morgan.lesbois.interfaces.Parry;
 import morgan.lesbois.powers.ParryPowerType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static morgan.lesbois.powers.ActionOnParryPowerType.triggerParryActions;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements ParryInterface {
+public abstract class PlayerEntityMixin extends LivingEntity implements Parry {
     @Shadow
     public abstract ItemCooldownManager getItemCooldownManager();
 

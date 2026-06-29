@@ -6,7 +6,7 @@ import io.github.apace100.apoli.action.type.EntityActionType;
 import io.github.apace100.apoli.data.TypedDataObjectFactory;
 import io.github.apace100.calio.data.SerializableData;
 import morgan.lesbois.actions.LesboisActionTypes;
-import morgan.lesbois.interfaces.GrappleInterface;
+import morgan.lesbois.interfaces.Grapple;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +26,7 @@ public class UnGrappleEntityActionType extends EntityActionType {
             return;
         }
 
-        GrappleInterface player = (GrappleInterface) context.entity();
+        Grapple player = (Grapple) context.entity();
 
         player.lesbois$unGrapple();
     }

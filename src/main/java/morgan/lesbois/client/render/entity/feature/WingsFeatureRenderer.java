@@ -1,7 +1,7 @@
 package morgan.lesbois.client.render.entity.feature;
 
 import morgan.lesbois.client.render.entity.model.WingsEntityModel;
-import morgan.lesbois.interfaces.WingsInterface;
+import morgan.lesbois.interfaces.Winged;
 import morgan.lesbois.powers.WingsPowerType;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -41,8 +41,8 @@ public class WingsFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEn
 
         this.getContextModel().copyStateTo(this.model);
 
-        float wingAngle = MathHelper.lerp(tickDelta, ((WingsInterface) entity).lesbois$getPrevWingAngle(), ((WingsInterface) entity).lesbois$getWingAngle());
-        float wingDistance = MathHelper.lerp(tickDelta, ((WingsInterface) entity).lesbois$getPrevWingDistance(), ((WingsInterface) entity).lesbois$getWingDistance());
+        float wingAngle = MathHelper.lerp(tickDelta, ((Winged) entity).lesbois$getPrevWingAngle(), ((Winged) entity).lesbois$getWingAngle());
+        float wingDistance = MathHelper.lerp(tickDelta, ((Winged) entity).lesbois$getPrevWingDistance(), ((Winged) entity).lesbois$getWingDistance());
 
         this.model.setAngles(entity, wingAngle, wingDistance, animationProgress, headYaw, headPitch);
 

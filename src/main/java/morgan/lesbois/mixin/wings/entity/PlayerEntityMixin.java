@@ -1,6 +1,6 @@
 package morgan.lesbois.mixin.wings.entity;
 
-import morgan.lesbois.interfaces.WingsInterface;
+import morgan.lesbois.interfaces.Winged;
 import morgan.lesbois.powers.WingsPowerType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements WingsInterface {
+public abstract class PlayerEntityMixin extends LivingEntity implements Winged {
     @Unique
     private static final float WING_ANGLE_ACCELERATION = 0.2F;
     @Unique

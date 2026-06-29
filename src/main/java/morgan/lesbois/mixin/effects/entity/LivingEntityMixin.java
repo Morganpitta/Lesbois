@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import morgan.lesbois.Lesbois;
 import morgan.lesbois.common.Util;
 import morgan.lesbois.entity.effect.LesboisStatusEffects;
-import morgan.lesbois.interfaces.StatusEffectSourceInterface;
+import morgan.lesbois.interfaces.EffectSource;
 import morgan.lesbois.world.explosion.UnstableExplosionBehavior;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -33,15 +33,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements StatusEffectSourceInterface {
+public abstract class LivingEntityMixin extends Entity implements EffectSource {
     @Unique
-    private final Map<RegistryEntry<StatusEffect>, StatusEffectSource> statusEffectsSources = Maps.newHashMap();
+    private final Map<RegistryEntry<StatusEffect>, Source> statusEffectsSources = Maps.newHashMap();
 
     @Unique
-    private static final Codec<Map<RegistryEntry<StatusEffect>, StatusEffectSource>> SOURCES_CODEC =
+    private static final Codec<Map<RegistryEntry<StatusEffect>, Source>> SOURCES_CODEC =
             Codec.unboundedMap(
                     Registries.STATUS_EFFECT.getEntryCodec(),
-                    StatusEffectSource.CODEC
+                    Source.CODEC
             );
 
     @Shadow
@@ -70,11 +70,11 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
         }
     }
 
-    public @Nullable StatusEffectSource lesbois$getStatusEffectSource(RegistryEntry<StatusEffect> statusEffect) {
+    public @Nullable EffectSource.Source lesbois$getStatusEffectSource(RegistryEntry<StatusEffect> statusEffect) {
         return this.statusEffectsSources.get(statusEffect);
     }
 
-    public void lesbois$setStatusEffectSource(RegistryEntry<StatusEffect> statusEffect, @Nullable StatusEffectSource source) {
+    public void lesbois$setStatusEffectSource(RegistryEntry<StatusEffect> statusEffect, @Nullable EffectSource.Source source) {
         if (source == null) {
             this.statusEffectsSources.remove(statusEffect);
         } else {
@@ -114,7 +114,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
                 StatusEffectInstance effect = livingEntity.getStatusEffect(LesboisStatusEffects.OVERCHARGED);
                 if (effect != null) {
                     StatusEffectInstance unstable = new StatusEffectInstance(LesboisStatusEffects.UNSTABLE, 40, effect.getAmplifier());
-                    this.lesbois$setStatusEffectSource(LesboisStatusEffects.UNSTABLE, new StatusEffectSource(attacker.getUuid(), amount));
+                    this.lesbois$setStatusEffectSource(LesboisStatusEffects.UNSTABLE, new Source(attacker.getUuid(), amount));
                     this.addStatusEffect(unstable);
 
                     // Clear it down to zero ticks
@@ -135,7 +135,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
     public void updatePostDeath(CallbackInfo ci) {
         if (this.getWorld() instanceof ServerWorld serverWorld && this.deathTime == 0) {
             StatusEffectInstance effect = this.getStatusEffect(LesboisStatusEffects.UNSTABLE);
-            StatusEffectSource source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
+            Source source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
 
             if (effect != null && source != null && source.attackerUuid() != null) {
                 Entity effectAttacker = serverWorld.getEntity(source.attackerUuid());
@@ -155,7 +155,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
 
     @Inject(method = "onStatusEffectRemoved", at = @At("TAIL"))
     public void clearStatusEffectSource(StatusEffectInstance effect, CallbackInfo ci) {
-        StatusEffectSource source = this.lesbois$getStatusEffectSource(effect.getEffectType());
+        Source source = this.lesbois$getStatusEffectSource(effect.getEffectType());
         if (source != null) {
             this.lesbois$setStatusEffectSource(effect.getEffectType(), null);
         }
@@ -166,7 +166,7 @@ public abstract class LivingEntityMixin extends Entity implements StatusEffectSo
         if (!this.isDead()) {
             if (this.getWorld() instanceof ServerWorld serverWorld) {
                 if (effect.equals(LesboisStatusEffects.UNSTABLE)) {
-                    StatusEffectSource source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
+                    Source source = this.lesbois$getStatusEffectSource(LesboisStatusEffects.UNSTABLE);
                     if (source != null && source.attackerUuid() != null) {
                         Entity attacker = serverWorld.getEntity(source.attackerUuid());
                         this.triggerUnstableExplosion(attacker, source.damage(), effect.getAmplifier());
